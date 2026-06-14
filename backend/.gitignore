@@ -1,0 +1,19 @@
+# .NET build artifacts
+bin/
+obj/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Rider/VS Code
+.vscode/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# Logs
+*.log
