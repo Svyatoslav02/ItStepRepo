@@ -23,13 +23,21 @@ style: Optional parameter defining the visual style (e.g., "modern", "minimalist
 
 ## Successful Response (200 OK)
 {
-  "id": "string",
+  "prompt": "Generate moodboard for summer vibes",
   "images": [
-    "https://example.com/image1.png",
-    "https://example.com/image2.png"
-  ],
-  "createdAt": "2026-06-16T09:00:00Z"
+    {
+      "url": "https://example.com/image1.png",
+      "title": "Beach photo",
+      "sourceUrl": "https://unsplash.com/photos/abc123"
+    },
+    {
+      "url": "https://example.com/image2.png",
+      "title": "Sunset photo",
+      "sourceUrl": "https://unsplash.com/photos/xyz456"
+    }
+  ]
 }
+
 
 ## Description
 id: Unique identifier of the generated moodboard.
