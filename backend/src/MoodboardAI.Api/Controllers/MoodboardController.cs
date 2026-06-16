@@ -4,7 +4,7 @@ using MoodboardAI.Api.DTOs;
 
 namespace MoodboardAI.Api.Controllers;
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/generate")]
 public class MoodboardController : ControllerBase
 {
     [HttpPost("generate")]
