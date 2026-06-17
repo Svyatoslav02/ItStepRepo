@@ -65,11 +65,18 @@ curl -X POST https://api.moodboard.com/api/generate \
 
 ### Response
 {
-  "id": "abc123",
+  "prompt": "modern house japan",
   "images": [
-    "https://cdn.moodboard.com/moodboards/abc123_1.png",
-    "https://cdn.moodboard.com/moodboards/abc123_2.png"
+    {
+      "url": "https://example.com/image1.png",
+      "title": "Beach photo",
+      "sourceUrl": "https://unsplash.com/photos/abc123"
+    },
+    {
+      "url": "https://example.com/image2.png",
+      "title": "Sunset photo",
+      "sourceUrl": "https://unsplash.com/photos/xyz456"
+    }
   ],
-  "createdAt": "2026-06-16T09:00:00Z"
 }
 
