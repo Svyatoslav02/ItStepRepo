@@ -4,11 +4,10 @@ using MoodboardAI.Api.DTOs;
 
 namespace MoodboardAI.Api.Controllers;
 [ApiController]
-[Route("api/generate")]
+[Route("api")]
 public class MoodboardController : ControllerBase
 {
     [HttpPost("generate")]
-    [Authorize]
     public ActionResult<GenerateResponseDto> Generate([FromBody] GenerateRequestDto request)
     {
         var response = new GenerateResponseDto
