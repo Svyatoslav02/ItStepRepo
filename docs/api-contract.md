@@ -40,9 +40,11 @@ style: Optional parameter defining the visual style (e.g., "modern", "minimalist
 
 
 ## Description
-id: Unique identifier of the generated moodboard.
-images: Array of URLs pointing to generated images.
-createdAt: Timestamp of creation.
+Prompt of the generated moodboard.
+images: Array of URLs pointing to generated images. 
+Title and sourceUrl provide 
+additional context for each image.
+
 
 ## Error Responses
 ### 400 Bad Request
