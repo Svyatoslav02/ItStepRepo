@@ -5,6 +5,9 @@ namespace MoodboardAI.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+/// <summary>
+/// API controller that exposes endpoints for generating moodboards.
+/// </summary>
 public class MoodboardController : ControllerBase
 {
     /// <summary>

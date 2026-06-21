@@ -6,8 +6,17 @@ using Xunit;
 
 namespace MoodboardAI.Tests;
 
+/// <summary>
+/// Unit tests that validate the behavior of the <see cref="MoodboardController"/> model validation and responses.
+/// </summary>
 public class MoodboardControllerValidationTests
 {
+
+    /// <summary>
+    /// Creates a MoodboardController instance and applies validation errors from the specified request to ModelState.
+    /// </summary>
+    /// <param name="request">The request model to validate.</param>
+    /// <returns>A MoodboardController instance with populated ModelState validation errors.</returns>
     private static MoodboardController CreateController(MoodboardRequest request)
     {
         var controller = new MoodboardController();
@@ -26,6 +35,9 @@ public class MoodboardControllerValidationTests
         return controller;
     }
 
+    /// <summary>
+    /// Ensures an empty prompt causes model validation to fail and returns a BadRequest with an error message.
+    /// </summary>
     [Fact]
     public void Generate_EmptyPrompt_ReturnsBadRequest()
     {
@@ -39,6 +51,9 @@ public class MoodboardControllerValidationTests
         Assert.False(string.IsNullOrWhiteSpace(error.Message));
     }
 
+    /// <summary>
+    /// Ensures a prompt that is too short triggers validation and returns a BadRequest with an error message.
+    /// </summary>
     [Fact]
     public void Generate_TooShortPrompt_ReturnsBadRequest()
     {
@@ -52,6 +67,9 @@ public class MoodboardControllerValidationTests
         Assert.False(string.IsNullOrWhiteSpace(error.Message));
     }
 
+    /// <summary>
+    /// Ensures a valid prompt returns an Ok response with a MoodboardResponse containing the same prompt.
+    /// </summary>
     [Fact]
     public void Generate_ValidPrompt_ReturnsOk()
     {
