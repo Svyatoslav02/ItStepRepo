@@ -24,7 +24,7 @@ public class MoodboardController : ControllerBase
             {
                 Message = errorMessage
             });
-        }
+        } 
 
         var response = new MoodboardResponse
         {
