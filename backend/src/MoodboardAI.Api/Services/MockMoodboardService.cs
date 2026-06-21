@@ -4,6 +4,9 @@ using ItStepRepo.DTOs;
 
 namespace ItStepRepo.Services
 {
+    /// <summary>
+    /// Mock implementation of the IMoodboardService interface.
+    /// </summary>
     public class MockMoodboardService : IMoodboardService
     {
         /// <summary>
@@ -11,9 +14,9 @@ namespace ItStepRepo.Services
         /// This is a mock implementation that returns hardcoded images 
         /// for demonstration purposes.
         /// </summary>
-        /// <param name="prompt"></param>
+        /// <param name="prompt">The textual prompt for generating the moodboard.</param>
         /// <returns>Generated moodboard response</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">Thrown when the prompt is empty or null.</exception>
 	    public MoodboardResponse GenerateMoodboard(string prompt)
         {
             if (string.IsNullOrWhiteSpace(prompt))

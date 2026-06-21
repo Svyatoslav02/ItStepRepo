@@ -2,6 +2,10 @@
 
 namespace ItStepRepo.DTOs
 {
+    /// <summary>
+    /// Represents an image in a moodboard, 
+    /// including its URL, title, and source URL.
+    /// </summary>
     public class MoodboardImageDto
     {
         public string Url { get; set; } = string.Empty;
