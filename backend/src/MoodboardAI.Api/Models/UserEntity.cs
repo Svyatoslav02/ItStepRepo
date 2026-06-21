@@ -21,11 +21,13 @@ public class UserEntity
     [Required(ErrorMessage = "Password is required.")]
     public string PasswordHash { get; set; } = string.Empty;
     [MaxLength(100)]
-    public string? FirstName { get; set; }
-    [MaxLength(100)]
-    public string? LastName { get; set; }
+    public string? DisplayName { get; set; }
     [Range(0, 120, ErrorMessage = "Age must be between 0 and 120.")]
     public int? Age { get; set; }
+    [MaxLength(1000)]
+    public string? Bio { get; set; }
+    [MaxLength(500)]
+    public string? AvatarUrl { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }
