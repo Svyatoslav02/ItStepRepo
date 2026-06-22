@@ -11,12 +11,20 @@ public class UserEntity
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
+    [Required]
+    [MaxLength(256)]
     public string Email { get; set; } = string.Empty;
+    [Required]
+    [MaxLength(50)]
     public string Username { get; set; } = string.Empty;
+    [Required]
     public string PasswordHash { get; set; } = string.Empty;
+    [MaxLength(100)]
     public string? DisplayName { get; set; }
     public DateOnly? DateOfBirth { get; set; }
+    [MaxLength(1000)]
     public string? Bio { get; set; }
+    [MaxLength(500)]
     public string? AvatarUrl { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
