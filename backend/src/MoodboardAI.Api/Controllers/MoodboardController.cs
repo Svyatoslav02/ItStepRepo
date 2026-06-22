@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Services;
 
 namespace MoodboardAI.Api.Controllers;
 
@@ -10,6 +11,17 @@ namespace MoodboardAI.Api.Controllers;
 [Route("api/generate")]
 public class MoodboardController : ControllerBase
 {
+    private readonly IMoodboardService _moodboardService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MoodboardController"/> class.
+    /// </summary>
+    /// <param name="moodboardService">Moodboard generation service.</param>
+    public MoodboardController(IMoodboardService moodboardService)
+    {
+        _moodboardService = moodboardService;
+    }
+
     /// <summary>
     /// Generates a mock moodboard based on the provided prompt.
     /// </summary>
@@ -31,19 +43,7 @@ public class MoodboardController : ControllerBase
             });
         }
 
-        var response = new MoodboardResponse
-        {
-            Prompt = request.Prompt,
-            Images = new List<MoodboardImage>
-            {
-                new()
-                {
-                    Url = "https://example.com/image1.jpg",
-                    Title = "Minimalist interior",
-                    SourceUrl = "https://example.com"
-                }
-            }
-        };
+        var response = _moodboardService.Generate(request);
 
         return Ok(response);
     }
