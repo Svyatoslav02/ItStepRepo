@@ -1,7 +1,11 @@
+using MoodboardAI.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // Use our own ErrorResponse shape for invalid model state instead of the
 // default ASP.NET Core ProblemDetails response.
