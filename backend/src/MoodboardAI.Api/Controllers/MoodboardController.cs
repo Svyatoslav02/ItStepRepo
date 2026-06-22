@@ -3,23 +3,25 @@ using MoodboardAI.Api.Models;
 
 namespace MoodboardAI.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
 /// <summary>
 /// API controller that exposes endpoints for generating moodboards.
 /// </summary>
+[ApiController]
+[Route("api/generate")]
 public class MoodboardController : ControllerBase
 {
     /// <summary>
-    /// Generates a moodboard based on the given prompt.
+    /// Generates a mock moodboard based on the provided prompt.
     /// </summary>
-    [HttpPost("generate")]
+    /// <param name="request">Moodboard generation request.</param>
+    /// <returns>Generated mock moodboard response.</returns>
+    [HttpPost]
     public IActionResult Generate([FromBody] MoodboardRequest request)
     {
         if (!ModelState.IsValid)
         {
-            var errorMessage = ModelState
-                .SelectMany(entry => entry.Value?.Errors ?? new())
+            var errorMessage = ModelState.Values
+                .SelectMany(value => value.Errors)
                 .Select(error => error.ErrorMessage)
                 .FirstOrDefault() ?? "Invalid request.";
 
@@ -32,7 +34,15 @@ public class MoodboardController : ControllerBase
         var response = new MoodboardResponse
         {
             Prompt = request.Prompt,
-            Images = new List<string>()
+            Images = new List<MoodboardImage>
+            {
+                new()
+                {
+                    Url = "https://example.com/image1.jpg",
+                    Title = "Minimalist interior",
+                    SourceUrl = "https://example.com"
+                }
+            }
         };
 
         return Ok(response);
