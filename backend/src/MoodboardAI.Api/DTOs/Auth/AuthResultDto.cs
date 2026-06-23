@@ -1,4 +1,4 @@
-namespace MoodboardAI.Api.Models.Auth;
+namespace MoodboardAI.Api.DTOs.Auth;
 
 /// <summary>
 /// Internal result returned by the auth service layer to the controller.

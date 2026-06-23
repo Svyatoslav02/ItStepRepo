@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MoodboardAI.Api.Models.Auth;
+namespace MoodboardAI.Api.DTOs.Auth;
 
 public class UserDto
 {
@@ -9,4 +9,7 @@ public class UserDto
 
     [Required]
     public string Email { get; set; } = string.Empty;
+
+    [Required]
+    public string Username { get; set; } = string.Empty;
 }

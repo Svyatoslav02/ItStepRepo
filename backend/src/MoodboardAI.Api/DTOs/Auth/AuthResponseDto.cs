@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MoodboardAI.Api.Models.Auth;
+namespace MoodboardAI.Api.DTOs.Auth;
 
 public class AuthResponseDto
 {
