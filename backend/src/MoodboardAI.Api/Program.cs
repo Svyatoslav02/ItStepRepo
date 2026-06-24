@@ -1,5 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Connect to PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
