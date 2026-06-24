@@ -1,25 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Services;
 
 namespace MoodboardAI.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
 /// <summary>
 /// API controller that exposes endpoints for generating moodboards.
 /// </summary>
+[ApiController]
+[Route("api/generate")]
 public class MoodboardController : ControllerBase
 {
+    private readonly IMoodboardService _moodboardService;
+
     /// <summary>
-    /// Generates a moodboard based on the given prompt.
+    /// Initializes a new instance of the <see cref="MoodboardController"/> class.
     /// </summary>
-    [HttpPost("generate")]
+    /// <param name="moodboardService">Moodboard generation service.</param>
+    public MoodboardController(IMoodboardService moodboardService)
+    {
+        _moodboardService = moodboardService;
+    }
+
+    /// <summary>
+    /// Generates a mock moodboard based on the provided prompt.
+    /// </summary>
+    /// <param name="request">Moodboard generation request.</param>
+    /// <returns>Generated mock moodboard response.</returns>
+    [HttpPost]
     public IActionResult Generate([FromBody] MoodboardRequest request)
     {
         if (!ModelState.IsValid)
         {
-            var errorMessage = ModelState
-                .SelectMany(entry => entry.Value?.Errors ?? new())
+            var errorMessage = ModelState.Values
+                .SelectMany(value => value.Errors)
                 .Select(error => error.ErrorMessage)
                 .FirstOrDefault() ?? "Invalid request.";
 
@@ -29,11 +43,7 @@ public class MoodboardController : ControllerBase
             });
         } 
 
-        var response = new MoodboardResponse
-        {
-            Prompt = request.Prompt,
-            Images = new List<string>()
-        };
+        var response = _moodboardService.Generate(request);
 
         return Ok(response);
     }

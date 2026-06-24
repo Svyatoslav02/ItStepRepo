@@ -1,3 +1,5 @@
+using MoodboardAI.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Connect to PostgreSQL
@@ -14,6 +16,9 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options 
 {
     options.SuppressModelStateInvalidFilter = true;
 });
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 
 // Use our own ErrorResponse shape for invalid model state instead of the
 // default ASP.NET Core ProblemDetails response.

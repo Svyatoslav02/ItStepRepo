@@ -1,10 +1,18 @@
 namespace MoodboardAI.Api.Models;
 
 /// <summary>
-/// Response returned when a moodboard is generated. Contains the original prompt and a list of image URLs.
+/// Response returned when a moodboard is generated.
+/// Contains the original prompt and a list of moodboard images.
 /// </summary>
 public class MoodboardResponse
 {
+    /// <summary>
+    /// Original user prompt.
+    /// </summary>
     public string Prompt { get; set; } = string.Empty;
-    public List<string> Images { get; set; } = new();
-} 
+
+    /// <summary>
+    /// List of generated moodboard images.
+    /// </summary>
+    public List<MoodboardImage> Images { get; set; } = new();
+}
