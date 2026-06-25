@@ -6,10 +6,12 @@ It includes backend services, frontend application, and environment configuratio
 
 ## Project Structure
 ItStepRepo/
-├── backend/          # ASP.NET Core backend (controllers, models, services)
-├── frontend/         # Frontend application (UI, components, pages)
-├── docs/             # Documentation (environment setup, guides)
-└── README.md         # Root documentation
+├── backend/                  # .NET solution and backend docs
+│   └── src/MoodboardAI.Api/  # ASP.NET Core Web API (controllers, models, services)
+├── frontend/
+│   └── moodboard-frontend/   # Frontend application (UI, components, pages)
+├── docs/                     # Documentation (environment setup, guides)
+└── README.md                 # Root documentation
 
 ## Getting Started
 1. Clone the repository:
