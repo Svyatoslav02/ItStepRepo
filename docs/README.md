@@ -17,9 +17,10 @@ ItStepRepo/
    git clone https://github.com/Svyatoslav02/ItStepRepo.git
    ```
 2. Navigate to the project folder:
-```bash 
-cd ItStepRepo
-```
+
+   ```bash
+   cd ItStepRepo
+   ```
 
 ### Backend
 ---
