@@ -4,11 +4,11 @@
 The backend is built with **ASP.NET Core** and provides RESTful APIs for the MoodBoard project.
 
 ## Structure
-backend/
+MoodboardAI.Api/
 ├── Controllers/   # API controllers
-├── Models/        # Entity models
+├── Models/        # Models (requests/responses)
 ├── Services/      # Business logic services
-├── DTOs/          # Data transfer objects
+├── Docs/          # API docs and contracts
 └── Program.cs     # Application entry point
 
 
