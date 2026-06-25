@@ -36,12 +36,13 @@ ItStepRepo/
 ---
 ### Frontend
 ---
-#### Navigate to frontend/
-#### Install dependencies and run:
-```bash
-npm install
-npm run dev
-```
+#### Run the frontend
+
+   ```bash
+   cd frontend/moodboard-frontend
+   npm install
+   npm run dev
+   ```
 
 
 
