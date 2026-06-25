@@ -24,12 +24,13 @@ ItStepRepo/
 
 ### Backend
 ---
-#### Navigate to backend/
-#### Install dependencies and run:
-```bash
-dotnet restore
-dotnet run
-```
+#### Run the backend
+
+   ```bash
+   cd backend
+   dotnet restore
+   dotnet run --project src/MoodboardAI.Api
+   ```
 ---
 ### Frontend
 ---
