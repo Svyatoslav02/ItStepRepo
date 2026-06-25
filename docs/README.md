@@ -1,7 +1,7 @@
 # ItStepRepo
 
 ## Overview
-This repository contains the source code and documentation for the **MoodBoard**.  
+This repository contains the source code and documentation for **MoodboardAI**.
 It includes backend services, frontend application, and environment configuration files.
 
 ## Project Structure
