@@ -14,20 +14,21 @@ MoodboardAI.Api/
 
 ## Setup
 1. Navigate to the backend folder:
-    ```bash
-    cd backend
-    ```
+
+   ```bash
+   cd backend
+   ```
+
 2. Restore dependencies:
-    ```bash
-    dotnet restore 
-    ```
-3. Run migrations:
-    ```bash
-    dotnet ef database update
-    ```
-4. Start the server:
-    ```bash
-   dotnet run
-    ```
+
+   ```bash
+   dotnet restore
+   ```
+
+3. Start the server:
+
+   ```bash
+   dotnet run --project src/MoodboardAI.Api
+   ```
 
 
