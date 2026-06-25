@@ -1,4 +1,4 @@
-﻿# Backend
+# Backend
 
 ## Overview
 The backend is built with **ASP.NET Core** and provides RESTful APIs for the MoodBoard project.
