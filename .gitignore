@@ -455,3 +455,17 @@ appsettings.*.json
 *.db
 *.db-shm
 *.db-wal
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Secret storage
+secrets.json
+secrets.*
+*.key
+*.pem
+*.p12
+*.crt
+*.cer
