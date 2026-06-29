@@ -41,7 +41,7 @@ public class MoodboardController : ControllerBase
             {
                 Message = errorMessage
             });
-        }
+        } 
 
         var response = _moodboardService.Generate(request);
 
