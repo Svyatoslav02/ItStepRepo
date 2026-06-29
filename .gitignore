@@ -444,3 +444,28 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# User-specific files
+appsettings.json
+appsettings.Development.json
+appsettings.*.json
+!appsettings.example.json
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Secret storage
+secrets.json
+secrets.*
+*.key
+*.pem
+*.p12
+*.crt
+*.cer

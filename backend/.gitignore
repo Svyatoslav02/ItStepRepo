@@ -17,3 +17,28 @@ obj/
 
 # Logs
 *.log
+
+# User-specific files
+appsettings.json
+appsettings.Development.json
+appsettings.*.json
+!appsettings.example.json
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Secret storage
+secrets.json
+secrets.*
+*.key
+*.pem
+*.p12
+*.crt
+*.cer
