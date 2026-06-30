@@ -1,5 +1,7 @@
 namespace MoodboardAI.Api.Services;
-
+/// <summary>
+/// Defines a contract for generating JWT tokens for authenticated users.
+/// </summary>
 public interface IJwtTokenService
 {
     /// <summary>

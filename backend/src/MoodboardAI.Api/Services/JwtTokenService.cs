@@ -6,6 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using MoodboardAI.Api.Configuration;
 
 namespace MoodboardAI.Api.Services;
+/// <summary>
+/// Implements JWT token generation using settings provided via configuration.
+/// Produces tokens containing the user's ID and email as claims,
+/// signed with HMAC-SHA256 and configured expiration.
+/// </summary>
 
 public class JwtTokenService : IJwtTokenService
 {
