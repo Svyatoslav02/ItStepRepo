@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using MoodboardAI.Api.Configuration;
+using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+// Database (Supabase PostgreSQL via Npgsql).
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // JWT settings from configuration
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
@@ -26,7 +34,7 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "MoodboardAI API",
         Version = "v1"
