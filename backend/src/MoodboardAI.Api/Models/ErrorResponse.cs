@@ -10,3 +10,14 @@ public class ErrorResponse
     /// </summary>
     public string Message { get; set; } = string.Empty;
 }
+
+public static class ErrorHelper
+{
+    public static ErrorResponse Create(int code, string description)
+    {
+        return new ErrorResponse
+        {
+            Message = $"{code} - {description}"
+        };
+    }
+}
