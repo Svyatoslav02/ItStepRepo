@@ -1,10 +1,16 @@
 using MoodboardAI.Api.Configuration;
+using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Database context (provider will be configured once the DB is chosen)
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("MoodboardAI"));
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
