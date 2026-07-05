@@ -1,3 +1,4 @@
+using MoodboardAI.Api.Configuration;
 using MoodboardAI.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,12 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options 
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
+
+// JWT settings from configuration
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+
+// JWT token service
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 // Use our own ErrorResponse shape for invalid model state instead of the
 // default ASP.NET Core ProblemDetails response.
