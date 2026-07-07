@@ -36,11 +36,35 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public DbSet<Interest> Interests => Set<Interest>();
 
+    /// <summary>
+    /// Relation records linking users to the interests they selected during onboarding.
+    /// </summary>
+    public DbSet<UserInterest> UserInterests => Set<UserInterest>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Interest>().HasData(InterestSeedData.Default);
+
+        modelBuilder.Entity<UserInterest>(entity =>
+        {
+            // Composite unique key: a user can select a given interest only once.
+            // Declared explicitly here (in addition to the [Index] attribute on the
+            // entity) so the constraint is unambiguous regardless of attribute discovery.
+            entity.HasIndex(userInterest => new { userInterest.UserId, userInterest.InterestId })
+                .IsUnique();
+
+            entity.HasOne(userInterest => userInterest.User)
+                .WithMany()
+                .HasForeignKey(userInterest => userInterest.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(userInterest => userInterest.Interest)
+                .WithMany()
+                .HasForeignKey(userInterest => userInterest.InterestId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MoodboardAI.Api.DTOs.Auth;
+using MoodboardAI.Api.Extensions;
 using MoodboardAI.Api.Models;
 using MoodboardAI.Api.Services;
 
@@ -33,7 +34,7 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(new ErrorResponse { Message = GetFirstValidationError() });
+            return BadRequest(ModelState.ToErrorResponse());
         }
 
         var result = await _authService.RegisterAsync(request);
@@ -60,7 +61,7 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(new ErrorResponse { Message = GetFirstValidationError() });
+            return BadRequest(ModelState.ToErrorResponse());
         }
 
         var result = await _authService.LoginAsync(request);
@@ -75,16 +76,5 @@ public class AuthController : ControllerBase
             Token = result.Token!,
             User = result.User!
         });
-    }
-
-    /// <summary>
-    /// Extracts the first model validation error message, if any.
-    /// </summary>
-    private string GetFirstValidationError()
-    {
-        return ModelState.Values
-            .SelectMany(value => value.Errors)
-            .Select(error => error.ErrorMessage)
-            .FirstOrDefault() ?? "Invalid request.";
     }
 }
