@@ -128,3 +128,106 @@ Content-Type: application/json
 ## Notes
 
 Future versions may extend this endpoint to return dynamically generated images. The current version provides static mock data to support frontend integration and testing.
+
+---
+
+## GET /api/interests
+
+### Description
+
+Returns the full list of interests available for selection during onboarding. Does not require authentication.
+
+### Success Response
+
+#### Status code
+
+```txt
+200 OK
+```
+
+#### Body
+
+```json
+[
+  {
+    "id": "11111111-1111-1111-1111-111111111101",
+    "name": "Minimal",
+    "icon": "minimal"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111102",
+    "name": "3D Art",
+    "icon": "3d-art"
+  }
+]
+```
+
+---
+
+## POST /api/users/me/interests
+
+### Description
+
+Saves the interests selected by the currently authenticated user during onboarding, replacing any previously saved selection. Requires a valid `Authorization: Bearer <token>` header.
+
+### Request
+
+#### Body
+
+```json
+{
+  "interestIds": [
+    "11111111-1111-1111-1111-111111111101",
+    "11111111-1111-1111-1111-111111111102",
+    "11111111-1111-1111-1111-111111111103"
+  ]
+}
+```
+
+#### Request fields
+
+| Field       | Type       | Required | Description                                                     |
+| ----------- | ---------- | -------- | ----------------------------------------------------------------|
+| interestIds | Guid array | Yes      | Ids of the selected interests. At least 3 are required.         |
+
+### Success Response
+
+#### Status code
+
+```txt
+200 OK
+```
+
+#### Body
+
+```json
+{
+  "interests": [
+    {
+      "id": "11111111-1111-1111-1111-111111111101",
+      "name": "Minimal",
+      "icon": "minimal"
+    }
+  ]
+}
+```
+
+### Error Responses
+
+| Status | Condition                                                  |
+| ------ | ------------------------------------------------------------ |
+| 400    | Fewer than 3 interest ids supplied, or one/more ids are unknown |
+| 401    | Missing, invalid, or expired authentication token           |
+
+```json
+{
+  "message": "At least 3 interests are required."
+}
+```
+
+```json
+{
+  "message": "One or more interest ids are invalid."
+}
+```
+
