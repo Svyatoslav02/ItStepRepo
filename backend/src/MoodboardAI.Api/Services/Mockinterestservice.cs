@@ -5,7 +5,7 @@ namespace MoodboardAI.Api.Services;
 
 /// <summary>
 /// Mock implementation of interest retrieval and selection.
-/// Uses an in-memory list instead of a real database.
+/// Uses an in-memory list instead of a real database. 123
 /// </summary>
 public class MockInterestService : IInterestService
 {
