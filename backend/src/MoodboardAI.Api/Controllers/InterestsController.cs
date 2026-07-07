@@ -62,11 +62,11 @@ public class InterestsController : ControllerBase
             return Unauthorized(new ErrorResponse { Message = "User is not authenticated." });
         }
 
-        var (success, errorMessage2) = _interestService.SaveUserInterests(userId, request.InterestIds);
+        var (success, saveErrorMessage) = _interestService.SaveUserInterests(userId, request.InterestIds);
 
         if (!success)
         {
-            return BadRequest(new ErrorResponse { Message = errorMessage2 ?? "Invalid request." });
+            return BadRequest(new ErrorResponse { Message = saveErrorMessage ?? "Invalid request." });
         }
 
         return NoContent();

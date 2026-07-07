@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 
+builder.Services.AddScoped<IInterestService, MockInterestService>();
+
 // JWT settings from configuration
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
