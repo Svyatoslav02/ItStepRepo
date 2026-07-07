@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MoodboardAI.Api.Extensions;
 using MoodboardAI.Api.Models;
 using MoodboardAI.Api.Services;
 
@@ -32,15 +33,7 @@ public class MoodboardController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            var errorMessage = ModelState.Values
-                .SelectMany(value => value.Errors)
-                .Select(error => error.ErrorMessage)
-                .FirstOrDefault() ?? "Invalid request.";
-
-            return BadRequest(new ErrorResponse
-            {
-                Message = errorMessage
-            });
+            return BadRequest(ModelState.ToErrorResponse());
         }
 
         var response = _moodboardService.Generate(request);
