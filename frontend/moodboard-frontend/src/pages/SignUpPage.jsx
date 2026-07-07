@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
+import "../styles/index.css";
 
 const SignUpPage = () => {
     const [fullName, setFullName] = useState("");
