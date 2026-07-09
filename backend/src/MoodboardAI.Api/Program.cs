@@ -7,6 +7,14 @@ using MoodboardAI.Api.Configuration;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Services;
 
+// Load variables from a .env file (if one exists anywhere above the current
+// working directory) into the process environment before configuration is
+// built. This lets every developer keep their own local secrets (DB
+// connection string, JWT secret, API keys) in a git-ignored .env file at the
+// repo root, per docs/database-setup.md and docs/environment.md. Variables
+// that are already set (real OS/CI environment variables) always win.
+LoadDotEnvFile();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -120,6 +128,19 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+// Automatically apply any pending EF Core migrations against the configured
+// database when running locally. This means every teammate only has to
+// `git pull` and `dotnet run` to get an up-to-date local schema, without
+// remembering to run `dotnet ef database update` by hand every time. See
+// docs/database-setup.md. Other environments (Staging/Production) apply
+// migrations explicitly as part of deployment instead.
+if (app.Environment.IsDevelopment())
+{
+    using var migrationScope = app.Services.CreateScope();
+    var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 // Catches unhandled exceptions from everything below and turns them into a
 // standardized ErrorResponse JSON body (500) instead of the ASP.NET Core
 // default. Registered first so it wraps the entire remaining pipeline.
@@ -156,3 +177,53 @@ app.MapFallback(context =>
 });
 
 app.Run();
+
+/// <summary>
+/// Searches the current working directory and its parents for a ".env"
+/// file and, if found, loads any "KEY=VALUE" lines into the process
+/// environment (skipping keys that are already set, so real environment
+/// variables always take priority over the .env file). Silently does
+/// nothing if no .env file is found, which is expected in CI/production
+/// where secrets are provided as real environment variables instead.
+/// </summary>
+static void LoadDotEnvFile()
+{
+    var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+    while (directory is not null)
+    {
+        var candidatePath = Path.Combine(directory.FullName, ".env");
+
+        if (File.Exists(candidatePath))
+        {
+            foreach (var rawLine in File.ReadAllLines(candidatePath))
+            {
+                var line = rawLine.Trim();
+
+                if (line.Length == 0 || line.StartsWith('#'))
+                {
+                    continue;
+                }
+
+                var separatorIndex = line.IndexOf('=');
+
+                if (separatorIndex <= 0)
+                {
+                    continue;
+                }
+
+                var key = line[..separatorIndex].Trim();
+                var value = line[(separatorIndex + 1)..].Trim().Trim('"');
+
+                if (Environment.GetEnvironmentVariable(key) is null)
+                {
+                    Environment.SetEnvironmentVariable(key, value);
+                }
+            }
+
+            return;
+        }
+
+        directory = directory.Parent;
+    }
+}

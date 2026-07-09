@@ -26,6 +26,12 @@ ItStepRepo/
 
 ### Backend
 ---
+#### Set up the database
+
+The backend requires a PostgreSQL database and your own local
+connection string — see [`docs/database-setup.md`](./database-setup.md)
+for the full step-by-step guide (connecting, migrations, troubleshooting).
+
 #### Run the backend
 
    ```bash
