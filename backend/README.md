@@ -20,6 +20,7 @@ backend/
 ## Requirements
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- A PostgreSQL database — see [`../docs/database-setup.md`](../docs/database-setup.md) for how to connect your own local database (or the shared team database) and run EF Core migrations before starting the API.
 
 ## How to run locally
 

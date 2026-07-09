@@ -28,6 +28,16 @@ and the frontend (React) parts of the application.
 4. Restart the application (backend and/or frontend) so the new
    values are picked up.
 
+> **How the backend picks up `.env`:** the ASP.NET Core app loads it
+> automatically on startup — it searches the current working directory
+> and its parents for a `.env` file (see `LoadDotEnvFile()` in
+> `backend/src/MoodboardAI.Api/Program.cs`), so it works whether you run
+> `dotnet run` from the repo root, `backend/`, or the project folder
+> itself. No manual `export`/shell sourcing is required. Real OS/CI
+> environment variables always take priority over `.env` values. See
+> [`database-setup.md`](./database-setup.md) for the database-specific
+> part of this workflow.
+
 ---
 
 ## Backend (ASP.NET Core)
