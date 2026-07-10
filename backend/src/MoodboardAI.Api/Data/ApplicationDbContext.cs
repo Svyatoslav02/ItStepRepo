@@ -41,6 +41,11 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
 
+    /// <summary>
+    /// User notification preferences for different channels and types of notifications.
+    /// </summary>
+    public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
