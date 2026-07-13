@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MoodboardAI.Api.Extensions;
-using MoodboardAI.Api.Models;
-using MoodboardAI.Api.Dtos.Notification;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
+using MoodboardAI.Api.DTOs.Notification;
+using MoodboardAI.Api.Models;
+using System.Security.Claims;
 
 namespace MoodboardAI.Api.Controllers;
 
@@ -15,32 +16,34 @@ namespace MoodboardAI.Api.Controllers;
 [Authorize]
 public class NotificationsController : ControllerBase
 {
-    /// <summary>
-    /// The database context used to access the application's data.
-    /// </summary>
     private readonly ApplicationDbContext _context;
-    /// <summary>
-    /// The user manager used to manage user accounts and retrieve user information.
-    /// </summary>
-    private readonly UserManager<ApplicationUser> _userManager;
 
-    public NotificationsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public NotificationsController(ApplicationDbContext context)
     {
         _context = context;
-        _userManager = userManager;
     }
 
-    // GET /api/notifications?page=1&pageSize=10
     /// <summary>
-    /// Retrieves a paginated list of notifications for the authenticated user.
+    /// Gets the current user's ID from the JWT token claims.
+    /// </summary>
+    /// <returns>The user's ID.</returns>
+    private Guid GetCurrentUserId()
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return Guid.Parse(userIdString);
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of notifications for the current user, 
+    /// ordered by creation date descending.
     /// </summary>
     /// <param name="page">The page number to retrieve.</param>
     /// <param name="pageSize">The number of notifications to retrieve per page.</param>
-    /// <returns>A list of notifications for the authenticated user.</returns>
+    /// <returns>A list of notifications for the current user.</returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<NotificationDto>>> GetNotifications(int page = 1, int pageSize = 10)
     {
-        var userId = _userManager.GetUserId(User);
+        var userId = GetCurrentUserId();
 
         var notifications = await _context.Notifications
             .Where(n => n.UserId == userId)
@@ -62,17 +65,18 @@ public class NotificationsController : ControllerBase
         return Ok(notifications);
     }
 
-    // PUT /api/notifications/{id}/read
     /// <summary>
-    /// Marks a specific notification as read for the authenticated user.
+    /// Marks a specific notification as read for the current user.
     /// </summary>
     /// <param name="id">The ID of the notification to mark as read.</param>
-    /// <returns>No content if the notification is successfully marked as read.</returns>
+    /// <returns>No content if successful, not found
+    /// if the notification does not exist.</returns>
     [HttpPut("{id}/read")]
-    public async Task<IActionResult> MarkAsRead(int id)
+    public async Task<IActionResult> MarkAsRead(Guid id)
     {
-        var userId = _userManager.GetUserId(User);
-        var notification = await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
+        var userId = GetCurrentUserId();
+        var notification = await _context.Notifications
+            .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
 
         if (notification == null) return NotFound();
 
@@ -82,34 +86,36 @@ public class NotificationsController : ControllerBase
         return NoContent();
     }
 
-    // PUT /api/notifications/read-all
     /// <summary>
-    /// Marks all notifications as read for the authenticated user.
+    /// Marks all notifications as read for the current user.
     /// </summary>
-    /// <returns>No content if all notifications are successfully marked as read.</returns>
+    /// <returns>No content if successful.</returns>
     [HttpPut("read-all")]
     public async Task<IActionResult> MarkAllAsRead()
     {
-        var userId = _userManager.GetUserId(User);
+        var userId = GetCurrentUserId();
 
-        var notifications = await _context.Notifications.Where(n => n.UserId == userId).ToListAsync();
+        var notifications = await _context.Notifications
+            .Where(n => n.UserId == userId)
+            .ToListAsync();
+
         foreach (var n in notifications) n.IsRead = true;
 
         await _context.SaveChangesAsync();
         return NoContent();
     }
 
-    // DELETE /api/notifications/{id}
     /// <summary>
-    /// Deletes a specific notification for the authenticated user.
+    /// Deletes a specific notification for the current user.
     /// </summary>
     /// <param name="id">The ID of the notification to delete.</param>
-    /// <returns>No content if the notification is successfully deleted.</returns>
+    /// <returns>No content if successful, not found if the notification does not exist.</returns>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteNotification(int id)
+    public async Task<IActionResult> DeleteNotification(Guid id)
     {
-        var userId = _userManager.GetUserId(User);
-        var notification = await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
+        var userId = GetCurrentUserId();
+        var notification = await _context.Notifications
+            .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
 
         if (notification == null) return NotFound();
 
@@ -119,4 +125,5 @@ public class NotificationsController : ControllerBase
         return NoContent();
     }
 }
+
 
