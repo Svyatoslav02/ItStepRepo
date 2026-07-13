@@ -4,6 +4,7 @@ using MoodboardAI.Api.Models;
 using MoodboardAI.Api.Services;
 using MoodboardAI.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MoodboardAI.Api.Controllers;
 
@@ -131,6 +132,5 @@ public class NotificationPreferencesController : ControllerBase
 
         prefs.UpdatedAt = DateTime.UtcNow;
     }
-
 }
 

@@ -28,6 +28,9 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // JWT settings from configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
