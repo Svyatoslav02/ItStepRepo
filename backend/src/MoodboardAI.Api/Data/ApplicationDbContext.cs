@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Models.Entities;
 
 namespace MoodboardAI.Api.Data;
 
@@ -40,6 +41,16 @@ public class ApplicationDbContext : DbContext
     /// Relation records linking users to the interests they selected during onboarding.
     /// </summary>
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
+    
+    
+    public DbSet<Category> Categories => Set<Category>();
+    
+    public DbSet<Tag> Tags => Set<Tag>();
+    
+    public DbSet<Pin> Pins => Set<Pin>();
+    
+    public DbSet<PinTag> PinTags => Set<PinTag>();
+    
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,5 +77,26 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(userInterest => userInterest.InterestId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        
+        TegsSeedData.Seed(modelBuilder);
+        
+        modelBuilder.Entity<PinTag>()
+            .HasKey(pt => new { pt.PinId, pt.TagId });
+
+        modelBuilder.Entity<Pin>()
+            .HasOne(p => p.Category)
+            .WithMany(c => c.Pins)
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<PinTag>()
+            .HasOne(pt => pt.Pin)
+            .WithMany(p => p.PinTags)
+            .HasForeignKey(pt => pt.PinId);
+
+        modelBuilder.Entity<PinTag>()
+            .HasOne(pt => pt.Tag)
+            .WithMany(t => t.PinTags)
+            .HasForeignKey(pt => pt.TagId);
     }
 }
