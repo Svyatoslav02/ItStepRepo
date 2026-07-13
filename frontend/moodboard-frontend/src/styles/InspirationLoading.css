@@ -8,7 +8,7 @@
     justify-content: center;
     overflow: hidden;
     font-family: "Inter", sans-serif;
-    padding: 2rem 3rem; /* 🔹 зовнішні відступи */
+    padding: 2rem 3rem; /* зовнішні відступи */
 }
 
 .skip-btn {
@@ -28,12 +28,12 @@
     justify-content: space-between;
     width: 100%;
     max-width: 1920px;
-    gap: 6rem; /* 🔹 відстань між текстом і картинками */
+    gap: 6rem; /* відстань між текстом і картинками */
 }
 
 .text-section {
     flex: 0 0 40%;
-    padding: 2rem; /* 🔹 внутрішній відступ текстового блоку */
+    padding: 2rem; /* внутрішній відступ текстового блоку */
     text-align: left;
 }
 
@@ -81,9 +81,9 @@
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem; /* 🔹 відступи між картинками */
+    gap: 1.2rem; /* відступи між картинками */
     position: relative;
-    padding: 1rem; /* 🔹 внутрішній відступ навколо сітки */
+    padding: 1rem; /* внутрішній відступ навколо сітки */
     border: 1px dashed rgba(255, 255, 255, 0.2);
     border-radius: 8px;
 }

@@ -9,24 +9,6 @@
     color: #fff;
 }
 
-/* Сітка картинок */
-/*.masonry-grid {
-    column-count: 7;*/ /* 7 стовпців */
-/*column-gap: 1rem;
-    width: 95%;
-    max-width: 1400px;
-    opacity: 0.3;
-}
-
-.masonry-item {
-    width: 100%;
-    margin-bottom: 1rem;
-    border-radius: 6px;
-    display: block;
-    background-color: #1a1a1a;
-    object-fit: cover;
-}*/
-
 .image-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
