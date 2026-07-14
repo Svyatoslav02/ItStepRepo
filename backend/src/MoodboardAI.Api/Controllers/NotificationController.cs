@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.DTOs.Notification;
 using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Filters;
 using System.Security.Claims;
 
 namespace MoodboardAI.Api.Controllers;
@@ -14,24 +15,21 @@ namespace MoodboardAI.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class NotificationsController : ControllerBase
+public class NotificationController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
 
-    public NotificationsController(ApplicationDbContext context)
+    public NotificationController(ApplicationDbContext context)
     {
         _context = context;
     }
 
     /// <summary>
-    /// Gets the current user's ID from the JWT token claims.
+    /// Gets the current user's ID from the HttpContext.Items.
     /// </summary>
     /// <returns>The user's ID.</returns>
-    private Guid GetCurrentUserId()
-    {
-        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        return Guid.Parse(userIdString);
-    }
+    private Guid GetCurrentUserId() => (Guid)HttpContext.Items["UserId"];
+
 
     /// <summary>
     /// Retrieves a paginated list of notifications for the current user, 
