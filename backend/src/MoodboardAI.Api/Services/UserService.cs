@@ -1,7 +1,14 @@
 ﻿namespace MoodboardAI.Api.Services;
 
+/// <summary>
+/// Implementation of the IUserService interface, providing methods
+/// </summary>
 public class UserService : IUserService
 {
+    /// <summary>
+    /// The IHttpContextAccessor instance used to access the 
+    /// current HTTP context and retrieve user information.
+    /// </summary>
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public UserService(IHttpContextAccessor httpContextAccessor)
@@ -9,6 +16,11 @@ public class UserService : IUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
+    /// <summary>
+    /// Gets the unique identifier of the current user from the HTTP context.
+    /// </summary>
+    /// <returns>The unique identifier of the current user.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the user ID cannot be parsed.</exception>
     public Guid GetCurrentUserId()
     {
         var userId = _httpContextAccessor.HttpContext?.User
