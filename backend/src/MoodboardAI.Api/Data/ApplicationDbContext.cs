@@ -97,7 +97,7 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(pin => pin.Category)
                 .WithMany()
                 .HasForeignKey(pin => pin.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<PinTag>(entity =>

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260714094731_AddPinCategoryTagEntities")]
+    [Migration("20260715182407_AddPinCategoryTagEntities")]
     partial class AddPinCategoryTagEntities
     {
         /// <inheritdoc />
