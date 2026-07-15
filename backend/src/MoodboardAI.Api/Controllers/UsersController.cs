@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoodboardAI.Api.Models;
@@ -32,7 +33,7 @@ public class UsersController : ControllerBase
     [Authorize]
     public IActionResult GetMe()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = GetCurrentUserId();
 
         if (string.IsNullOrEmpty(userId))
         {
@@ -53,5 +54,16 @@ public class UsersController : ControllerBase
         }
 
         return Ok(profile);
+    }
+
+    /// <summary>
+    /// Extracts the authenticated user's id from the "sub" claim of the JWT.
+    /// Falls back to <see cref="ClaimTypes.NameIdentifier"/> in case inbound
+    /// claim mapping is ever re-enabled.
+    /// </summary>
+    private string? GetCurrentUserId()
+    {
+        return User.FindFirstValue(JwtRegisteredClaimNames.Sub)
+            ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }
