@@ -17,3 +17,14 @@ obj/
 
 # Logs
 *.log
+
+# User-specific files
+appsettings.json
+appsettings.Development.json
+appsettings.*.json
+!appsettings.example.json
+
+# Database files
+*.db
+*.db-shm
+*.db-wal

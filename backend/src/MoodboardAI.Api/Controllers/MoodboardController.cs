@@ -33,8 +33,16 @@ public class MoodboardController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState.ToErrorResponse());
-        }
+            var errorMessage = ModelState.Values
+                .SelectMany(value => value.Errors)
+                .Select(error => error.ErrorMessage)
+                .FirstOrDefault() ?? "Invalid request.";
+
+            return BadRequest(new ErrorResponse
+            {
+                Message = errorMessage
+            });
+        } 
 
         var response = _moodboardService.Generate(request);
 

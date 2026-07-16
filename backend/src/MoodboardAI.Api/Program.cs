@@ -17,8 +17,20 @@ LoadDotEnvFile();
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Connect to PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
+
+// Use our own ErrorResponse shape for invalid model state instead of the
+// default ASP.NET Core ProblemDetails response.
+builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 // Database (Supabase PostgreSQL via Npgsql).
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
