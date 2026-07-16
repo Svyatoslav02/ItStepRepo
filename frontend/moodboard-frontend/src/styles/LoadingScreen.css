@@ -1,3 +1,18 @@
+/* ===== Global reset ===== */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0b0f1a;
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ========= Main ===============*/
 .loading-screen {
     position: relative;
     min-height: 100vh;
@@ -14,12 +29,13 @@
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: minmax(100px, auto);
     gap: 1rem;
-    width: 95%;
-    max-width: 1400px;
+    width: 100%;
+    max-width: 1920px;
     opacity: 0.3;
 }
 
 .image-cell {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,7 +43,7 @@
 
     .image-cell img {
         width: 100%;
-        height: 240px;
+        height: 180px;
         object-fit: cover;
         border-radius: 6px;
         background-color: #1a1a1a;
@@ -39,7 +55,7 @@
     color: #888;
 }
 
-/* Центрований overlay */
+/* ========= Center overlay ========= */
 .overlay {
     position: absolute;
     top: 50%;
@@ -80,7 +96,13 @@
     }
 }
 
-/* Адаптивність */
+/* ========== Media ========== */
+@media (max-width: 1024px) {
+    .image-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .image-grid {
         grid-template-columns: repeat(3, 1fr);

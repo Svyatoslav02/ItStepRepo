@@ -8,7 +8,7 @@
     justify-content: center;
     overflow: hidden;
     font-family: "Inter", sans-serif;
-    padding: 2rem 3rem; /* зовнішні відступи */
+    padding: 2rem 3rem;
 }
 
 .skip-btn {
@@ -28,12 +28,12 @@
     justify-content: space-between;
     width: 100%;
     max-width: 1920px;
-    gap: 6rem; /* відстань між текстом і картинками */
+    gap: 6rem;
 }
 
 .text-section {
     flex: 0 0 40%;
-    padding: 2rem; /* внутрішній відступ текстового блоку */
+    padding: 2rem;
     text-align: left;
 }
 
@@ -61,7 +61,7 @@
 
 .next-btn {
     width: 200px;
-    background-color: #4F45E3;
+    background-color: #3c3c3d;
     color: #fff;
     border: none;
     padding: 0.6rem 2rem;
@@ -75,15 +75,19 @@
         background-color: #6d28d9;
     }
 
+    .next-btn.active {
+        background-color: #4F45E3;
+    }
+
 /* Image grid */
 .image-grid {
     width: 100%;
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem; /* відступи між картинками */
+    gap: 1.2rem;
     position: relative;
-    padding: 1rem; /* внутрішній відступ навколо сітки */
+    padding: 1rem;
     border: 1px dashed rgba(255, 255, 255, 0.2);
     border-radius: 8px;
 }

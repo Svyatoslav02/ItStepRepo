@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/InspirationLoading.css";
 
 const images = Array.from({ length: 4 }, (_, i) => `/assets/images/inspire${i + 1}.jpg`);
 
 const InspirationLoading = () => {
+    const [active, setActive] = useState(false);
+
+    const handleClick = () => {
+        setActive(!active);
+    };
+
     return (
         <div className="inspiration-screen">
             <button className="skip-btn">Skip</button>
@@ -15,7 +21,12 @@ const InspirationLoading = () => {
                         Explore millions of ideas tailored to your unique taste and interests.
                     </p>
                     <div className="divider"></div>
-                    <button className="next-btn">Next</button>
+                    <button
+                        className={`next-btn ${active ? "active" : ""}`}
+                        onClick={handleClick}
+                    >
+                        Next
+                    </button>
                 </div>
 
                 <div className="image-grid">
