@@ -38,25 +38,25 @@ html, body, #root {
     padding: 1rem 0;
 }
 
-    .sidebar-icons .icon,
-    .sidebar-bottom .icon {
-        background: none;
-        border: none;
-        color: #9ca3af;
-        font-size: 1.4rem;
-        margin: 1.2rem 0;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
+.sidebar-icons .icon,
+.sidebar-bottom .icon {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 1.4rem;
+    margin: 1.2rem 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
 
 .sidebar-bottom {
     margin-top: auto;
 }
 
-    .sidebar-icons .icon:hover,
-    .sidebar-bottom .icon:hover {
-        color: #a78bfa;
-    }
+.sidebar-icons .icon:hover,
+.sidebar-bottom .icon:hover {
+    color: #a78bfa;
+}
 
 /* ===== Main Content ===== */
 .main-content {
@@ -132,9 +132,9 @@ html, body, #root {
     outline: none;
 }
 
-    .search-wrapper input::placeholder {
-        color: #6b7280;
-    }
+.search-wrapper input::placeholder {
+    color: #6b7280;
+}
 
 .notification-btn:hover {
     background-color: #374151;
@@ -161,15 +161,15 @@ html, body, #root {
     transition: all 0.3s ease;
 }
 
-    .category-tab:hover {
-        background-color: #374151;
-        color: #fff;
-    }
+.category-tab:hover {
+    background-color: #374151;
+    color: #fff;
+}
 
-    .category-tab.active {
-        background-color: #7c3aed;
-        color: #fff;
-    }
+.category-tab.active {
+    background-color: #7c3aed;
+    color: #fff;
+}
 
 /* ===== Gallery Grid (Masonry layout) ===== */
 .gallery-grid {
@@ -188,12 +188,12 @@ html, body, #root {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .gallery-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
+.gallery-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
 
     .gallery-card:hover {
         transform: scale(1.03);
@@ -205,38 +205,38 @@ html, body, #root {
     position: relative;
 }
 
-    .image-wrapper img {
-        width: 100%;
-        border-radius: 8px;
-        display: block;
-        object-fit: cover;
-    }
+.image-wrapper img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    object-fit: cover;
+}
 
-    .image-wrapper .fav-btn {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: rgba(55, 65, 81, 0.9);
-        border: none;
-        border-radius: 50%;
-        padding: 6px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-        z-index: 2;
-    }
+.image-wrapper .fav-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(55, 65, 81, 0.9);
+    border: none;
+    border-radius: 50%;
+    padding: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    z-index: 2;
+}
 
-        .image-wrapper .fav-btn img {
-            width: 22px;
-            height: 22px;
-        }
+.image-wrapper .fav-btn img {
+    width: 22px;
+    height: 22px;
+}
 
-        .image-wrapper .fav-btn.active {
-            background: rgba(55, 65, 81, 0.9);
-        }
+.image-wrapper .fav-btn.active {
+    background: rgba(55, 65, 81, 0.9);
+}
 
-        .image-wrapper .fav-btn:hover {
-            background: rgba(55, 65, 81, 0.9);
-        }
+.image-wrapper .fav-btn:hover {
+    background: rgba(55, 65, 81, 0.9);
+}
 
 /* ===== Card Info ===== */
 .card-info {
@@ -246,11 +246,11 @@ html, body, #root {
     padding: 0.8rem 1rem;
 }
 
-    .card-info h4 {
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: #e5e7eb;
-    }
+.card-info h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #e5e7eb;
+}
 
 .card-actions {
     display: flex;
@@ -267,9 +267,9 @@ html, body, #root {
     transition: color 0.3s ease;
 }
 
-    .menu-btn:hover {
-        color: #a78bfa;
-    }
+.menu-btn:hover {
+    color: #a78bfa;
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 1600px) {
