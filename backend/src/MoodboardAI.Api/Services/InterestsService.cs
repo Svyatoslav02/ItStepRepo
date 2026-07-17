@@ -71,6 +71,21 @@ public class InterestsService : IInterestsService
             .ToList();
 
         await _dbContext.UserInterests.AddRangeAsync(newSelections);
+
+        // AC: saving valid interests (>=3) marks onboarding as completed.
+        // AC: fewer than 3 does not complete onboarding — DTO-level [MinLength(3)]
+        // already blocks this at the controller, this is the service-layer guard.
+        if (newSelections.Count >= 3)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user is not null && !user.IsOnboardingCompleted)
+            {
+                user.IsOnboardingCompleted = true;
+                user.UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
         await _dbContext.SaveChangesAsync();
 
         return new SaveUserInterestsResultDto
