@@ -60,6 +60,14 @@ public class ApplicationDbContext : DbContext
     /// Relation records linking pins to the tags attached to them.
     /// </summary>
     public DbSet<PinTag> PinTags => Set<PinTag>();
+    /// Privacy settings for each user.
+    /// </summary>
+    public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
+
+    /// <summary>
+    /// Block relations between users.
+    /// </summary>
+    public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -70,9 +78,6 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<UserInterest>(entity =>
         {
-            // Composite unique key: a user can select a given interest only once.
-            // Declared explicitly here (in addition to the [Index] attribute on the
-            // entity) so the constraint is unambiguous regardless of attribute discovery.
             entity.HasIndex(userInterest => new { userInterest.UserId, userInterest.InterestId })
                 .IsUnique();
 
@@ -114,6 +119,30 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(pinTag => pinTag.TagId)
                 .OnDelete(DeleteBehavior.Cascade);
+        // UserPrivacySettings: one-to-one with UserEntity
+        modelBuilder.Entity<UserPrivacySettings>(entity =>
+        {
+            entity.HasOne(p => p.User)
+                .WithOne()
+                .HasForeignKey<UserPrivacySettings>(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // BlockedUser: composite unique key prevents duplicate blocks
+        modelBuilder.Entity<BlockedUser>(entity =>
+        {
+            entity.HasIndex(b => new { b.BlockerId, b.BlockedUserId })
+                .IsUnique();
+
+            entity.HasOne(b => b.Blocker)
+                .WithMany()
+                .HasForeignKey(b => b.BlockerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(b => b.Blocked)
+                .WithMany()
+                .HasForeignKey(b => b.BlockedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

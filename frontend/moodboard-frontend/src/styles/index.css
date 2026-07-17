@@ -35,6 +35,22 @@ h1 {
   line-height: 1.1;
 }
 
+.span-text {
+    font-weight: bold;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+.text-gray {
+    color: #7D7D89;
+}
+
+.custom-placeholder::placeholder {
+    color: #D7D2D1;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
