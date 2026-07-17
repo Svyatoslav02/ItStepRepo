@@ -119,6 +119,8 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(pinTag => pinTag.TagId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
         // UserPrivacySettings: one-to-one with UserEntity
         modelBuilder.Entity<UserPrivacySettings>(entity =>
         {

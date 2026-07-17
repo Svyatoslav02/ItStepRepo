@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260715182407_AddPinCategoryTagEntities")]
+    [Migration("20260717145519_AddPinCategoryTagEntities")]
     partial class AddPinCategoryTagEntities
     {
         /// <inheritdoc />
@@ -24,6 +24,31 @@ namespace MoodboardAI.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.BlockedUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BlockedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BlockerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockedUserId");
+
+                    b.HasIndex("BlockerId", "BlockedUserId")
+                        .IsUnique();
+
+                    b.ToTable("BlockedUsers");
+                });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Category", b =>
                 {
@@ -324,6 +349,51 @@ namespace MoodboardAI.Api.Migrations
                     b.ToTable("UserInterests");
                 });
 
+            modelBuilder.Entity("MoodboardAI.Api.Models.UserPrivacySettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("ContentVisibility")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PrivateAccount")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("SearchVisibility")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserPrivacySettings");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.BlockedUser", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "Blocked")
+                        .WithMany()
+                        .HasForeignKey("BlockedUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "Blocker")
+                        .WithMany()
+                        .HasForeignKey("BlockerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blocked");
+
+                    b.Navigation("Blocker");
+                });
+
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
                     b.HasOne("MoodboardAI.Api.Models.UserEntity", "Author")
@@ -335,7 +405,7 @@ namespace MoodboardAI.Api.Migrations
                     b.HasOne("MoodboardAI.Api.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -377,6 +447,17 @@ namespace MoodboardAI.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Interest");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.UserPrivacySettings", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "User")
+                        .WithOne()
+                        .HasForeignKey("MoodboardAI.Api.Models.UserPrivacySettings", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
