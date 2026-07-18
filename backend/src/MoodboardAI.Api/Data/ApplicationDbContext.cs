@@ -42,6 +42,24 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
 
     /// <summary>
+    /// Pins shown in the Home Feed and Search screens.
+    /// </summary>
+    public DbSet<Pin> Pins => Set<Pin>();
+
+    /// <summary>
+    /// Categories used to classify pins.
+    /// </summary>
+    public DbSet<Category> Categories => Set<Category>();
+
+    /// <summary>
+    /// Tags that can be attached to pins.
+    /// </summary>
+    public DbSet<Tag> Tags => Set<Tag>();
+
+    /// <summary>
+    /// Relation records linking pins to the tags attached to them.
+    /// </summary>
+    public DbSet<PinTag> PinTags => Set<PinTag>();
     /// Privacy settings for each user.
     /// </summary>
     public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
@@ -71,6 +89,35 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(userInterest => userInterest.Interest)
                 .WithMany()
                 .HasForeignKey(userInterest => userInterest.InterestId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Pin>(entity =>
+        {
+            entity.HasOne(pin => pin.Author)
+                .WithMany()
+                .HasForeignKey(pin => pin.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pin => pin.Category)
+                .WithMany()
+                .HasForeignKey(pin => pin.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<PinTag>(entity =>
+        {
+            entity.HasIndex(pinTag => new { pinTag.PinId, pinTag.TagId })
+                .IsUnique();
+
+            entity.HasOne(pinTag => pinTag.Pin)
+                .WithMany(pin => pin.PinTags)
+                .HasForeignKey(pinTag => pinTag.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pinTag => pinTag.Tag)
+                .WithMany()
+                .HasForeignKey(pinTag => pinTag.TagId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
