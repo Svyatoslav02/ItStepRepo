@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Models;
-using MoodboardAI.Api.Models.Entities;
+
 
 namespace MoodboardAI.Api.Data;
 
@@ -43,25 +43,25 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
     
     /// <summary>
-    /// Categories grouping pins
-    /// </summary>
-    public DbSet<Category> Categories => Set<Category>();
-    
-    /// <summary>
-    /// Tags that can be attached to pins for flexible filtering.
-    /// </summary>
-    public DbSet<Tag> Tags => Set<Tag>();
-    /// <summary>
-    /// Pins represent saved items (images, inspirations, etc.).
+    /// Pins shown in the Home Feed and Search screens.
     /// </summary>
     public DbSet<Pin> Pins => Set<Pin>();
-    /// <summary>
-    /// Many-to-many relation between pins and tags.
-    /// </summary>
-    public DbSet<PinTag> PinTags => Set<PinTag>();
-    
 
     /// <summary>
+    /// Categories used to classify pins.
+    /// </summary>
+    public DbSet<Category> Categories => Set<Category>();
+
+    /// <summary>
+    /// Tags that can be attached to pins.
+    /// </summary>
+    public DbSet<Tag> Tags => Set<Tag>();
+
+    /// <summary>
+    /// Relation records linking pins to the tags attached to them.
+    /// </summary>
+    public DbSet<PinTag> PinTags => Set<PinTag>();
+    ///<summary>
     /// Privacy settings for each user.
     /// </summary>
     public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
@@ -97,6 +97,35 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        modelBuilder.Entity<Pin>(entity =>
+        {
+            entity.HasOne(pin => pin.Author)
+                .WithMany()
+                .HasForeignKey(pin => pin.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pin => pin.Category)
+                .WithMany()
+                .HasForeignKey(pin => pin.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<PinTag>(entity =>
+        {
+            entity.HasIndex(pinTag => new { pinTag.PinId, pinTag.TagId })
+                .IsUnique();
+
+            entity.HasOne(pinTag => pinTag.Pin)
+                .WithMany(pin => pin.PinTags)
+                .HasForeignKey(pinTag => pinTag.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pinTag => pinTag.Tag)
+                .WithMany()
+                .HasForeignKey(pinTag => pinTag.TagId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         // UserPrivacySettings: one-to-one with UserEntity
         modelBuilder.Entity<UserPrivacySettings>(entity =>
         {
@@ -124,24 +153,6 @@ public class ApplicationDbContext : DbContext
         });
         //Creating initial data for tags
         TegsSeedData.Seed(modelBuilder);
-        //Creating links for tags
-        modelBuilder.Entity<PinTag>()
-            .HasKey(pt => new { pt.PinId, pt.TagId });
-
-        modelBuilder.Entity<Pin>()
-            .HasOne(p => p.Category)
-            .WithMany(c => c.Pins)
-            .HasForeignKey(p => p.CategoryId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<PinTag>()
-            .HasOne(pt => pt.Pin)
-            .WithMany(p => p.PinTags)
-            .HasForeignKey(pt => pt.PinId);
-
-        modelBuilder.Entity<PinTag>()
-            .HasOne(pt => pt.Tag)
-            .WithMany(t => t.PinTags)
-            .HasForeignKey(pt => pt.TagId);
+        
     }
 }
