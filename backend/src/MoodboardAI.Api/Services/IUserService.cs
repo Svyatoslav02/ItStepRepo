@@ -1,4 +1,6 @@
-﻿namespace MoodboardAI.Api.Services;
+﻿using MoodboardAI.Api.DTOs.Users;
+
+namespace MoodboardAI.Api.Services;
 
 /// <summary>
 /// Interface for user-related services, providing methods 

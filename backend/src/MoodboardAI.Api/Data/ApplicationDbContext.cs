@@ -46,6 +46,34 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public DbSet<NotificationPreference> NotificationPreferences { get; set; }
 
+    /// <summary>
+    /// Pins shown in the Home Feed and Search screens.
+    /// </summary>
+    public DbSet<Pin> Pins => Set<Pin>();
+
+    /// <summary>
+    /// Categories used to classify pins.
+    /// </summary>
+    public DbSet<Category> Categories => Set<Category>();
+
+    /// <summary>
+    /// Tags that can be attached to pins.
+    /// </summary>
+    public DbSet<Tag> Tags => Set<Tag>();
+
+    /// <summary>
+    /// Relation records linking pins to the tags attached to them.
+    /// </summary>
+    public DbSet<PinTag> PinTags => Set<PinTag>();
+    /// Privacy settings for each user.
+    /// </summary>
+    public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
+
+    /// <summary>
+    /// Block relations between users.
+    /// </summary>
+    public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,9 +83,6 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<UserInterest>(entity =>
         {
-            // Composite unique key: a user can select a given interest only once.
-            // Declared explicitly here (in addition to the [Index] attribute on the
-            // entity) so the constraint is unambiguous regardless of attribute discovery.
             entity.HasIndex(userInterest => new { userInterest.UserId, userInterest.InterestId })
                 .IsUnique();
 
@@ -70,6 +95,61 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(userInterest => userInterest.InterestId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Pin>(entity =>
+        {
+            entity.HasOne(pin => pin.Author)
+                .WithMany()
+                .HasForeignKey(pin => pin.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pin => pin.Category)
+                .WithMany()
+                .HasForeignKey(pin => pin.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<PinTag>(entity =>
+        {
+            entity.HasIndex(pinTag => new { pinTag.PinId, pinTag.TagId })
+                .IsUnique();
+
+            entity.HasOne(pinTag => pinTag.Pin)
+                .WithMany(pin => pin.PinTags)
+                .HasForeignKey(pinTag => pinTag.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pinTag => pinTag.Tag)
+                .WithMany()
+                .HasForeignKey(pinTag => pinTag.TagId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // UserPrivacySettings: one-to-one with UserEntity
+        modelBuilder.Entity<UserPrivacySettings>(entity =>
+        {
+            entity.HasOne(p => p.User)
+                .WithOne()
+                .HasForeignKey<UserPrivacySettings>(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // BlockedUser: composite unique key prevents duplicate blocks
+        modelBuilder.Entity<BlockedUser>(entity =>
+        {
+            entity.HasIndex(b => new { b.BlockerId, b.BlockedUserId })
+                .IsUnique();
+
+            entity.HasOne(b => b.Blocker)
+                .WithMany()
+                .HasForeignKey(b => b.BlockerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(b => b.Blocked)
+                .WithMany()
+                .HasForeignKey(b => b.BlockedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }
