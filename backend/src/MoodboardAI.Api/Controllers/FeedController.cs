@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
 
 namespace MoodboardAI.Api.Controllers;
@@ -17,8 +18,8 @@ public class FeedController : ControllerBase
     public async Task<IActionResult> GetFeed(
         int page = 1,
         int pageSize = 10,
-        int? categoryId = null,
-        List<int>? tagIds = null)
+        Guid? categoryId = null,
+        List<Guid>? tagIds = null)
     {
         if (page <= 0 || pageSize <= 0)
             return BadRequest("Invalid pagination values.");
