@@ -42,15 +42,34 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
     
-    
+    /// <summary>
+    /// Categories grouping pins
+    /// </summary>
     public DbSet<Category> Categories => Set<Category>();
     
+    /// <summary>
+    /// Tags that can be attached to pins for flexible filtering.
+    /// </summary>
     public DbSet<Tag> Tags => Set<Tag>();
-    
+    /// <summary>
+    /// Pins represent saved items (images, inspirations, etc.).
+    /// </summary>
     public DbSet<Pin> Pins => Set<Pin>();
-    
+    /// <summary>
+    /// Many-to-many relation between pins and tags.
+    /// </summary>
     public DbSet<PinTag> PinTags => Set<PinTag>();
     
+
+    /// <summary>
+    /// Privacy settings for each user.
+    /// </summary>
+    public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
+
+    /// <summary>
+    /// Block relations between users.
+    /// </summary>
+    public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -77,9 +96,35 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(userInterest => userInterest.InterestId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-        
+
+        // UserPrivacySettings: one-to-one with UserEntity
+        modelBuilder.Entity<UserPrivacySettings>(entity =>
+        {
+            entity.HasOne(p => p.User)
+                .WithOne()
+                .HasForeignKey<UserPrivacySettings>(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // BlockedUser: composite unique key prevents duplicate blocks
+        modelBuilder.Entity<BlockedUser>(entity =>
+        {
+            entity.HasIndex(b => new { b.BlockerId, b.BlockedUserId })
+                .IsUnique();
+
+            entity.HasOne(b => b.Blocker)
+                .WithMany()
+                .HasForeignKey(b => b.BlockerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(b => b.Blocked)
+                .WithMany()
+                .HasForeignKey(b => b.BlockedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        //Creating initial data for tags
         TegsSeedData.Seed(modelBuilder);
-        
+        //Creating links for tags
         modelBuilder.Entity<PinTag>()
             .HasKey(pt => new { pt.PinId, pt.TagId });
 
