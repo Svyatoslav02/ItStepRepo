@@ -4,7 +4,7 @@ using MoodboardAI.Api.Data;
 
 namespace MoodboardAI.Api.Controllers;
 [ApiController]
-[Route("api/")]
+[Route("api/feed")]
 public class FeedController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
