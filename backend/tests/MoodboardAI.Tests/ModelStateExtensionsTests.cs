@@ -8,7 +8,7 @@ namespace MoodboardAI.Tests;
 /// Unit tests for <see cref="ModelStateExtensions"/>, which standardizes how
 /// validation errors are turned into an <see cref="MoodboardAI.Api.Models.ErrorResponse"/>
 /// across all controllers.
-/// </summary>//test
+/// </summary>
 public class ModelStateExtensionsTests
 {
     [Fact]
