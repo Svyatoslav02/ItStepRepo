@@ -1,0 +1,140 @@
+/* ===== Layout ===== */
+.container {
+    background-color: #0b0f1a;
+    color: #fff;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 0 6%;
+}
+
+/* ===== Header ===== */
+.header {
+    position: absolute;
+    top: 2rem;
+    left: 6%;
+    right: 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.step {
+    background-color: #1f2937;
+    color: #9ca3af;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+}
+
+.skip {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+    .skip:hover {
+        color: #a78bfa;
+    }
+
+/* ===== Content ===== */
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+}
+
+/* ===== Text Block ===== */
+.text-block {
+    flex: 1;
+    max-width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    font-size: 2.1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    max-width: 70%;
+}
+
+.subtitle {
+    color: #9ca3af;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+    max-width: 70%;
+}
+
+/* ===== Button ===== */
+.nextBtn {
+    background-color: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 2.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.next-btn:hover {
+    background-color: #6d28d9;
+}
+
+.next-btn.active {
+    background-color: #4F45E3;
+}
+
+/* ===== Image Grid ===== */
+.image-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 200px);
+    gap: 1rem;
+    max-width: 50%;
+}
+
+.grid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.divider {
+    width: 40px;
+    height: 3px;
+    background-color: #fafafa;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text-block {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        max-width: 100%;
+    }
+}
