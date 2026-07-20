@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.19",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.18.0"
+    "react-router-dom": "^7.18.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
