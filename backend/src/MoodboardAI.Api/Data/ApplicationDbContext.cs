@@ -69,6 +69,11 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
 
+    /// <summary>
+    /// Recent search queries saved per user.
+    /// </summary>
+    public DbSet<RecentSearch> RecentSearches => Set<RecentSearch>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -145,6 +150,18 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(b => b.BlockedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // RecentSearch: composite unique index on (UserId, Query) — prevents duplicates
+        modelBuilder.Entity<RecentSearch>(entity =>
+        {
+            entity.HasIndex(r => new { r.UserId, r.Query })
+                .IsUnique();
+
+            entity.HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
