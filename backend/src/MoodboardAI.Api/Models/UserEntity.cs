@@ -38,6 +38,5 @@ public class UserEntity
     /// <summary>
     /// Navigation property to the user's notification preferences.
     /// </summary>
-    public NotificationPreference NotificationPreference { get; set; } = null!;
-
+    public NotificationPreference? NotificationPreference { get; set; }
 }

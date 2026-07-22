@@ -5,6 +5,7 @@ using MoodboardAI.Api.Services;
 using MoodboardAI.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using MoodboardAI.Api.Extensions;
 
 namespace MoodboardAI.Api.Controllers;
 
@@ -61,7 +62,7 @@ public class NotificationPreferencesController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdatePreferences([FromBody] NotificationPreferenceDto dto)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        if (!ModelState.IsValid) return BadRequest(ModelState.ToErrorResponse());
 
         var userId = _userService.GetCurrentUserId();
         var prefs = await _context.NotificationPreferences
@@ -133,4 +134,3 @@ public class NotificationPreferencesController : ControllerBase
         prefs.UpdatedAt = DateTime.UtcNow;
     }
 }
-
