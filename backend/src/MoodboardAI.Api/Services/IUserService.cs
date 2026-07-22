@@ -13,4 +13,11 @@ public interface IUserService
     /// </summary>
     /// <returns>The unique identifier of the current user.</returns>
     Guid GetCurrentUserId();
+    
+    /// <summary>
+    /// Gets the profile of the current user.
+    /// </summary>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <returns>The user profile if found; otherwise null.</returns>
+    UserProfileDto? GetCurrentUser(string userId);
 }

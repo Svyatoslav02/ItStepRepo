@@ -1,4 +1,6 @@
-﻿namespace MoodboardAI.Api.Services;
+﻿using MoodboardAI.Api.DTOs.Users;
+
+namespace MoodboardAI.Api.Services;
 
 /// <summary>
 /// Implementation of the IUserService interface, providing methods
@@ -32,5 +34,18 @@ public class UserService : IUserService
         }
 
         throw new InvalidOperationException("Unable to parse user ID.");
+    }
+
+    public UserProfileDto? GetCurrentUser(string userId)
+    {        
+        return new UserProfileDto
+        {
+            Id = userId,
+            FullName = "John Doe",
+            Email = "john.doe@example.com",
+            AvatarUrl = "https://example.com/avatar.jpg",
+            SelectedInterests = new List<DTOs.Interests.InterestDto>(),
+            IsOnboardingCompleted = false
+        };
     }
 }

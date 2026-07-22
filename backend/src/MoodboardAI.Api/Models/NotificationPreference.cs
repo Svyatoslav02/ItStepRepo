@@ -24,7 +24,7 @@ public class NotificationPreference
     /// Navigation property to the related <see cref="UserEntity"/>.
     /// </summary>
     [ForeignKey(nameof(UserId))]
-    public UserEntity User { get; set; } = null!;
+    public UserEntity? User { get; set; }
 
     // Channel preferences
     /// <summary>
