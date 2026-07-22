@@ -1,51 +1,64 @@
-﻿using MoodboardAI.Api.DTOs.Users;
+﻿using Microsoft.EntityFrameworkCore;
+using MoodboardAI.Api.Data;
+using MoodboardAI.Api.DTOs.Interests;
+using MoodboardAI.Api.DTOs.Users;
 
 namespace MoodboardAI.Api.Services;
 
 /// <summary>
-/// Implementation of the IUserService interface, providing methods
+/// Database-backed implementation of <see cref="IUserService"/> that reads
+/// the authenticated user's profile, selected interests, and onboarding
+/// status from <see cref="ApplicationDbContext"/>.
 /// </summary>
 public class UserService : IUserService
 {
-    /// <summary>
-    /// The IHttpContextAccessor instance used to access the 
-    /// current HTTP context and retrieve user information.
-    /// </summary>
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ApplicationDbContext _dbContext;
 
-    public UserService(IHttpContextAccessor httpContextAccessor)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// </summary>
+    public UserService(ApplicationDbContext dbContext)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _dbContext = dbContext;
     }
 
-    /// <summary>
-    /// Gets the unique identifier of the current user from the HTTP context.
-    /// </summary>
-    /// <returns>The unique identifier of the current user.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the user ID cannot be parsed.</exception>
-    public Guid GetCurrentUserId()
+    /// <inheritdoc />
+    public UserProfileDto? GetCurrentUser(string userId)
     {
-        var userId = _httpContextAccessor.HttpContext?.User
-            .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-        if (Guid.TryParse(userId, out Guid parsedUserId))
+        if (!Guid.TryParse(userId, out var id))
         {
-            return parsedUserId;
+            return null;
         }
 
-        throw new InvalidOperationException("Unable to parse user ID.");
-    }
+        var user = _dbContext.Users
+            .AsNoTracking()
+            .FirstOrDefault(u => u.Id == id);
 
-    public UserProfileDto? GetCurrentUser(string userId)
-    {        
+        if (user is null)
+        {
+            return null;
+        }
+
+        var selectedInterests = _dbContext.UserInterests
+            .AsNoTracking()
+            .Where(userInterest => userInterest.UserId == id)
+            .OrderBy(userInterest => userInterest.Interest.Name)
+            .Select(userInterest => new InterestDto
+            {
+                Id = userInterest.Interest.Id,
+                Name = userInterest.Interest.Name,
+                Icon = userInterest.Interest.Icon
+            })
+            .ToList();
+
         return new UserProfileDto
         {
-            Id = userId,
-            FullName = "John Doe",
-            Email = "john.doe@example.com",
-            AvatarUrl = "https://example.com/avatar.jpg",
-            SelectedInterests = new List<DTOs.Interests.InterestDto>(),
-            IsOnboardingCompleted = false
+            Id = user.Id.ToString(),
+            FullName = user.FullName,
+            Email = user.Email,
+            AvatarUrl = user.AvatarUrl,
+            SelectedInterests = selectedInterests,
+            IsOnboardingCompleted = user.IsOnboardingCompleted
         };
     }
 }
