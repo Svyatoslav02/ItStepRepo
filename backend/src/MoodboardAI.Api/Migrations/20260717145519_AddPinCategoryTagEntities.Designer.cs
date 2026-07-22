@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoodboardAI.Api.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260717145519_AddPinCategoryTagEntities")]
+    partial class AddPinCategoryTagEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,31 +245,6 @@ namespace MoodboardAI.Api.Migrations
                     b.ToTable("PinTags");
                 });
 
-            modelBuilder.Entity("MoodboardAI.Api.Models.RecentSearch", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Query")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId", "Query")
-                        .IsUnique();
-
-                    b.ToTable("RecentSearches");
-                });
-
             modelBuilder.Entity("MoodboardAI.Api.Models.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -452,17 +430,6 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("Pin");
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("MoodboardAI.Api.Models.RecentSearch", b =>
-                {
-                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.UserInterest", b =>
