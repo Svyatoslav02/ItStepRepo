@@ -28,8 +28,13 @@ public class NotificationController : ControllerBase
     /// Gets the current user's ID from the HttpContext.Items.
     /// </summary>
     /// <returns>The user's ID.</returns>
-    private Guid GetCurrentUserId() => (Guid)HttpContext.Items["UserId"];
+    private Guid GetCurrentUserId()
+    {
+        if (HttpContext.Items["UserId"] is Guid userId)
+            return userId;
 
+        throw new UnauthorizedAccessException("User ID not found in HttpContext.");
+    }
 
     /// <summary>
     /// Retrieves a paginated list of notifications for the current user, 

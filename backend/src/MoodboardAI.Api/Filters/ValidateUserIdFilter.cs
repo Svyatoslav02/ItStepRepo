@@ -16,20 +16,23 @@ public class ValidateUserIdFilter : IAuthorizationFilter
     /// <param name="context">The authorization filter context.</param>
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        /// <summary>
-        /// Gets the current user's ID from the JWT token claims.
-        /// </summary>
-        /// <returns>The user's ID.</returns>
+        // Skip validation for the Auth controller to allow unauthenticated access
+        var controllerName = context.ActionDescriptor.RouteValues["controller"];
+        if (controllerName != null && controllerName.Equals("Auth", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
         var userIdString = context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // If the user ID is not present or is not a valid GUID, return an unauthorized result.
+        // If the user ID is missing or invalid, return an unauthorized response
         if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
         {
             context.Result = new UnauthorizedResult();
             return;
         }
 
-        // Save the user ID in the HttpContext.Items for later use in the request processing pipeline.
+        // Store the validated user ID in the HttpContext.Items for later use in the request pipeline
         context.HttpContext.Items["UserId"] = userId;
     }
 }
