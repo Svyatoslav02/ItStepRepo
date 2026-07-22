@@ -1,13 +1,8 @@
 import './styles/App.css'
 import AppRoutes from './routes/AppRoutes'
-import LoadingScreen from './pages/LoadingScreen.jsx'
 
 function App() {
-    return (
-        <>
-            <LoadingScreen />
-        </>
-    )
+    return <AppRoutes />
 }
 
 export default App
