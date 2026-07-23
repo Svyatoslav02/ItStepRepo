@@ -59,7 +59,7 @@ public class Pin
     public UserEntity Author { get; set; } = null!;
 
     /// <summary>
-    /// Identifier of the category this pin belongs to.
+    /// The Identifier of the category this pin belongs to.
     /// </summary>
     [Required]
     public Guid CategoryId { get; set; }
@@ -75,6 +75,15 @@ public class Pin
     /// </summary>
     public ICollection<PinTag> PinTags { get; set; } = new List<PinTag>();
 
+    /// <summary>
+    /// Collection of likes associated with this pin.
+    /// </summary>
+    public ICollection<Like> Likes { get; set; } = new List<Like>();
+
+    /// <summary>
+    /// Collection of saves associated with this pin.
+    /// </summary>
+    public ICollection<Save> Saves { get; set; } = new List<Save>();
     /// <summary>
     /// UTC timestamp when the pin was created.
     /// </summary>
