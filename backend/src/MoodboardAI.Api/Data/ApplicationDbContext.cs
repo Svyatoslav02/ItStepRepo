@@ -84,6 +84,10 @@ public class ApplicationDbContext : DbContext
     /// Each record represents that a specific user has saved a specific pin to their collection.
     /// </summary>
     public DbSet<Save> Saves => Set<Save>();
+    /// <summary>
+    /// Recent search queries saved per user.
+    /// </summary>
+    public DbSet<RecentSearch> RecentSearches => Set<RecentSearch>();
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -192,6 +196,17 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(s => s.User)
                 .WithMany(u => u.Saves)
                 .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        // RecentSearch: composite unique index on (UserId, Query) — prevents duplicates
+        modelBuilder.Entity<RecentSearch>(entity =>
+        {
+            entity.HasIndex(r => new { r.UserId, r.Query })
+                .IsUnique();
+
+            entity.HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

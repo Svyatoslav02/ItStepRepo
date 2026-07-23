@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MoodboardAI.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitSchema : Migration
+    public partial class InitSchema3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -103,6 +103,41 @@ namespace MoodboardAI.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NotificationPreferences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PushLikes = table.Column<bool>(type: "boolean", nullable: false),
+                    PushComments = table.Column<bool>(type: "boolean", nullable: false),
+                    PushTags = table.Column<bool>(type: "boolean", nullable: false),
+                    PushFriendRequests = table.Column<bool>(type: "boolean", nullable: false),
+                    PushUpdates = table.Column<bool>(type: "boolean", nullable: false),
+                    PushRecommendations = table.Column<bool>(type: "boolean", nullable: false),
+                    PushMentions = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailLikes = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailComments = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailTags = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailFriendRequests = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailUpdates = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailRecommendations = table.Column<bool>(type: "boolean", nullable: false),
+                    EmailMentions = table.Column<bool>(type: "boolean", nullable: false),
+                    QuietMode = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationPreferences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NotificationPreferences_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pins",
                 columns: table => new
                 {
@@ -128,6 +163,26 @@ namespace MoodboardAI.Api.Migrations
                     table.ForeignKey(
                         name: "FK_Pins_Users_AuthorId",
                         column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RecentSearches",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Query = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecentSearches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RecentSearches_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -304,6 +359,11 @@ namespace MoodboardAI.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_NotificationPreferences_UserId",
+                table: "NotificationPreferences",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pins_AuthorId",
                 table: "Pins",
                 column: "AuthorId");
@@ -328,6 +388,12 @@ namespace MoodboardAI.Api.Migrations
                 name: "IX_PinTags_TagId",
                 table: "PinTags",
                 column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecentSearches_UserId_Query",
+                table: "RecentSearches",
+                columns: new[] { "UserId", "Query" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Saves_PinId_UserId",
@@ -380,7 +446,13 @@ namespace MoodboardAI.Api.Migrations
                 name: "Likes");
 
             migrationBuilder.DropTable(
+                name: "NotificationPreferences");
+
+            migrationBuilder.DropTable(
                 name: "PinTags");
+
+            migrationBuilder.DropTable(
+                name: "RecentSearches");
 
             migrationBuilder.DropTable(
                 name: "Saves");
