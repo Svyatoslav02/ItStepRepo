@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260707214403_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260713181753_FinalSeedDataMigration")]
+    partial class FinalSeedDataMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,198 @@ namespace MoodboardAI.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Interior Design"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Art & Illustration"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Technology"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Food & Drink"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Travel"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Nature"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Photography"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Architecture"
+                        });
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Pin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Pins");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            ImageUrl = "https://www.realhomes.com/design/modern-living-room-ideas",
+                            Title = "Modern Living Room"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            ImageUrl = "https://www.etsy.com/uk/listing/1064354283/starry-night-sky-galaxy-watercolor-art",
+                            Title = "Galaxy Art"
+                        });
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.PinTag", b =>
+                {
+                    b.Property<int>("PinId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PinId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PinTags");
+
+                    b.HasData(
+                        new
+                        {
+                            PinId = 1,
+                            TagId = 2
+                        },
+                        new
+                        {
+                            PinId = 2,
+                            TagId = 6
+                        });
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "minimal"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "modern"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "abstract"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "botanical"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "creative"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "galaxy"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "moon"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "night-drive"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "above-clouds"
+                        });
+                });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Interest", b =>
                 {
@@ -203,6 +395,36 @@ namespace MoodboardAI.Api.Migrations
                     b.ToTable("UserInterests");
                 });
 
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Pin", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.Entities.Category", "Category")
+                        .WithMany("Pins")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.PinTag", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.Entities.Pin", "Pin")
+                        .WithMany("PinTags")
+                        .HasForeignKey("PinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoodboardAI.Api.Models.Entities.Tag", "Tag")
+                        .WithMany("PinTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pin");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("MoodboardAI.Api.Models.UserInterest", b =>
                 {
                     b.HasOne("MoodboardAI.Api.Models.Interest", "Interest")
@@ -220,6 +442,21 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("Interest");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Category", b =>
+                {
+                    b.Navigation("Pins");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Pin", b =>
+                {
+                    b.Navigation("PinTags");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Entities.Tag", b =>
+                {
+                    b.Navigation("PinTags");
                 });
 #pragma warning restore 612, 618
         }

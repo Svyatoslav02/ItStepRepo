@@ -75,6 +75,16 @@ public class ApplicationDbContext : DbContext
     public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
 
     /// <summary>
+    /// Stores user likes on pins.
+    /// Each record represents that a specific user has liked a specific pin.
+    /// </summary>
+    public DbSet<Like> Likes => Set<Like>();
+    /// <summary>
+    /// Stores user saves of pins.
+    /// Each record represents that a specific user has saved a specific pin to their collection.
+    /// </summary>
+    public DbSet<Save> Saves => Set<Save>();
+    /// <summary>
     /// Recent search queries saved per user.
     /// </summary>
     public DbSet<RecentSearch> RecentSearches => Set<RecentSearch>();
@@ -156,7 +166,38 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(b => b.BlockedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
+        
+        // Like: зв’язок Pin ↔ User
+        modelBuilder.Entity<Like>(entity =>
+        {
+            entity.HasIndex(l => new { l.PinId, l.UserId }).IsUnique();
 
+            entity.HasOne(l => l.Pin)
+                .WithMany(p => p.Likes)
+                .HasForeignKey(l => l.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(l => l.User)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+// Save: зв’язок Pin ↔ User
+        modelBuilder.Entity<Save>(entity =>
+        {
+            entity.HasIndex(s => new { s.PinId, s.UserId }).IsUnique();
+
+            entity.HasOne(s => s.Pin)
+                .WithMany(p => p.Saves)
+                .HasForeignKey(s => s.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(s => s.User)
+                .WithMany(u => u.Saves)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
         // RecentSearch: composite unique index on (UserId, Query) — prevents duplicates
         modelBuilder.Entity<RecentSearch>(entity =>
         {
