@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260717145519_AddPinCategoryTagEntities")]
-    partial class AddPinCategoryTagEntities
+    [Migration("20260723120359_InitSchema")]
+    partial class InitSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,6 +173,31 @@ namespace MoodboardAI.Api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MoodboardAI.Api.Models.Like", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PinId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("PinId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
                     b.Property<Guid>("Id")
@@ -243,6 +268,31 @@ namespace MoodboardAI.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("PinTags");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Save", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PinId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("PinId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("Saves");
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Tag", b =>
@@ -394,6 +444,25 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("Blocker");
                 });
 
+            modelBuilder.Entity("MoodboardAI.Api.Models.Like", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.Pin", "Pin")
+                        .WithMany("Likes")
+                        .HasForeignKey("PinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pin");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
                     b.HasOne("MoodboardAI.Api.Models.UserEntity", "Author")
@@ -432,6 +501,25 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("MoodboardAI.Api.Models.Save", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.Pin", "Pin")
+                        .WithMany("Saves")
+                        .HasForeignKey("PinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "User")
+                        .WithMany("Saves")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pin");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MoodboardAI.Api.Models.UserInterest", b =>
                 {
                     b.HasOne("MoodboardAI.Api.Models.Interest", "Interest")
@@ -464,7 +552,18 @@ namespace MoodboardAI.Api.Migrations
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
+                    b.Navigation("Likes");
+
                     b.Navigation("PinTags");
+
+                    b.Navigation("Saves");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
+                {
+                    b.Navigation("Likes");
+
+                    b.Navigation("Saves");
                 });
 #pragma warning restore 612, 618
         }

@@ -34,4 +34,7 @@ public class UserEntity
     public bool IsOnboardingCompleted { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public ICollection<Like> Likes { get; set; } = new List<Like>();
+    public ICollection<Save> Saves { get; set; } = new List<Save>();
+
 }
