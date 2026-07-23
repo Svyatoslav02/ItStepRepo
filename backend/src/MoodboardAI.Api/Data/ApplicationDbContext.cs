@@ -42,6 +42,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
 
     /// <summary>
+    /// User notification preferences for different channels and types of notifications.
+    /// </summary>
+    public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
+    /// <summary>
     /// Pins shown in the Home Feed and Search screens.
     /// </summary>
     public DbSet<Pin> Pins => Set<Pin>();
@@ -68,6 +73,7 @@ public class ApplicationDbContext : DbContext
     /// Block relations between users.
     /// </summary>
     public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
+
     /// <summary>
     /// Stores user likes on pins.
     /// Each record represents that a specific user has liked a specific pin.
@@ -78,6 +84,7 @@ public class ApplicationDbContext : DbContext
     /// Each record represents that a specific user has saved a specific pin to their collection.
     /// </summary>
     public DbSet<Save> Saves => Set<Save>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -187,7 +194,5 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        
     }
 }

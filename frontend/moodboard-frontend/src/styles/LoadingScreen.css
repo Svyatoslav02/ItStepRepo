@@ -1,0 +1,133 @@
+/* ===== Global reset ===== */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0b0f1a;
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ========= Main ===============*/
+.loading-screen {
+    position: relative;
+    min-height: 100vh;
+    background-color: #0e0e0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 1rem;
+    width: 100%;
+    max-width: 1920px;
+    opacity: 0.3;
+}
+
+.image-cell {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .image-cell img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 6px;
+        background-color: #1a1a1a;
+    }
+
+.artwork-label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* ========= Center overlay ========= */
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.logo {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #cfcfff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #a78bfa;
+    border-top-color: transparent;
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: #aaa;
+    text-transform: uppercase;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== Media ========== */
+@media (max-width: 1024px) {
+    .image-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .image-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .image-cell img {
+        height: 100px;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .image-cell img {
+        height: 80px;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+    }
+}

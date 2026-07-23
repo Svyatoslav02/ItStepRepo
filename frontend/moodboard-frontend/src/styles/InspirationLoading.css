@@ -1,0 +1,122 @@
+.inspiration-screen {
+    position: relative;
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, #0b0f1a, #0a0a0a);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: "Inter", sans-serif;
+    padding: 2rem 3rem;
+}
+
+.skip-btn {
+    position: absolute;
+    top: 24px;
+    right: 36px;
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1920px;
+    gap: 6rem;
+}
+
+.text-section {
+    flex: 0 0 40%;
+    padding: 2rem;
+    text-align: left;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #fafafa;
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+}
+
+.divider {
+    width: 40px;
+    height: 3px;
+    background-color: #fafafa;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.next-btn {
+    width: 200px;
+    background-color: #3c3c3d;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 2rem;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .next-btn:hover {
+        background-color: #6d28d9;
+    }
+
+    .next-btn.active {
+        background-color: #4F45E3;
+    }
+
+/* Image grid */
+.image-grid {
+    width: 100%;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    position: relative;
+    padding: 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+
+.image-cell img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Overlay magnifier */
+.search-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.search-circle {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon {
+    font-size: 1.5rem;
+}
