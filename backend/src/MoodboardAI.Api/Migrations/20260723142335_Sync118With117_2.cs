@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MoodboardAI.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitSchema3 : Migration
+    public partial class Sync118With117_2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

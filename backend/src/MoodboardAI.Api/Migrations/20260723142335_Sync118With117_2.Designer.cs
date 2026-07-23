@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260723124124_InitSchema3")]
-    partial class InitSchema3
+    [Migration("20260723142335_Sync118With117_2")]
+    partial class Sync118With117_2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
