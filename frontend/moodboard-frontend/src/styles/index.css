@@ -82,3 +82,18 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden !important;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}

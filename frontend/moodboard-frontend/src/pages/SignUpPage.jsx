@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
+import "../styles/index.css";
+import "../index.css";
 
 const SignUpPage = () => {
   const [fullName, setFullName] = useState("");
@@ -49,9 +51,12 @@ const SignUpPage = () => {
             )}
           </div>
 
+                <form onSubmit={handleSubmit} className="space-y-4">
           <div>
+                        <label className="text-sm text-white">Email</label>
             <input
               type="email"
+                            placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
@@ -63,9 +68,11 @@ const SignUpPage = () => {
           </div>
 
           <div>
+                        <label className="text-sm">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
+                                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
@@ -132,6 +139,7 @@ const SignUpPage = () => {
               Continue with Apple
             </button>
           </div>
+                </form>
 
           <p className="text-center text-sm text-gray-400 pt-1">
             Already have an account?{" "}
