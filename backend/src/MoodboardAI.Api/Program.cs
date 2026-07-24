@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using MoodboardAI.Api.Configuration;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Services;
+using MoodboardAI.Api.Filters;
 
 // Load variables from a .env file (if one exists anywhere above the current
 // working directory) into the process environment before configuration is
@@ -28,11 +29,15 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
+builder.Services.AddScoped<IUserService, MockUserService>();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidateUserIdFilter>();
+});
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserService, UserService>();
-
 
 // JWT settings from configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
