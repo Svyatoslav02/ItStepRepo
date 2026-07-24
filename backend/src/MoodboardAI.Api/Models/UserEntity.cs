@@ -34,4 +34,9 @@ public class UserEntity
     public bool IsOnboardingCompleted { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Navigation property to the user's notification preferences.
+    /// </summary>
+    public NotificationPreference? NotificationPreference { get; set; }
 }
