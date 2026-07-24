@@ -42,6 +42,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
 
     /// <summary>
+    /// User notification preferences for different channels and types of notifications.
+    /// </summary>
+    public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
+    /// <summary>
     /// Pins shown in the Home Feed and Search screens.
     /// </summary>
     public DbSet<Pin> Pins => Set<Pin>();
