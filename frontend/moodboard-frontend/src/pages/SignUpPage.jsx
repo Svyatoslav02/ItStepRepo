@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
+import { authService } from "../services/authService";
 
 const SignUpPage = () => {
   const [fullName, setFullName] = useState("");
@@ -11,6 +12,9 @@ const SignUpPage = () => {
   const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validate = () => {
     const newErrors = {};
@@ -24,10 +28,20 @@ const SignUpPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      alert("Form submitted successfully!");
+    setServerError("");
+    if (!validate()) return;
+
+    setIsLoading(true);
+    try {
+      const result = await authService.register(fullName, email, password);
+      localStorage.setItem("authToken", result.token);
+      navigate("/loading");
+    } catch (err) {
+      setServerError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -102,16 +116,19 @@ const SignUpPage = () => {
             <p className="text-red-400 text-xs -mt-2">{errors.agree}</p>
           )}
 
+          {serverError && (
+              <p className="text-red-400 text-xs text-center">{serverError}</p>
+          )}
           <button
             type="submit"
-            disabled={!agree}
+            disabled={!agree || isLoading}
             className={`w-full py-3 rounded-xl font-medium text-sm transition-colors ${
               agree
                 ? "bg-indigo-600 hover:bg-indigo-700"
                 : "bg-gray-700 cursor-not-allowed text-gray-400"
             }`}
           >
-            Sign Up
+            {isLoading ? "Зачекайте..." : "Sign Up"}
           </button>
 
           <div className="space-y-3 pt-1">
