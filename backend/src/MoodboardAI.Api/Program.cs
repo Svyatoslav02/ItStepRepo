@@ -29,19 +29,15 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateUserIdFilter>();
 });
-=======
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserService, UserService>();
->>>>>>> b8391e9943396e16a1c109a4eece8ad5e29d9c75
-
 
 // JWT settings from configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
