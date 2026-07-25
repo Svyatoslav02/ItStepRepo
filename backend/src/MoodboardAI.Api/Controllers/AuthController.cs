@@ -1,4 +1,6 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using MoodboardAI.Api.DTOs.Auth;
 using MoodboardAI.Api.Extensions;
 using MoodboardAI.Api.Models;
@@ -7,10 +9,12 @@ using MoodboardAI.Api.Services;
 namespace MoodboardAI.Api.Controllers;
 
 /// <summary>
-/// API controller that exposes authentication endpoints for user registration and login.
+/// API controller that exposes authentication endpoints.
 /// </summary>
 [ApiController]
-[Route("api/auth")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/auth")]
+[EnableRateLimiting("AuthRateLimit")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
