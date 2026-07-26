@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../styles/InterestsPage.css";
 
 const interestsList = [
-    "Eco", "Asymmetry", "Collage", "Minimal", "Vector",
-    "3D Art", "Zen", "Retro", "Art", "Texture"
+    "Minimal", "3D Art", "App Mobile", "Retro", "Photography",
+    "Architecture", "Modern", "Art", "Eco", "Prints"
 ];
 
 const InterestsPage = () => {
@@ -23,23 +23,23 @@ const InterestsPage = () => {
 
     return (
         <div className="container">
-            
             <div className="header">
-                <span className="step">Step 1 of 3</span>
-                <button className="skip">Skip</button>
+                <button className="back" onClick={() => navigate("/discover")}>←</button>
+                <button className="skip" onClick={() => navigate("/signup")}>Skip</button>
             </div>
 
             <div className="content">
                 <div className="text-block">
+                    <span className="step-badge">Step 1 of 3</span>
                     <h1 className="title">What are you into?</h1>
                     <p className="subtitle">
-                        Select at least 3 interest to personalize your feed
+                        Select at least 3 interests to personalize your feed
                     </p>
                     <div className="divider"></div>
                     <button
                         className={`nextBtn ${!canProceed ? "disabled" : ""}`}
                         disabled={!canProceed}
-                        onClick={() => navigate("/discover")}
+                        onClick={() => navigate("/signup")}
                     >
                         Next
                     </button>
@@ -47,19 +47,24 @@ const InterestsPage = () => {
 
                 <div className="grid">
                     {interestsList.map((interest) => (
-                        <button
+                        <div
                             key={interest}
                             className={`card ${selected.includes(interest) ? "selected" : ""}`}
                             onClick={() => toggleInterest(interest)}
                         >
-                            {interest}
-                            {selected.includes(interest) && <span className="check">✓</span>}
-                        </button>
+                            <input
+                                type="checkbox"
+                                checked={selected.includes(interest)}
+                                readOnly
+                                className="card-checkbox"
+                            />
+                            <span className="card-text">{interest}</span>
+                        </div>
                     ))}
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default InterestsPage;

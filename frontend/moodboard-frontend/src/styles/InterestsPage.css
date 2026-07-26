@@ -47,6 +47,8 @@
 .text-block {
     flex: 1;
     max-width: 40%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     text-align: center;
 }
@@ -67,6 +69,26 @@
     max-width: 85%;
 }
 
+.divider {
+    width: 40px;
+    height: 3px;
+    background-color: #fafafa;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+/* ===== Step badge ===== */
+.step-badge {
+    background-color: #7b61ff;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 13px;
+    display: inline-block;
+    margin-bottom: 12px; /* under title */
+}
+
 /* ===== Right Interests Grid ===== */
 .grid {
     flex: 1;
@@ -77,14 +99,17 @@
 }
 
 .card {
-    height: 100px;
-    background-color: #1f2937;
-    border: 1px solid #2d3748;
-    border-radius: 10px;
-    padding: 1.2rem;
-    text-align: center;
-    cursor: pointer;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e1e2f;
+    border: 1px solid #2e2e4f;
+    border-radius: 12px;
+    width: 120px;
+    height: 120px;
+    color: #fff;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
@@ -97,6 +122,36 @@
     background-color: #2a2f45;
 }
 
+.card-checkbox {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #7b61ff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .card-checkbox:checked {
+        background-color: #7b61ff;
+    }
+
+        .card-checkbox:checked::after {
+            content: "✓";
+            color: #fff;
+            font-size: 14px;
+            position: absolute;
+            top: 1px;
+            left: 4px;
+        }
+
+.card-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .check {
     position: absolute;
     top: 8px;
@@ -106,14 +161,6 @@
 }
 
 /* ===== Next Button ===== */
-.text-block {
-    flex: 1;
-    max-width: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
 .nextBtn {
     width: 50%;
     margin-top: 2rem;
@@ -132,17 +179,13 @@
         background-color: #8b5cf6;
     }
 
+    .nextBtn.active {
+        background-color: #4f45e3;
+    }
+
 .disabled {
     opacity: 0.4;
     cursor: not-allowed;
-}
-
-.divider {
-    width: 40px;
-    height: 3px;
-    background-color: #fafafa;
-    border-radius: 2px;
-    margin-bottom: 1.5rem;
 }
 
 /* ===== Responsive ===== */
