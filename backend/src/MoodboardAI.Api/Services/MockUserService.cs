@@ -29,4 +29,13 @@ public class MockUserService : IUserService
             IsOnboardingCompleted = true
         };
     }
+
+    /// <summary>
+    /// Returns a new GUID as the current user ID for testing purposes.
+    /// </summary>
+    /// <returns>A new GUID representing the current user ID.</returns>
+    public Guid GetCurrentUserId()
+    {
+        return Guid.NewGuid(); 
+    }
 }

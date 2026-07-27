@@ -42,6 +42,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserInterest> UserInterests => Set<UserInterest>();
 
     /// <summary>
+    /// User notification preferences for different channels and types of notifications.
+    /// </summary>
+    public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
+    /// <summary>
     /// Pins shown in the Home Feed and Search screens.
     /// </summary>
     public DbSet<Pin> Pins => Set<Pin>();
@@ -68,6 +73,11 @@ public class ApplicationDbContext : DbContext
     /// Block relations between users.
     /// </summary>
     public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
+
+    /// <summary>
+    /// Recent search queries saved per user.
+    /// </summary>
+    public DbSet<RecentSearch> RecentSearches => Set<RecentSearch>();
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -145,6 +155,18 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(b => b.BlockedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // RecentSearch: composite unique index on (UserId, Query) — prevents duplicates
+        modelBuilder.Entity<RecentSearch>(entity =>
+        {
+            entity.HasIndex(r => new { r.UserId, r.Query })
+                .IsUnique();
+
+            entity.HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
