@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
@@ -11,6 +11,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,6 +26,7 @@ const LoginPage = () => {
 
         if (Object.keys(newErrors).length === 0) {
             console.log("Login successful");
+            navigate("/home");
         }
     };
 
@@ -84,7 +86,9 @@ const LoginPage = () => {
 
                     <p className="text-center text-sm text-gray">
                         Not on our platform yet?{" "}
-                        <span className="text-white cursor-pointer">Sign up</span>
+                        <Link to="/signup" className="text-white cursor-pointer">
+                            Sign up
+                        </Link>
                     </p>
 
                     <div className="space-y-3">
