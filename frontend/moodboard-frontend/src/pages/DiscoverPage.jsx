@@ -10,20 +10,20 @@ const DiscoverPage = () => {
     return (
         <div className="container">
             <div className="header">
-                <button className="back" onClick={() => navigate("/")}>←</button>
+                <button className="back" onClick={() => navigate("/interests")}>←</button>
                 <button className="skip" onClick={() => navigate("/signup")}>Skip</button>
             </div>
 
             <div className="content">
                 <div className="text-block">
-                    <span className="step-badge">Step 1 of 3</span>
+                    <span className="step-badge">Step 3 of 3</span>
                     <h1 className="title">Discover Ideas That Inspire You</h1>
                     <p className="subtitle">
                         Explore a world of creativity and find your next big project,
                         recipe, or style inspiration.
                     </p>
                     <div className="divider"></div>
-                    <button className="nextBtn" onClick={() => navigate("/interests")}>
+                    <button className="nextBtn" onClick={() => navigate("/login")}>
                         Next
                     </button>
                 </div>

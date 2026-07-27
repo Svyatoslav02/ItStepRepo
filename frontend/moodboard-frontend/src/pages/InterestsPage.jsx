@@ -23,14 +23,15 @@ const InterestsPage = () => {
 
     return (
         <div className="container">
+
             <div className="header">
-                <button className="back" onClick={() => navigate("/discover")}>←</button>
+                <button className="back" onClick={() => navigate("/inspiration")}>←</button>
                 <button className="skip" onClick={() => navigate("/signup")}>Skip</button>
             </div>
 
             <div className="content">
                 <div className="text-block">
-                    <span className="step-badge">Step 1 of 3</span>
+                    <span className="step-badge">Step 2 of 3</span>
                     <h1 className="title">What are you into?</h1>
                     <p className="subtitle">
                         Select at least 3 interests to personalize your feed
@@ -39,7 +40,7 @@ const InterestsPage = () => {
                     <button
                         className={`nextBtn ${!canProceed ? "disabled" : ""}`}
                         disabled={!canProceed}
-                        onClick={() => navigate("/signup")}
+                        onClick={() => navigate("/discover")}
                     >
                         Next
                     </button>
