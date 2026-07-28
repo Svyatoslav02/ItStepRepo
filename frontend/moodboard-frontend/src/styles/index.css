@@ -35,22 +35,6 @@ h1 {
   line-height: 1.1;
 }
 
-.span-text {
-    font-weight: bold;
-}
-
-.text-white {
-    color: #ffffff;
-}
-
-.text-gray {
-    color: #7D7D89;
-}
-
-.custom-placeholder::placeholder {
-    color: #D7D2D1;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -81,19 +65,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden !important;
-}
-
-#root {
-  height: 100%;
-  overflow: hidden;
-}
-
-* {
-  box-sizing: border-box;
 }
