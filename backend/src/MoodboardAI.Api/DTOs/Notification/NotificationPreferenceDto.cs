@@ -72,6 +72,18 @@ public class NotificationPreferenceDto : IValidatableObject
     public bool? QuietMode { get; set; }
 
     /// <summary>
+    /// Indicates whether the user has enabled quiet mode start time, 
+    /// which suppresses notifications starting from a specific time.
+    /// </summary>
+    public TimeSpan? QuietModeStart { get; set; }
+
+    /// <summary>
+    /// Indicates whether the user has enabled quiet mode end time,
+    /// which suppresses notifications ending at a specific time.   
+    /// </summary>
+    public TimeSpan? QuietModeEnd { get; set; }
+
+    /// <summary>
     /// Validates the DTO. Since every field is an optional <see cref="bool"/> used for
     /// partial updates, [Required]/[Range]-style attributes cannot express what an
     /// "invalid" payload means here. The one payload that is genuinely invalid for a
