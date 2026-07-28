@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
@@ -16,9 +17,20 @@ public class ValidateUserIdFilter : IAuthorizationFilter
     /// <param name="context">The authorization filter context.</param>
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        // Skip validation for the Auth controller to allow unauthenticated access
-        var controllerName = context.ActionDescriptor.RouteValues["controller"];
-        if (controllerName != null && controllerName.Equals("Auth", StringComparison.OrdinalIgnoreCase))
+        // Only endpoints that actually require authorization (i.e. carry an
+        // [Authorize] attribute and are not [AllowAnonymous]) need a
+        // validated user ID. This keeps genuinely public endpoints (e.g.
+        // AuthController.Login/Register, MoodboardController.Generate)
+        // working, and automatically covers any future public endpoint
+        // without needing to hardcode controller names here.
+        var endpoint = context.HttpContext.GetEndpoint();
+
+        if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
+        {
+            return;
+        }
+
+        if (endpoint?.Metadata?.GetMetadata<IAuthorizeData>() == null)
         {
             return;
         }
@@ -36,4 +48,3 @@ public class ValidateUserIdFilter : IAuthorizationFilter
         context.HttpContext.Items["UserId"] = userId;
     }
 }
-
