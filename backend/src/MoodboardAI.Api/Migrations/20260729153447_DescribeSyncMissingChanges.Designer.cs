@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoodboardAI.Api.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260729153447_DescribeSyncMissingChanges")]
+    partial class DescribeSyncMissingChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,64 +75,6 @@ namespace MoodboardAI.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "interior.png",
-                            Name = "Interior Design"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "art.png",
-                            Name = "Art & Illustration"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "tech.png",
-                            Name = "Technology"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "food.png",
-                            Name = "Food & Drink"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "travel.png",
-                            Name = "Travel"
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "nature.png",
-                            Name = "Nature"
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "photo.png",
-                            Name = "Photography"
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Icon = "arch.png",
-                            Name = "Architecture"
-                        });
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Interest", b =>
@@ -234,9 +179,6 @@ namespace MoodboardAI.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ActorId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -250,9 +192,6 @@ namespace MoodboardAI.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("RelatedEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -264,10 +203,6 @@ namespace MoodboardAI.Api.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId", "IsRead", "CreatedAt");
-
-                    b.HasIndex("UserId", "Type", "CreatedAt");
 
                     b.ToTable("Notifications");
                 });
@@ -385,28 +320,6 @@ namespace MoodboardAI.Api.Migrations
                     b.HasIndex("Title");
 
                     b.ToTable("Pins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("99999999-9999-9999-9999-999999999999"),
-                            AuthorId = new Guid("bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1"),
-                            CategoryId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ImageUrl = "https://i.pinimg.com/736x/1f/7e/53/1f7e53a190519f8ccbe427e431351e42.jpg",
-                            Title = "Modern Living Room",
-                            UpdatedAt = new DateTime(2026, 7, 8, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            AuthorId = new Guid("bbbbbbb2-bbbb-bbbb-bbbb-bbbbbbbbbbb2"),
-                            CategoryId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ImageUrl = "https://i.pinimg.com/1200x/7c/f1/b3/7cf1b3f266e793502d1820b16f2df3b4.jpg",
-                            Title = "Galaxy Art",
-                            UpdatedAt = new DateTime(2026, 7, 8, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.PinTag", b =>
@@ -432,22 +345,6 @@ namespace MoodboardAI.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("PinTags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ccccccc1-cccc-cccc-cccc-ccccccccccc1"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PinId = new Guid("99999999-9999-9999-9999-999999999999"),
-                            TagId = new Guid("aaaaaaa2-aaaa-aaaa-aaaa-aaaaaaaaaaa2")
-                        },
-                        new
-                        {
-                            Id = new Guid("ccccccc2-cccc-cccc-cccc-ccccccccccc2"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PinId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            TagId = new Guid("aaaaaaa6-aaaa-aaaa-aaaa-aaaaaaaaaaa6")
-                        });
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.RecentSearch", b =>
@@ -475,7 +372,7 @@ namespace MoodboardAI.Api.Migrations
                     b.ToTable("RecentSearches");
                 });
 
-            modelBuilder.Entity("MoodboardAI.Api.Models.Save", b =>
+            modelBuilder.Entity("MoodboardAI.Api.Models.Tag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -484,54 +381,17 @@ namespace MoodboardAI.Api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("PinId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("PinId", "UserId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Saves");
-                });
-
-            modelBuilder.Entity("MoodboardAI.Api.Models.Notification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
@@ -589,32 +449,6 @@ namespace MoodboardAI.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayName = "Author One",
-                            Email = "author1@example.com",
-                            FullName = "Author One",
-                            IsOnboardingCompleted = false,
-                            PasswordHash = "HASHED_PASSWORD_1",
-                            UpdatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Username = "authorone"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbb2-bbbb-bbbb-bbbb-bbbbbbbbbbb2"),
-                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayName = "Author Two",
-                            Email = "author2@example.com",
-                            FullName = "Author Two",
-                            IsOnboardingCompleted = false,
-                            PasswordHash = "HASHED_PASSWORD_2",
-                            UpdatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Username = "authortwo"
-                        });
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.UserInterest", b =>
@@ -747,25 +581,6 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MoodboardAI.Api.Models.Save", b =>
-                {
-                    b.HasOne("MoodboardAI.Api.Models.Pin", "Pin")
-                        .WithMany("Saves")
-                        .HasForeignKey("PinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "User")
-                        .WithMany("Saves")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pin");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MoodboardAI.Api.Models.UserInterest", b =>
                 {
                     b.HasOne("MoodboardAI.Api.Models.Interest", "Interest")
@@ -798,23 +613,7 @@ namespace MoodboardAI.Api.Migrations
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
-                    b.Navigation("Likes");
-
                     b.Navigation("PinTags");
-
-                    b.Navigation("Saves");
-                });
-
-            modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
-                {
-                    b.Navigation("Likes");
-
-                    b.Navigation("Saves");
-                });
-
-            modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
-                {
-                    b.Navigation("NotificationPreference");
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>

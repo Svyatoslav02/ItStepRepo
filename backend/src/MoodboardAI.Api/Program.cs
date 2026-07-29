@@ -34,15 +34,12 @@ builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IUserService, MockUserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateUserIdFilter>();
 });
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IUserService, UserService>();
 
 // JWT settings from configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
@@ -169,7 +166,7 @@ if (app.Environment.IsDevelopment())
 {
     using var migrationScope = app.Services.CreateScope();
     var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //dbContext.Database.Migrate(); // TODO: PendingModelChangesWarning — migration history desync, see PR notes / ask curator
+    //dbContext.Database.Migrate(); // TODO: PendingModelChangesWarning � migration history desync, see PR notes / ask curator
 }
 
 // Catches unhandled exceptions from everything below and turns them into a
