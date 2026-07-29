@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260717145519_AddPinCategoryTagEntities")]
+    [Migration("20260729103333_AddPinCategoryTagEntities")]
     partial class AddPinCategoryTagEntities
     {
         /// <inheritdoc />
@@ -196,6 +196,12 @@ namespace MoodboardAI.Api.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SaveCount")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SourceUrl")
                         .HasMaxLength(1000)
