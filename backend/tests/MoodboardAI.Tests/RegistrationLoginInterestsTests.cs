@@ -4,27 +4,12 @@ using MoodboardAI.Api.DTOs.Auth;
 using MoodboardAI.Api.Models;
 using MoodboardAI.Api.Services;
 using Xunit;
+using NSubstitute;
 
 namespace MoodboardAI.Tests;
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Fake IJwtTokenService — no external mocking library needed
-// ──────────────────────────────────────────────────────────────────────────────
-
-internal sealed class FakeJwtTokenService : IJwtTokenService
-{
-    public string GenerateToken(string userId, string email) => "test-jwt-token";
-}
-
-// ──────────────────────────────────────────────────────────────────────────────
-// Shared helpers
-// ──────────────────────────────────────────────────────────────────────────────
-
 internal static class DbHelper
 {
-    /// <summary>
-    /// Creates a fresh in-memory DB per test (unique name = no state leaking).
-    /// </summary>
     public static ApplicationDbContext CreateDb()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -33,8 +18,12 @@ internal static class DbHelper
         return new ApplicationDbContext(options);
     }
 
-    public static AuthService CreateAuthService(ApplicationDbContext db) =>
-        new(db, new PasswordHasher(), new FakeJwtTokenService());
+    public static AuthService CreateAuthService(ApplicationDbContext db)
+    {
+        var jwt = Substitute.For<IJwtTokenService>();
+        jwt.GenerateToken(Arg.Any<string>(), Arg.Any<string>()).Returns("test-jwt-token");
+        return new AuthService(db, new PasswordHasher(), jwt);
+    }
 
     public static RegisterRequestDto ValidRegister(string email = "user@example.com") => new()
     {
@@ -49,15 +38,12 @@ internal static class DbHelper
         Password = "SecurePass123"
     };
 
-    /// <summary>Seeds a user and returns the saved entity.</summary>
     public static async Task<UserEntity> SeedUserAsync(ApplicationDbContext db, string email = "user@example.com")
     {
-        var svc = CreateAuthService(db);
-        await svc.RegisterAsync(ValidRegister(email));
+        await CreateAuthService(db).RegisterAsync(ValidRegister(email));
         return await db.Users.FirstAsync(u => u.Email == email);
     }
 
-    /// <summary>Seeds interests and returns their ids.</summary>
     public static async Task<List<Guid>> SeedInterestsAsync(ApplicationDbContext db, int count = 5)
     {
         var interests = Enumerable.Range(1, count).Select(i => new Interest
@@ -77,7 +63,7 @@ internal static class DbHelper
 // Auth tests
 // ──────────────────────────────────────────────────────────────────────────────
 
-public class AuthServiceTests
+public class AuthRegistrationTests
 {
     [Fact]
     public async Task Register_ValidRequest_Succeeds()
@@ -114,7 +100,10 @@ public class AuthServiceTests
         Assert.NotEqual("SecurePass123", user.PasswordHash);
         Assert.False(string.IsNullOrWhiteSpace(user.PasswordHash));
     }
+}
 
+public class AuthLoginTests
+{
     [Fact]
     public async Task Login_ValidCredentials_Succeeds()
     {
@@ -203,8 +192,6 @@ public class InterestsServiceTests
         var user = await DbHelper.SeedUserAsync(db);
         var interestIds = await DbHelper.SeedInterestsAsync(db, count: 2);
 
-        // [MinLength(3)] on the DTO blocks this at controller level,
-        // but the service itself accepts fewer — onboarding should NOT be marked complete.
         var svc = new InterestsService(db);
         var result = await svc.SaveUserInterestsAsync(user.Id, interestIds);
 
@@ -218,7 +205,7 @@ public class InterestsServiceTests
 // User profile tests
 // ──────────────────────────────────────────────────────────────────────────────
 
-public class UserServiceTests
+public class UserProfileTests
 {
     [Fact]
     public async Task GetCurrentUser_ValidId_ReturnsProfile()
