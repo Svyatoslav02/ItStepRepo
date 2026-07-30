@@ -23,9 +23,12 @@ public class FeedController : ControllerBase
     {
         if (page <= 0 || pageSize <= 0)
             return BadRequest("Invalid pagination values.");
-
+        
+        pageSize = Math.Min(pageSize, 100);
         var query = _context.Pins
             .Include(p => p.Category)
+            .Include(p => p.Author)
+            .Include(p => p.Likes)
             .Include(p => p.PinTags)
             .ThenInclude(pt => pt.Tag)
             .OrderByDescending(p => p.CreatedAt)
@@ -48,13 +51,13 @@ public class FeedController : ControllerBase
                 p.Title,
                 p.ImageUrl,
                 Category = p.Category.Name,
-                Author = "Demo Author",
-                InteractionsCount = 0,
-                SavedState = false,
+                Author = p.Author.Username,
+                Tags = p.PinTags.Select(pt => pt.Tag.Name),
+                InteractionsCount = p.Likes.Count,
                 p.CreatedAt
             })
             .ToListAsync();
-
+        
         return Ok(new
         {
             TotalCount = totalCount,

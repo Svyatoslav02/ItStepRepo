@@ -84,7 +84,7 @@ public class PinsController : ControllerBase
         if(pin == null) return NotFound();
         
         var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == Guid.Parse(userId));
-        if(exists) return BadRequest("Already liked.");
+        if(exists) return BadRequest("Already saved.");
 
         _context.Saves.Add(new Save { PinId = id, UserId = Guid.Parse(userId) });
         await _context.SaveChangesAsync();

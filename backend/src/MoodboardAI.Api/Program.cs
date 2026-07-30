@@ -130,6 +130,7 @@ builder.Services.AddSwaggerGen(options =>
         { bearerScheme, Array.Empty<string>() }
     });
 });
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 var app = builder.Build();
 

@@ -93,7 +93,7 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        TegsSeedData.Seed(modelBuilder);
         modelBuilder.Entity<Interest>().HasData(InterestSeedData.Default);
 
         modelBuilder.Entity<UserInterest>(entity =>
