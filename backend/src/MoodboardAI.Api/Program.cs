@@ -130,6 +130,8 @@ builder.Services.AddSwaggerGen(options =>
         { bearerScheme, Array.Empty<string>() }
     });
 });
+//Json conectiong string 
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
 var app = builder.Build();
 

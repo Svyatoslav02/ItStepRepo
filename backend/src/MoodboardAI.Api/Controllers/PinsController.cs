@@ -48,14 +48,19 @@ public class PinsController : ControllerBase
     [HttpPost("{id}/like")]
     public async Task<IActionResult> LikePin(Guid id)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("sub");
+        if (string.IsNullOrEmpty(userIdString))
+        {
+            return Unauthorized();
+        }
+        var userId = Guid.Parse(userIdString);
         var pin = await _context.Pins.FindAsync(id);
         if (pin == null) return NotFound();
 
-        var exists = await _context.Likes.AnyAsync(l => l.PinId == id && l.UserId == Guid.Parse(userId));
+        var exists = await _context.Likes.AnyAsync(l => l.PinId == id && l.UserId == userId);
         if (exists) return BadRequest("Already liked.");
 
-        _context.Likes.Add(new Like { PinId = id, UserId = Guid.Parse(userId) });
+        _context.Likes.Add(new Like { PinId = id, UserId = userId });
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -65,7 +70,12 @@ public class PinsController : ControllerBase
     [HttpDelete("{id}/like")]
     public async Task<IActionResult> UnlikePin(Guid id)
     {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userIdString = User.FindFirstValue("sub");
+        if (string.IsNullOrEmpty(userIdString))
+        {
+            return Unauthorized();
+        }
+        var userId = Guid.Parse(userIdString);
         var like = await _context.Likes.FirstOrDefaultAsync(l => l.PinId == id && l.UserId == userId);
         if (like == null) return NotFound();
 
@@ -79,14 +89,19 @@ public class PinsController : ControllerBase
     [HttpPost("{id}/save")]
     public async Task<IActionResult> SavePin(Guid id)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userIdString = User.FindFirstValue("sub");
+        if (string.IsNullOrEmpty(userIdString))
+        {
+            return Unauthorized();
+        }
+        var userId = Guid.Parse(userIdString);
         var pin = await _context.Pins.FindAsync(id);
         if(pin == null) return NotFound();
         
-        var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == Guid.Parse(userId));
-        if(exists) return BadRequest("Already liked.");
+        var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == userId);
+        if(exists) return BadRequest("Already saved.");
 
-        _context.Saves.Add(new Save { PinId = id, UserId = Guid.Parse(userId) });
+        _context.Saves.Add(new Save { PinId = id, UserId = userId });
         await _context.SaveChangesAsync();
         return Ok();
     }
@@ -95,7 +110,12 @@ public class PinsController : ControllerBase
     [HttpDelete("{id}/save")]
     public async Task<IActionResult> UnsavePin(Guid id)
     {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userIdString = User.FindFirstValue("sub");
+        if (string.IsNullOrEmpty(userIdString))
+        {
+            return Unauthorized();
+        }
+        var userId = Guid.Parse(userIdString);
         var save = await _context.Saves.FirstOrDefaultAsync(s => s.PinId == id && s.UserId == userId);
         if (save == null) return NotFound();
 
