@@ -65,6 +65,11 @@ public class ApplicationDbContext : DbContext
     /// Relation records linking pins to the tags attached to them.
     /// </summary>
     public DbSet<PinTag> PinTags => Set<PinTag>();
+    /// Notifications sent to users in the application.
+    /// </summary>
+    public DbSet<Notification> Notifications => Set<Notification>();
+
+    /// <summary>
     /// Privacy settings for each user.
     /// </summary>
     public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
@@ -93,7 +98,7 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        TegsSeedData.Seed(modelBuilder);
         modelBuilder.Entity<Interest>().HasData(InterestSeedData.Default);
 
         modelBuilder.Entity<UserInterest>(entity =>

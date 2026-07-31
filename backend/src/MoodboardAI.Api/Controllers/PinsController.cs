@@ -6,6 +6,7 @@ using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Models;
 
 namespace MoodboardAI.Api.Controllers;
+
 [ApiController]
 [Route("api/pins")]
 public class PinsController : ControllerBase
@@ -26,7 +27,7 @@ public class PinsController : ControllerBase
             .Include(p => p.Author)
             .Include(p => p.Likes)
             .FirstOrDefaultAsync(p => p.Id == id);
-            
+
         if (pin == null) return NotFound();
 
         return Ok(new
@@ -43,17 +44,19 @@ public class PinsController : ControllerBase
             pin.CreatedAt
         });
     }
-    
+
     [Authorize]
     [HttpPost("{id}/like")]
     public async Task<IActionResult> LikePin(Guid id)
     {
+
         var userIdString = User.FindFirstValue("sub");
         if (string.IsNullOrEmpty(userIdString))
         {
             return Unauthorized();
         }
         var userId = Guid.Parse(userIdString);
+
         var pin = await _context.Pins.FindAsync(id);
         if (pin == null) return NotFound();
 
@@ -70,12 +73,14 @@ public class PinsController : ControllerBase
     [HttpDelete("{id}/like")]
     public async Task<IActionResult> UnlikePin(Guid id)
     {
+
         var userIdString = User.FindFirstValue("sub");
         if (string.IsNullOrEmpty(userIdString))
         {
             return Unauthorized();
         }
         var userId = Guid.Parse(userIdString);
+
         var like = await _context.Likes.FirstOrDefaultAsync(l => l.PinId == id && l.UserId == userId);
         if (like == null) return NotFound();
 
@@ -89,6 +94,7 @@ public class PinsController : ControllerBase
     [HttpPost("{id}/save")]
     public async Task<IActionResult> SavePin(Guid id)
     {
+
         var userIdString = User.FindFirstValue("sub");
         if (string.IsNullOrEmpty(userIdString))
         {
@@ -101,21 +107,24 @@ public class PinsController : ControllerBase
         var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == userId);
         if(exists) return BadRequest("Already saved.");
 
+
         _context.Saves.Add(new Save { PinId = id, UserId = userId });
         await _context.SaveChangesAsync();
         return Ok();
     }
-    
+
     [Authorize]
     [HttpDelete("{id}/save")]
     public async Task<IActionResult> UnsavePin(Guid id)
     {
+
         var userIdString = User.FindFirstValue("sub");
         if (string.IsNullOrEmpty(userIdString))
         {
             return Unauthorized();
         }
         var userId = Guid.Parse(userIdString);
+
         var save = await _context.Saves.FirstOrDefaultAsync(s => s.PinId == id && s.UserId == userId);
         if (save == null) return NotFound();
 
