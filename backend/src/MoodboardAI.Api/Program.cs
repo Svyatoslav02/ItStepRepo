@@ -137,6 +137,20 @@ builder.Services.AddSwaggerGen(options =>
 });
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .WithMethods("GET", "POST", "PUT", "DELETE")
+              .WithHeaders("Content-Type", "Authorization");
+    });
+});
+
 var app = builder.Build();
 
 // Automatically apply any pending EF Core migrations against the configured
@@ -149,7 +163,7 @@ if (app.Environment.IsDevelopment())
 {
     using var migrationScope = app.Services.CreateScope();
     var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
+    //dbContext.Database.Migrate(); // TODO: PendingModelChangesWarning — migration history desync, see PR notes / ask curator
 }
 
 // Catches unhandled exceptions from everything below and turns them into a
@@ -168,6 +182,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("FrontendPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
