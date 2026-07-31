@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace MoodboardAI.Api.Models;
 
@@ -9,7 +9,9 @@ public enum NotificationTypeEnum
 {
     Like,
     Comment,
-    Follow,
+    NewFollower,
+    Invite,
+    Recommendation,
     Tag,
     Update,
     BoardActivity

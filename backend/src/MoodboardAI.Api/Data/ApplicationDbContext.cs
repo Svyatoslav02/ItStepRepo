@@ -65,6 +65,7 @@ public class ApplicationDbContext : DbContext
     /// Relation records linking pins to the tags attached to them.
     /// </summary>
     public DbSet<PinTag> PinTags => Set<PinTag>();
+    /// <summary>
     /// Notifications sent to users in the application.
     /// </summary>
     public DbSet<Notification> Notifications => Set<Notification>();
@@ -172,6 +173,13 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Notification: indexes support unread-first list queries and type filtering.
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasIndex(n => new { n.UserId, n.IsRead, n.CreatedAt });
+            entity.HasIndex(n => new { n.UserId, n.Type, n.CreatedAt });
         });
     }
 }

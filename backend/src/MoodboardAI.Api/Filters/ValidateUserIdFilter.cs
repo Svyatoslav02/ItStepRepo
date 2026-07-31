@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Security.Claims;
 
 namespace MoodboardAI.Api.Filters;
 
@@ -35,7 +36,11 @@ public class ValidateUserIdFilter : IAuthorizationFilter
             return;
         }
 
-        var userIdString = context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        // JwtTokenService issues "sub"; MapInboundClaims=false keeps it as "sub"
+        // rather than remapping to ClaimTypes.NameIdentifier.
+        var userIdString = context.HttpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
+            ?? context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? context.HttpContext.User.FindFirstValue("sub");
 
         // If the user ID is missing or invalid, return an unauthorized response
         if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
