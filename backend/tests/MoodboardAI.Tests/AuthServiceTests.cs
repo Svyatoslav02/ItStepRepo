@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.DTOs.Auth;
 using MoodboardAI.Api.Services;
-using NSubstitute;
 using Xunit;
+using NSubstitute;
 
 namespace MoodboardAI.Tests;
 
