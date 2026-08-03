@@ -135,7 +135,8 @@ builder.Services.AddSwaggerGen(options =>
         { bearerScheme, Array.Empty<string>() }
     });
 });
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//Json conectiong string 
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
