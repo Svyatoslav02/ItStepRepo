@@ -1,30 +1,51 @@
 name: Claude PR Review
 
-permissions:
-  contents: read
-  pull-requests: write
-  issues: read
-  id-token: write
-
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
 jobs:
   review:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: anthropics/claude-code-action@v1
+      - name: Claude PR Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
-            Проаналізуй зміни в цьому PR (diff). Знайди потенційні баги,
-            проблеми з іменуванням, відсутню обробку помилок, тести, що
-            не покривають edge cases. Постав рівень важливості кожного
-            зауваження: CRITICAL, HIGH, MEDIUM, LOW. Будь конкретним —
-            посилайся на файли та номери рядків. НЕ вноси зміни в код,
-            лише залиш коментар з рев'ю.
+            Проаналізуй лише зміни в цьому pull request.
+
+            Знайди:
+            - потенційні баги;
+            - проблеми з іменуванням;
+            - відсутню обробку помилок;
+            - edge cases, які не покриті тестами.
+
+            Для кожного зауваження вкажи рівень:
+            CRITICAL, HIGH, MEDIUM або LOW.
+
+            Посилайся на конкретні файли та рядки.
+            Не змінюй код.
+            Залиш результат як коментар у pull request.
+
+      - name: Show Claude execution output
+        if: always()
+        shell: bash
+        run: |
+          echo "Searching for Claude execution output..."
+
+          find "${RUNNER_TEMP}" -name "claude-execution-output.json" \
+            -type f -print -exec cat {} \; || true
