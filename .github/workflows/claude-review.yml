@@ -1,0 +1,30 @@
+name: Claude PR Review
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+  id-token: write
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Проаналізуй зміни в цьому PR (diff). Знайди потенційні баги,
+            проблеми з іменуванням, відсутню обробку помилок, тести, що
+            не покривають edge cases. Постав рівень важливості кожного
+            зауваження: CRITICAL, HIGH, MEDIUM, LOW. Будь конкретним —
+            посилайся на файли та номери рядків. НЕ вноси зміни в код,
+            лише залиш коментар з рев'ю.
