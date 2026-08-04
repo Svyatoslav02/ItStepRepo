@@ -21,14 +21,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Database (Supabase PostgreSQL via Npgsql).
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Database (Supabase PostgreSQL via Npgsql). Integration tests run under the
+// "Testing" environment and register an in-memory provider instead.
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddControllers(options =>
 {
@@ -254,3 +259,8 @@ static void LoadDotEnvFile()
         directory = directory.Parent;
     }
 }
+
+/// <summary>
+/// Partial Program class so integration tests can use <c>WebApplicationFactory&lt;Program&gt;</c>.
+/// </summary>
+public partial class Program;
