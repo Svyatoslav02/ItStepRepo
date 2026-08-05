@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using MoodboardAI.Api.Configuration;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Services;
+using MoodboardAI.Api.Filters;
 
 // Load variables from a .env file (if one exists anywhere above the current
 // working directory) into the process environment before configuration is
@@ -20,19 +21,28 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Database (Supabase PostgreSQL via Npgsql).
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Database (Supabase PostgreSQL via Npgsql). Integration tests run under the
+// "Testing" environment and register an in-memory provider instead.
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IUserService, MockUserService>();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidateUserIdFilter>();
+});
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserService, UserService>();
-
 
 // JWT settings from configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
@@ -130,6 +140,22 @@ builder.Services.AddSwaggerGen(options =>
         { bearerScheme, Array.Empty<string>() }
     });
 });
+//Json conectiong string 
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .WithMethods("GET", "POST", "PUT", "DELETE")
+              .WithHeaders("Content-Type", "Authorization");
+    });
+});
 
 var app = builder.Build();
 
@@ -143,7 +169,7 @@ if (app.Environment.IsDevelopment())
 {
     using var migrationScope = app.Services.CreateScope();
     var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
+    //dbContext.Database.Migrate(); // TODO: PendingModelChangesWarning — migration history desync, see PR notes / ask curator
 }
 
 // Catches unhandled exceptions from everything below and turns them into a
@@ -162,6 +188,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("FrontendPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -232,3 +259,8 @@ static void LoadDotEnvFile()
         directory = directory.Parent;
     }
 }
+
+/// <summary>
+/// Partial Program class so integration tests can use <c>WebApplicationFactory&lt;Program&gt;</c>.
+/// </summary>
+public partial class Program;

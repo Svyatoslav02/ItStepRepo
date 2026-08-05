@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
 import "../styles/index.css";
 import "../index.css";
+import { authService } from "../services/authService";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setServerError("");
         const newErrors = {};
 
         if (!email) newErrors.email = "Email is required";
@@ -23,9 +28,19 @@ const LoginPage = () => {
 
         setErrors(newErrors);
 
-        if (Object.keys(newErrors).length === 0) {
-            console.log("Login successful");
+        if (Object.keys(newErrors).length > 0) return;
+        
+        setIsLoading(true);
+        try {
+            const result = await authService.login(email, password);
+            localStorage.setItem("authToken", result.token);
+            navigate("/loading");
+        } catch (err) {
+            setServerError("Невірний email або пароль");
+        } finally {
+            setIsLoading(false);
         }
+
     };
 
     return (
@@ -70,16 +85,19 @@ const LoginPage = () => {
                             <p className="text-red-400 text-xs mt-1">{errors.password}</p>
                         )}
                     </div>
-
+                    {serverError && (
+                        <p className="text-red-400 text-xs text-center">{serverError}</p>
+                    )}
                     <p className="text-sm text-center text-gray cursor-pointer hover:text-indigo-400">
                         Forgot your password?
                     </p>
 
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="w-full py-3 rounded-full font-medium bg-indigo-600 hover:bg-indigo-700"
                     >
-                        Log in
+                        {isLoading ? "Вхід..." : "Log in"}
                     </button>
 
                     <p className="text-center text-sm text-gray">
