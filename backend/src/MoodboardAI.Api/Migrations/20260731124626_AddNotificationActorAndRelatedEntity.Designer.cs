@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260720091850_AddRecentSearches")]
-    partial class AddRecentSearches
+    [Migration("20260731124626_AddNotificationActorAndRelatedEntity")]
+    partial class AddNotificationActorAndRelatedEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,6 +171,118 @@ namespace MoodboardAI.Api.Migrations
                             Icon = "prints",
                             Name = "Prints"
                         });
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("RelatedEntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "IsRead", "CreatedAt");
+
+                    b.HasIndex("UserId", "Type", "CreatedAt");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.NotificationPreference", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("EmailComments")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EmailFriendRequests")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EmailLikes")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EmailMentions")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EmailRecommendations")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EmailTags")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EmailUpdates")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushComments")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushFriendRequests")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushLikes")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushMentions")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushRecommendations")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushTags")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PushUpdates")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("QuietMode")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("NotificationPreferences");
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
@@ -419,6 +531,17 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("Blocker");
                 });
 
+            modelBuilder.Entity("MoodboardAI.Api.Models.NotificationPreference", b =>
+                {
+                    b.HasOne("MoodboardAI.Api.Models.UserEntity", "User")
+                        .WithOne("NotificationPreference")
+                        .HasForeignKey("MoodboardAI.Api.Models.NotificationPreference", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
                     b.HasOne("MoodboardAI.Api.Models.UserEntity", "Author")
@@ -501,6 +624,11 @@ namespace MoodboardAI.Api.Migrations
             modelBuilder.Entity("MoodboardAI.Api.Models.Pin", b =>
                 {
                     b.Navigation("PinTags");
+                });
+
+            modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
+                {
+                    b.Navigation("NotificationPreference");
                 });
 #pragma warning restore 612, 618
         }

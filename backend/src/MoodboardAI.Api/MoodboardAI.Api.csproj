@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>MoodboardAI.Api</RootNamespace>
+    <UserSecretsId>5771b5ed-3794-410c-b1ed-1deb08286a79</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

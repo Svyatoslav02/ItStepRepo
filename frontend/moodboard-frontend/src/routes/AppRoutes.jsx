@@ -1,6 +1,10 @@
 ﻿import { Routes, Route } from 'react-router-dom'
 import LoadingScreen from '../pages/LoadingScreen'
 import InspirationLoading from '../pages/InspirationLoading'
+import HomePage from '../pages/HomePage'
+import InterestsPage from '../pages/InterestsPage.jsx'
+import DiscoverPage from '../pages/DiscoverPage.jsx'
+import InspirationLoading from '../pages/InspirationLoading'
 import SignUpPage from '../pages/SignUpPage'
 import LoginPage from '../pages/LoginPage.jsx'
 import HomePage from '../pages/HomePage'
@@ -15,6 +19,12 @@ export default function AppRoutes() {
             <Route path="/inspiration" element={<InspirationLoading />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/loading" element={<LoadingScreen />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/interests" element={<InterestsPage />} />
+            <Route path="/discover" element={<DiscoverPage />} />
+            <Route path="/welcome" element={<Home />} />
+            <Route path="*" element={<Home />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />

@@ -5,6 +5,7 @@ import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
 import "../styles/index.css";
 import "../index.css";
+import { authService } from "../services/authService";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -13,8 +14,9 @@ const LoginPage = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setServerError("");
         const newErrors = {};
 
         if (!email) newErrors.email = "Email is required";
@@ -28,6 +30,7 @@ const LoginPage = () => {
             console.log("Login successful");
             navigate("/home");
         }
+
     };
 
     return (
@@ -72,16 +75,19 @@ const LoginPage = () => {
                             <p className="text-red-400 text-xs mt-1">{errors.password}</p>
                         )}
                     </div>
-
+                    {serverError && (
+                        <p className="text-red-400 text-xs text-center">{serverError}</p>
+                    )}
                     <p className="text-sm text-center text-gray cursor-pointer hover:text-indigo-400">
                         Forgot your password?
                     </p>
 
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="w-full py-3 rounded-full font-medium bg-indigo-600 hover:bg-indigo-700"
                     >
-                        Log in
+                        {isLoading ? "Вхід..." : "Log in"}
                     </button>
 
                     <p className="text-center text-sm text-gray">

@@ -1,0 +1,56 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude PR Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review only the changes in this pull request.
+
+            Find:
+            - potential bugs;
+            - naming problems;
+            - missing error handling;
+            - edge cases not covered by tests.
+
+            Assign one severity level to each finding:
+            CRITICAL, HIGH, MEDIUM, or LOW.
+
+            Reference exact files and line numbers.
+            Do not modify the code.
+            Post the result as a pull request comment.
+          claude_args: |
+            --max-turns 10
+
+      - name: Show Claude execution output
+        if: always()
+        shell: bash
+        run: |
+          echo "Searching for Claude execution output..."
+
+          find "${RUNNER_TEMP}" \
+            -name "claude-execution-output.json" \
+            -type f \
+            -print \
+            -exec cat {} \; || true
