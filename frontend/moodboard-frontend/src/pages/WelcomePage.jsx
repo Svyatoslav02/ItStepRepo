@@ -4,23 +4,22 @@ import "../styles/WelcomePage.css";
 const images = Array.from({ length: 6 }, (_, i) => `src/assets/images/welcome-page-${i + 1}.jpg`);
 
 const WelcomePage = () => {
-    const [currentStep, setCurrentStep] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const handleNext = () => {
-        console.log("Next step");
+        console.log("Next step"); //TODO: Implement navigation to the next page when its done
     };
 
     const handleSkip = () => {
-        console.log("Skip onboarding");
+        console.log("Skip onboarding"); //TODO: Implement navigation to the next page when its done
     };
 
     const handlePrevious = () => {
-        setCurrentStep(Math.max(0, currentStep - 1));
+        console.log("Previous step"); //TODO: Implement navigation to the previous page when its done
     };
 
     const handleNavNext = () => {
-        setCurrentStep(Math.min(2, currentStep + 1));
+        console.log("Next step"); //TODO: Implement navigation to the next page when its done
     };
 
     useEffect(() => {
@@ -38,7 +37,7 @@ const WelcomePage = () => {
     
     return (
         <div className="ink-onboarding">
-            {/* Header Navigation */}
+            {/* Header */}
             <div className="onboarding-header">
                 <button className="nav-chevron" onClick={handlePrevious}>
                     ‹
@@ -51,9 +50,7 @@ const WelcomePage = () => {
 
             {/* Main Content */}
             <div className="onboarding-container">
-                {/* Left Column - Text Content (Mobile: Top, Desktop: Left) */}
                 <div className="content-column">
-                    {/* Step Indicator */}
                     <div className="step-indicator">
                         <span>Step 1 of 2</span>
                     </div>
@@ -71,6 +68,7 @@ const WelcomePage = () => {
                     {!isMobile && buttons}
                 </div>
 
+                {/* Image Grid */}
                 <div className="image-column">
                     <div className="image_grid">
                         {images.map((src, i) => (

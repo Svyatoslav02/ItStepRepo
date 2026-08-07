@@ -1,4 +1,4 @@
-﻿/* ==================== VARIABLES & RESET ==================== */
+﻿/* ==================== VARIABLES ==================== */
 :root {
     --color-bg-dark: #0F1C2B;
     --color-bg-darker: #00080E;
@@ -80,7 +80,7 @@
     align-items: center;
     gap: var(--spacing-2xl);
     padding: 0 var(--spacing-2xl);
-    min-height: 0; /* critical: prevents flex child from overflowing */
+    min-height: 0;
 }
 
 /* ==================== CONTENT COLUMN ==================== */
@@ -191,7 +191,7 @@
 /* ==================== IMAGE COLUMN ==================== */
 .image-column {
     flex: 1;
-    min-width: 0; /* critical: prevents flex overflow */
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -199,12 +199,9 @@
 }
 
 /* ==================== IMAGE GRID ==================== */
-
 .image_grid {
     display: grid;
-    /* Бокові колонки однакові, центральна ширша (пропорція 300:550:300) */
     grid-template-columns: 300fr 550fr 300fr;
-    /* Ділимо висоту на 6 рівних частин для більшої гнучкості */
     grid-template-rows: repeat(5, 1fr);
     gap: 12px;
     width: 100%;
@@ -214,7 +211,6 @@
     box-sizing: border-box;
 }
 
-/* Спільні стилі для карток */
 .image-cell {
     position: relative;
     overflow: hidden;
@@ -231,9 +227,6 @@
     display: block;
 }
 
-/* --- ПОЗИЦІОНУВАННЯ КАРТОК (Сітка 3х6) --- */
-
-/* --- ПЕРША КОЛОНКА (Ліва) --- */
 .image-1 {
     grid-column: 1;
     grid-row: 1 / span 2;
@@ -249,26 +242,22 @@
     grid-row: 1 / span 3;
 }
 
-/* Нижня картинка з пошуком: тепер зміщена максимально вниз (займає останні 2 рядки) */
-.image-5 {
-    grid-column: 2;
-    grid-row: 5 / span 2;
-}
-
-/* --- ТРЕТЯ КОЛОНКА (Права) --- */
-/* Верхня картинка: ділить колонку навпіл (3 з 6 рядків) */
 .image-4 {
     grid-column: 1;
     grid-row: 3 / span 4;
 }
 
-/* Нижня картинка: займає залишок (з 4 по 6 рядок) */
+.image-5 {
+    grid-column: 2;
+    grid-row: 5 / span 2;
+}
+
 .image-6 {
     grid-column: 3;
     grid-row: 4 / span 3;
 }
 
-
+/* ==================== SEARCH LAYER ==================== */
 .search-layer {
     position: absolute;
     inset: 0;
@@ -276,7 +265,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
     display: flex;
-    align-items: center;      /* по центру вертикально */
+    align-items: center;
     justify-content: center;
 }
 
@@ -301,14 +290,9 @@
 
 /* ==================== TABLET ==================== */
 @media (max-width: 768px) {
-    
     .ink-onboarding {
         height: 100dvh;
         overflow-y: auto;
-    }
-
-    .onboarding-header {
-        padding: var(--spacing-2xl);
     }
 
     .onboarding-container {
@@ -317,6 +301,10 @@
         align-items: stretch;
         gap: var(--spacing-lg);
         padding: var(--spacing-lg) var(--spacing-md) var(--spacing-xl);
+    }
+    
+    .onboarding-header {
+        padding: var(--spacing-2xl);
     }
 
     .content-column {
@@ -342,9 +330,7 @@
 
     .image_grid {
         display: grid;
-        /* Бокові колонки однакові, центральна ширша (пропорція 300:550:300) */
         grid-template-columns: 230fr 230fr 230fr;
-        /* Ділимо висоту на 6 рівних частин для більшої гнучкості */
         grid-template-rows: repeat(4, 1fr);
     }
 
@@ -363,26 +349,22 @@
         grid-row: 1 / span 2;
     }
 
-    /* Нижня картинка з пошуком: тепер зміщена максимально вниз (займає останні 2 рядки) */
-    .image-5 {
-        grid-column: 2;
-        grid-row: 4 / span 3;
-    }
-
-    /* --- ТРЕТЯ КОЛОНКА (Права) --- */
-    /* Верхня картинка: ділить колонку навпіл (3 з 6 рядків) */
     .image-4 {
         grid-column: 1;
         grid-row: 3 / span 4;
     }
-
-    /* Нижня картинка: займає залишок (з 4 по 6 рядок) */
+    
+    .image-5 {
+        grid-column: 2;
+        grid-row: 4 / span 3;
+    }
+    
     .image-6 {
         grid-column: 3;
         grid-row: 3 / span 4;
     }
-    
 
+    /* ==================== ACTION BUTTONS ==================== */
     .action-buttons {
         padding-top: var(--spacing-md);
         padding-bottom: 60px;
@@ -397,9 +379,9 @@
         padding: 13px 12px;
     }
 
+    /* ==================== SEARCH LAYER ==================== */
     .search-layer {
         align-items: flex-end;
         padding-bottom: 50px;
     }
-    
 }
