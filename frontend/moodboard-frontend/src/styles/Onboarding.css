@@ -13,60 +13,49 @@
 }
 
 /* ========== SIDEBAR ========== */
-.sidebar {
-    width: 136px;
-    height: 100%;
-    background: #0C131C;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+.sidebar,
+.sidebar-bottom {
+    width: 80px;
+    background-color: #0C131C;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
-    flex-shrink: 0;
+    padding: 1rem 0;
 }
 
-.sidebar-top {
-    display: flex;
-    flex-direction: column;
-    gap: 34px;
-    flex: 1;
+.sidebar-icons .icon,
+.sidebar-bottom .icon {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 1.4rem;
+    margin: 1.2rem 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .sidebar-bottom {
-    padding-bottom: 72px;
     margin-top: auto;
 }
 
-.sidebar-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    background: transparent;
-    color: #ECEAE9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.sidebar-icons .icon:hover,
+.sidebar-bottom .icon:hover {
+    color: #a78bfa;
+}
+/* ===== HOVER ===== */
+.sidebar-icons .icon:hover,
+.sidebar-bottom .icon:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
-.sidebar-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-.sidebar-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #e8eaed;
-}
-
-.sidebar-btn.active {
+/* Активна кнопка (якщо буде потрібна) */
+.sidebar-icons .icon.active,
+.sidebar-bottom .icon.active {
+    color: #ffffff;
     background: #6c5ce7;
-    color: white;
-    box-shadow: 0 0 20px rgba(108, 92, 231, 0.4);
+    box-shadow: 0 0 16px rgba(108, 92, 231, 0.4);
 }
-
 /* ========== MAIN ========== */
 .main {
     flex: 1;
@@ -116,21 +105,20 @@
 /* ===========TopBar========== */
 .topbar{
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 40px;
+    left: 16px;
+    right: 16px;
     height: 64px;
-    display: table-row;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 24px;
     z-index: 10;
 }
-.back-btn {
-    position: absolute;
-    top:  41px;
-    left: 16px;
-    width: 48px;
-    height: 48px;
+
+.back-btn, .history-btn {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.06);
@@ -141,54 +129,24 @@
     cursor: pointer;
     transition: all 0.2s ease;
     flex-shrink: 0;
+    padding: 0;
 }
-
-.back-btn svg {
+.back-btn svg,
+.history-btn svg {
     width: 24px;
     height: 24px;
 }
 
-.back-btn:hover {
+.back-btn:hover, .history-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
 }
+
 .app-name {
-    position: absolute;
-    top: 51px;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 20px;
     font-weight: 600;
     color: #FFFFFF;
     letter-spacing: 0.3px;
-}
-
-.history-btn {
-    position: absolute;
-    top: 41px;
-    right: 16px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.06);
-    color: #c4c9d4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 10;
-}
-
-.history-btn svg {
-    width: 22px;
-    height: 22px;
-}
-
-.history-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
 }
 
 /* ========== HERO ========== */
@@ -326,47 +284,52 @@
     border-radius: 16px;
     display: flex;
     align-items: center;
-    padding: 0 16px;
-    gap: 10px;
+    padding: 0 8px 0 16px;
+    gap: 8px;
 }
 
 .placeholder {
     flex: 1;
     font-size: 14px;
-    font-weight: 400;
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.55);
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ask-actions {
     display: flex;
+    align-items: center;
     gap: 2px;
+    flex-shrink: 0;
 }
 
 .icon-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     border: none;
     background: transparent;
-    color: #7a8499;
+    color: #a0a8b8;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
+    padding: 0;
 }
 
 .icon-btn svg {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
+    display: block;
 }
 
 .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.07);
-    color: #c4c9d4;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
 }
-
 /* Next button */
 .next-btn {
     width: 52px;
@@ -398,35 +361,4 @@
 .next-btn.active {
     transform: scale(0.92);
     opacity: 0.85;
-}
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 900px) {
-    .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 400px;
-    }
-}
-
-@media (max-width: 640px) {
-    .sidebar {
-        display: none;
-    }
-
-    .hero {
-        padding: 0 20px;
-    }
-
-    .features-grid {
-        grid-template-columns: 1fr;
-        max-width: 260px;
-    }
-
-    .title {
-        font-size: 24px;
-    }
-
-    .subtitle {
-        font-size: 14px;
-    }
 }
