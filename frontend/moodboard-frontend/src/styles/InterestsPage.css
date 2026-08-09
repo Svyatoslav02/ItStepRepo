@@ -1,220 +1,455 @@
-/* ===== Layout ===== */
-html, body, #root {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+/* ─────────────────────────────────────────────
+   Root
+───────────────────────────────────────────── */
+.ip-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #0b0f1a;
+  color: #fff;
+  font-family: "Inter", system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: left;
 }
 
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #0b0f1a;
-    color: #fff;
-    font-family: "Inter", sans-serif;
-    padding: 0 6%;
-    position: relative;
+/* ─────────────────────────────────────────────
+   Header 
+───────────────────────────────────────────── */
+.ip-header {
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 72px 72px 0;
+  position: relative;
 }
 
-/* ===== Header ===== */
-.header {
-    position: absolute;
-    top: 2rem;
-    left: 6%;
-    right: 6%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.ip-logo {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #b0b0b0;
 }
 
-.step {
-    background-color: #1f2937;
-    color: #9ca3af;
-    font-size: 0.8rem;
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
+.ip-nav-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #6b7280;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.skip {
-    background: none;
-    border: none;
-    color: #9ca3af;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+.ip-header .ip-nav-btn:first-child { left: 0; }
+.ip-header .ip-nav-btn:last-child  { right: 0; }
+
+.ip-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
 }
 
-    .skip:hover {
-        color: #a78bfa;
-    }
-
-/* ===== Center Text Block ===== */
-.text-block {
-    flex: 1;
-    max-width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+/* ─────────────────────────────────────────────
+   Main layout
+───────────────────────────────────────────── */
+.ip-main {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 48px;
+  padding: 72px 72px 173px;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-.title {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: 0.8rem;
-    max-width: 80%;
+/* ─────────────────────────────────────────────
+   Left panel
+───────────────────────────────────────────── */
+.ip-panel {
+  flex: 0 0 492px;
+  width: 492px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  align-self: center;
 }
 
-.subtitle {
-    color: #9ca3af;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    line-height: 1.4;
-    text-align: center;
-    max-width: 85%;
+.ip-step-badge {
+  display: inline-block;
+  background: #6c63ff;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  width: fit-content;
 }
 
-.divider {
-    width: 40px;
-    height: 3px;
-    background-color: #fafafa;
-    border-radius: 2px;
-    margin-bottom: 1.5rem;
+.ip-heading {
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+  color: #fff;
 }
 
-/* ===== Step badge ===== */
-.step-badge {
-    background-color: #7b61ff;
-    color: #fff;
-    font-weight: 600;
-    border-radius: 12px;
-    padding: 6px 12px;
-    font-size: 13px;
-    display: inline-block;
-    margin-bottom: 12px; /* under title */
+.ip-body {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  line-height: 1.65;
+  margin: 0;
 }
 
-/* ===== Right Interests Grid ===== */
-.grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    max-width: 50%;
+.ip-hint {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
 }
 
-.card {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #1e1e2f;
-    border: 1px solid #2e2e4f;
-    border-radius: 12px;
-    width: 120px;
-    height: 120px;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.ip-hint-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
-    .card:hover {
-        border-color: #7c3aed;
-    }
-
-.selected {
-    border-color: #7c3aed;
-    background-color: #2a2f45;
+.ip-hint-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #d1d5db;
+  margin: 0 0 0.15rem;
 }
 
-.card-checkbox {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #7b61ff;
-    border-radius: 4px;
-    cursor: pointer;
+.ip-hint-sub {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
 }
 
-    .card-checkbox:checked {
-        background-color: #7b61ff;
-    }
-
-        .card-checkbox:checked::after {
-            content: "✓";
-            color: #fff;
-            font-size: 14px;
-            position: absolute;
-            top: 1px;
-            left: 4px;
-        }
-
-.card-text {
-    font-size: 14px;
-    font-weight: 500;
+.ip-actions {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
 }
 
-.check {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    color: #7c3aed;
-    font-weight: bold;
+.ip-btn-primary {
+  flex: 1;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  white-space: nowrap;
 }
 
-/* ===== Next Button ===== */
-.nextBtn {
-    width: 50%;
-    margin-top: 2rem;
-    background-color: #7c3aed;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 2.4rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    align-self: center;
+.ip-btn-primary:hover:not(.ip-btn-disabled) { background: #7b72ff; }
+.ip-btn-disabled { opacity: 0.4; cursor: not-allowed; }
+
+.ip-btn-ghost {
+  flex: 1;
+  background: transparent;
+  color: #9ca3af;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
 }
 
-    .nextBtn:hover {
-        background-color: #8b5cf6;
-    }
-
-    .nextBtn.active {
-        background-color: #4f45e3;
-    }
-
-.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+.ip-btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #e5e7eb;
 }
 
-/* ===== Responsive ===== */
+/* ─────────────────────────────────────────────
+   Grid — 4 columns, gap 12px
+   Cards: col-1: 300×400 + 300×300
+          col-2: 300×300 + 300×400 
+          col-3: 300×400 + 300×300
+          col-4: 300×300 + 300×400
+───────────────────────────────────────────── */
+.ip-grid {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 1236px; /* 4×300px + 3×12px gap */
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 300px));
+  gap: 12px;
+  align-self: stretch;
+}
+
+.ip-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.ip-col-1 .ip-card:first-child { flex: 300; }
+.ip-col-1 .ip-card:last-child  { flex: 400; }
+
+.ip-col-2 .ip-card:first-child { flex: 400; }
+.ip-col-2 .ip-card:last-child  { flex: 300; }
+
+.ip-col-3 .ip-card:first-child { flex: 300; }
+.ip-col-3 .ip-card:last-child  { flex: 400; }
+
+.ip-col-4 .ip-card:first-child { flex: 400; }
+.ip-col-4 .ip-card:last-child  { flex: 300; }
+
+/* ─────────────────────────────────────────────
+   Cards
+───────────────────────────────────────────── */
+.ip-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: #141824;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  min-height: 0;
+}
+
+.ip-card:hover { border-color: rgba(255, 255, 255, 0.22); }
+
+.ip-card-selected {
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 1px #6c63ff, 0 0 18px rgba(108, 99, 255, 0.25);
+}
+
+.ip-card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.45);
+}
+
+.ip-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ip-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+.ip-card-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  z-index: 1;
+  padding: 0.5rem;
+}
+
+.ip-card-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.ip-card-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.ip-checkmark {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 2;
+}
+
+.ip-checkmark-active {
+  background: #6c63ff;
+  border-color: #6c63ff;
+}
+
+.ip-check-icon {
+  font-size: 0.6rem;
+  color: #fff;
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────────────
+   Laptop / smaller screen height
+───────────────────────────────────────────── */
+@media (max-height: 800px) {
+  .ip-header {
+    height: 40px;
+    margin: 32px 48px 0;
+  }
+
+  .ip-main {
+    padding: 32px 48px 60px;
+    gap: 32px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Wide tablet
+───────────────────────────────────────────── */
+@media (max-width: 1280px) {
+  .ip-header {
+    margin: 48px 48px 0;
+  }
+
+  .ip-main {
+    padding: 48px 48px 100px;
+    gap: 32px;
+  }
+
+  .ip-panel {
+    flex: 0 0 260px;
+    width: 260px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .ip-header {
+    margin: 32px 32px 0;
+  }
+
+  .ip-main {
+    padding: 32px 32px 80px;
+    gap: 24px;
+  }
+
+  .ip-panel {
+    flex: 0 0 220px;
+    width: 220px;
+  }
+
+  .ip-grid {
+    grid-template-columns: repeat(4, minmax(0, 240px));
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Tablet — horizontal layout, 3 columns,
+   buttons vertical
+───────────────────────────────────────────── */
 @media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-        text-align: center;
-        padding: 2rem;
-    }
+  .ip-header {
+    margin: 24px 20px 0;
+    height: 44px;
+  }
 
-    .text-block {
-        max-width: 100%;
-        margin-bottom: 2rem;
-    }
+  .ip-main {
+    padding: 24px 20px 48px;
+    gap: 20px;
+    justify-content: flex-start;
+  }
 
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        max-width: 100%;
-    }
+  .ip-panel {
+    flex: 0 0 200px;
+    width: 200px;
+    align-self: center;
+  }
 
-    .nextBtn {
-        position: static;
-        transform: none;
-        margin-top: 2rem;
-    }
+  .ip-actions {
+    flex-direction: column;
+  }
+
+  .ip-btn-primary,
+  .ip-btn-ghost {
+    width: 100%;
+    text-align: center;
+  }
+
+  .ip-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+    flex: 1;
+  }
+
+  .ip-col-4 {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Mobile — vertical layout
+───────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .ip-root {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  .ip-header {
+    margin: 16px 16px 0;
+    height: 40px;
+  }
+
+  .ip-main {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 16px 48px;
+    gap: 16px;
+    justify-content: flex-start;
+  }
+
+  .ip-panel {
+    flex: none;
+    width: 100%;
+  }
+
+  .ip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .ip-col-4 {
+    display: flex;
+  }
+
+  .ip-col .ip-card {
+    flex: none !important;
+    height: 130px;
+  }
 }
