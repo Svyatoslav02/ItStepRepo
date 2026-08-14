@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import '../styles/NotificationsEmail.css';
 
 const NotificationsEmail = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [active, setActive] = useState(false);
+    const navigate = useNavigate();
     const accountPrivacy = [
         { icon: "/assets/icons/security-lock.png", title: "Privacy" },
         { icon: "/assets/icons/bell.png", title: "Notifications Push" },
@@ -41,14 +43,14 @@ const NotificationsEmail = () => {
                 <button className={`icon ${active === "settings" ? "active" : ""}`} onClick={() => setActive("settings")}>
                     <img src="/assets/icons/settings-01.png" alt="Settings" />
                 </button>
-                <button className="icon bottom"><img src="/assets/icons/logout-02.png" alt="Back" /></button>
+                <button className="icon bottom" onClick={() => navigate("/login")}><img src="/assets/icons/logout-02.png" alt="Back" /></button>
             </aside>            
 
             <main className="content">                
                 <header className="header">
                     <div className="header-content">
                         
-                        <button><img src="/assets/icons/arrow-left-01.png" alt="Back" className="back-icon" /></button>
+                        <button onClick={() => navigate("/home")}><img src="/assets/icons/arrow-left-01.png" alt="Back" className="back-icon" /></button>
                             <h3>Settings</h3>
                         
                         

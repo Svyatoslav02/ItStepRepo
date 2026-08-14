@@ -1,3 +1,17 @@
+/* ===== Global reset ===== */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0b0f1a;
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 /* ===== All font styles ===== */
 .settings-page {
     display: flex;
