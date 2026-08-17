@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.DTOs.Interests;
+using MoodboardAI.Api.DTOs.Privacy;
 using MoodboardAI.Api.DTOs.Users;
 
 namespace MoodboardAI.Api.Services;
@@ -22,6 +23,7 @@ public class UserService : IUserService
         _dbContext = dbContext;
     }
 
+    /// <inheritdoc />
     /// <inheritdoc />
     public UserProfileDto? GetCurrentUser(string userId)
     {
@@ -51,6 +53,19 @@ public class UserService : IUserService
             })
             .ToList();
 
+        var privacySettings = _dbContext.UserPrivacySettings
+            .AsNoTracking()
+            .FirstOrDefault(p => p.UserId == id);
+
+        var privacy = privacySettings is null
+            ? new PrivacySettingsDto { PrivateAccount = false, SearchVisibility = true, ContentVisibility = true }
+            : new PrivacySettingsDto
+            {
+                PrivateAccount = privacySettings.PrivateAccount,
+                SearchVisibility = privacySettings.SearchVisibility,
+                ContentVisibility = privacySettings.ContentVisibility
+            };
+
         return new UserProfileDto
         {
             Id = user.Id.ToString(),
@@ -58,7 +73,8 @@ public class UserService : IUserService
             Email = user.Email,
             AvatarUrl = user.AvatarUrl,
             SelectedInterests = selectedInterests,
-            IsOnboardingCompleted = user.IsOnboardingCompleted
+            IsOnboardingCompleted = user.IsOnboardingCompleted,
+            Privacy = privacy
         };
     }
 
@@ -69,5 +85,61 @@ public class UserService : IUserService
     public Guid GetCurrentUserId()
     {
         return Guid.NewGuid();
+    }
+
+    /// <inheritdoc />
+    public async Task<UpdateUserProfileResultDto> UpdateCurrentUserAsync(string userId, UpdateUserProfileDto request)
+    {
+        if (!Guid.TryParse(userId, out var id))
+        {
+            return new UpdateUserProfileResultDto { Succeeded = false, ErrorMessage = "Invalid user id." };
+        }
+
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user is null)
+        {
+            return new UpdateUserProfileResultDto { Succeeded = false, ErrorMessage = "User not found." };
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Email))
+        {
+            var normalizedEmail = request.Email.Trim().ToLowerInvariant();
+
+            var emailTaken = await _dbContext.Users
+                .AnyAsync(u => u.Id != id && u.Email.ToLower() == normalizedEmail);
+
+            if (emailTaken)
+            {
+                return new UpdateUserProfileResultDto
+                {
+                    Succeeded = false,
+                    ErrorMessage = "A user with this email already exists."
+                };
+            }
+
+            user.Email = request.Email.Trim();
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.FullName))
+        {
+            user.FullName = request.FullName.Trim();
+        }
+
+        if (request.AvatarUrl is not null)
+        {
+            var trimmedAvatarUrl = request.AvatarUrl.Trim();
+            user.AvatarUrl = trimmedAvatarUrl.Length == 0 ? null : trimmedAvatarUrl;
+        }
+
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync();
+
+        return new UpdateUserProfileResultDto
+        {
+            Succeeded = true,
+            Profile = GetCurrentUser(userId)
+        };
     }
 }
