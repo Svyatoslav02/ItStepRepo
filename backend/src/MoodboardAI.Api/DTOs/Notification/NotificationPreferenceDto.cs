@@ -84,12 +84,14 @@ public class NotificationPreferenceDto : IValidatableObject
     public TimeSpan? QuietModeEnd { get; set; }
 
     /// <summary>
-    /// Validates the DTO. Since every field is an optional <see cref="bool"/> used for
-    /// partial updates, [Required]/[Range]-style attributes cannot express what an
-    /// "invalid" payload means here. The one payload that is genuinely invalid for a
-    /// PUT is an empty one (no fields set at all) — it carries no update intent and
-    /// would otherwise silently no-op. That case is rejected with a 400.
+    /// Validates the DTO. Since this DTO is used for partial updates, 
+    /// it allows for null values. However, at least one field must be 
+    /// provided for the update to be valid.
+    /// Validates that if QuietModeStart is provided, QuietModeEnd must 
+    /// also be provided, and vice versa.    
     /// </summary>
+    /// <param name="validationContext">The context in which the validation is performed.</param>
+    /// <returns>An enumerable of validation results.</returns>
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         var hasAnyValue =
@@ -99,13 +101,20 @@ public class NotificationPreferenceDto : IValidatableObject
             EmailLikes.HasValue || EmailComments.HasValue || EmailTags.HasValue ||
             EmailFriendRequests.HasValue || EmailUpdates.HasValue || EmailRecommendations.HasValue ||
             EmailMentions.HasValue ||
-            QuietMode.HasValue;
+            QuietMode.HasValue || QuietModeStart.HasValue || QuietModeEnd.HasValue;
 
         if (!hasAnyValue)
         {
             yield return new ValidationResult(
                 "At least one notification preference field must be provided.",
                 new[] { nameof(NotificationPreferenceDto) });
+        }
+
+        if (QuietModeStart.HasValue && QuietModeEnd.HasValue)
+        {
+            yield return new ValidationResult(
+                "Both quiet mode start and end times must be provided.",
+                new[] { nameof(QuietModeStart), nameof(QuietModeEnd) });
         }
     }
 }
