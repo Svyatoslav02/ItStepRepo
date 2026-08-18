@@ -8,6 +8,7 @@ import HomePage from '../pages/HomePage'
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
 import WelcomePage from "../pages/WelcomePage.jsx";
+import ContentPreferences from '../pages/ContentPreferences.jsx'
 
 export default function AppRoutes() {
     return (
@@ -21,6 +22,8 @@ export default function AppRoutes() {
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
             <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/welcome" element={<Home />} />
+            <Route path="/content-preferences" element={<ContentPreferences />} />
             <Route path="*" element={<Home />} />
         </Routes>
     )
