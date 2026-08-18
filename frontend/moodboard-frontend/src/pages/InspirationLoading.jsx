@@ -10,11 +10,11 @@ const InspirationLoading = () => {
 
     const handleNextClick = () => {
         setActive(true);
-        navigate("/interests"); // Navigate to InterestPage
+        navigate("/login");
     };
 
     const handleSkipClick = () => {
-        navigate("/signup"); // Navigate to SignUp page
+        navigate("/login");
     };
 
     return (
