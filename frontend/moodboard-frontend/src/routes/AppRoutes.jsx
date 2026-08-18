@@ -11,6 +11,7 @@ import HomePage from '../pages/HomePage'
 import Home from '../pages/Home'
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
+import WelcomePage from "../pages/WelcomePage.jsx";
 
 export default function AppRoutes() {
     return (
@@ -23,7 +24,7 @@ export default function AppRoutes() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/welcome" element={<Home />} />
+            <Route path="/welcome" element={<WelcomePage />} />
             <Route path="*" element={<Home />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/interests" element={<InterestsPage />} />
