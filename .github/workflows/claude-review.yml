@@ -43,7 +43,6 @@ jobs:
             Post the result as a pull request comment.
           claude_args: |
             --max-turns 10
-            --debug
 
       - name: Show Claude execution output
         if: always()
