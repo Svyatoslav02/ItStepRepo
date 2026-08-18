@@ -87,13 +87,20 @@ public class NotificationPreferenceDto : IValidatableObject
             EmailLikes.HasValue || EmailComments.HasValue || EmailTags.HasValue ||
             EmailFriendRequests.HasValue || EmailUpdates.HasValue || EmailRecommendations.HasValue ||
             EmailMentions.HasValue ||
-            QuietMode.HasValue;
+            QuietMode.HasValue || QuietModeStart.HasValue || QuietModeEnd.HasValue;
 
         if (!hasAnyValue)
         {
             yield return new ValidationResult(
                 "At least one notification preference field must be provided.",
                 new[] { nameof(NotificationPreferenceDto) });
+        }
+
+        if (QuietModeStart.HasValue && QuietModeEnd.HasValue)
+        {
+            yield return new ValidationResult(
+                "Both quiet mode start and end times must be provided.",
+                new[] { nameof(QuietModeStart), nameof(QuietModeEnd) });
         }
     }
 }
