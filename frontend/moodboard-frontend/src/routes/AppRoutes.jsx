@@ -7,6 +7,7 @@ import InspirationLoading from '../pages/InspirationLoading'
 import HomePage from '../pages/HomePage'
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
+import WelcomePage from "../pages/WelcomePage.jsx";
 import AiWelcome from '../pages/AiWelcome.jsx'
 
 export default function AppRoutes() {
@@ -20,6 +21,7 @@ export default function AppRoutes() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
+            <Route path="/welcome" element={<WelcomePage />} />
             <Route path="/welcome" element={<Home />} />
             <Route path="/ai-welcome" element={<AiWelcome />} />
             <Route path="*" element={<Home />} />
