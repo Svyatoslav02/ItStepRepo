@@ -37,3 +37,32 @@ public class BlockUserRequestDto
 {
     public Guid UserId { get; set; }
 }
+
+/// <summary>
+/// Full data export for a single user, returned by
+/// <c>POST /api/users/me/data-export</c>. Never includes the password hash.
+/// </summary>
+public class UserDataExportDto
+{
+    public UserProfileExportDto Profile { get; set; } = new();
+    public PrivacySettingsDto PrivacySettings { get; set; } = new();
+    public List<string> LikedPinTitles { get; set; } = new();
+    public List<string> SavedPinTitles { get; set; } = new();
+    public List<string> BlockedUsernames { get; set; } = new();
+    public DateTime ExportedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+/// <summary>
+/// Profile fields included in a data export (excludes password hash).
+/// </summary>
+public class UserProfileExportDto
+{
+    public Guid Id { get; set; }
+    public string FullName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
+    public string? DisplayName { get; set; }
+    public string? Bio { get; set; }
+    public string? AvatarUrl { get; set; }
+    public DateTime CreatedAt { get; set; }
+}
