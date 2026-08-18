@@ -25,6 +25,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
           prompt: |
             Review only the changes in this pull request.
 
@@ -42,6 +43,7 @@ jobs:
             Post the result as a pull request comment.
           claude_args: |
             --max-turns 10
+            --debug
 
       - name: Show Claude execution output
         if: always()
