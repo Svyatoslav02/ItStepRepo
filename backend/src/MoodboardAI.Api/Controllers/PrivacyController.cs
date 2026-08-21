@@ -181,17 +181,63 @@ public class PrivacyController : ControllerBase
     // ──────────────────────────────────────────────
 
     /// <summary>
-    /// Placeholder endpoint for requesting a data export.
-    /// The actual export logic will be implemented separately.
+    /// Collects the current user's profile, privacy settings, likes, saves
+    /// and blocked users into a single JSON export. Never includes the
+    /// password hash.
     /// </summary>
     [HttpPost("data-export")]
-    public IActionResult RequestDataExport()
+    public async Task<IActionResult> RequestDataExport()
     {
         var userId = GetUserId();
         if (userId == null) return Unauthorized(Error("Invalid token."));
 
-        // TODO: implement actual data export logic
-        return Ok(new { message = "Data export request received. You will be notified when your export is ready." });
+        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId.Value);
+        if (user == null) return NotFound(Error("User not found."));
+
+        var privacySettings = await _db.UserPrivacySettings
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.UserId == userId.Value);
+
+        var likedPinTitles = await _db.Likes
+            .Where(l => l.UserId == userId.Value)
+            .Select(l => l.Pin!.Title)
+            .ToListAsync();
+
+        var savedPinTitles = await _db.Saves
+            .Where(s => s.UserId == userId.Value)
+            .Select(s => s.Pin!.Title)
+            .ToListAsync();
+
+        var blockedUsernames = await _db.BlockedUsers
+            .Where(b => b.BlockerId == userId.Value)
+            .Select(b => b.Blocked.Username)
+            .ToListAsync();
+
+        var export = new UserDataExportDto
+        {
+            Profile = new UserProfileExportDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Username = user.Username,
+                DisplayName = user.DisplayName,
+                Bio = user.Bio,
+                AvatarUrl = user.AvatarUrl,
+                CreatedAt = user.CreatedAt
+            },
+            PrivacySettings = new PrivacySettingsDto
+            {
+                PrivateAccount = privacySettings?.PrivateAccount ?? false,
+                SearchVisibility = privacySettings?.SearchVisibility ?? true,
+                ContentVisibility = privacySettings?.ContentVisibility ?? true
+            },
+            LikedPinTitles = likedPinTitles,
+            SavedPinTitles = savedPinTitles,
+            BlockedUsernames = blockedUsernames
+        };
+
+        return Ok(export);
     }
 
     // ──────────────────────────────────────────────

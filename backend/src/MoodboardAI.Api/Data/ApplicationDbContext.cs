@@ -95,6 +95,11 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public DbSet<RecentSearch> RecentSearches => Set<RecentSearch>();
 
+    /// <summary>
+    /// Comments left by users on pins.
+    /// </summary>
+    public DbSet<Comment> Comments => Set<Comment>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -172,7 +177,7 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(b => b.BlockedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
-        
+
         // Like: зв’язок Pin ↔ User
         modelBuilder.Entity<Like>(entity =>
         {
@@ -189,7 +194,7 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-// Save: зв’язок Pin ↔ User
+        // Save: зв’язок Pin ↔ User
         modelBuilder.Entity<Save>(entity =>
         {
             entity.HasIndex(s => new { s.PinId, s.UserId }).IsUnique();
@@ -221,6 +226,20 @@ public class ApplicationDbContext : DbContext
         {
             entity.HasIndex(n => new { n.UserId, n.IsRead, n.CreatedAt });
             entity.HasIndex(n => new { n.UserId, n.Type, n.CreatedAt });
+        });
+
+        // Comment: Pin ↔ Author (UserEntity)
+        modelBuilder.Entity<Comment>(entity =>
+        {
+            entity.HasOne(c => c.Pin)
+                .WithMany()
+                .HasForeignKey(c => c.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(c => c.Author)
+                .WithMany()
+                .HasForeignKey(c => c.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
