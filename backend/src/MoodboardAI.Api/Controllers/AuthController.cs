@@ -3,6 +3,7 @@ using MoodboardAI.Api.DTOs.Auth;
 using MoodboardAI.Api.Extensions;
 using MoodboardAI.Api.Models;
 using MoodboardAI.Api.Services;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MoodboardAI.Api.Controllers;
 
@@ -10,6 +11,7 @@ namespace MoodboardAI.Api.Controllers;
 /// API controller that exposes authentication endpoints for user registration and login.
 /// </summary>
 [ApiController]
+[EnableRateLimiting("AuthPolicy")]
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {

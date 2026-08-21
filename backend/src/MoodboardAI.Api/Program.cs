@@ -7,6 +7,8 @@ using MoodboardAI.Api.Configuration;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.Services;
 using MoodboardAI.Api.Filters;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 // Load variables from a .env file (if one exists anywhere above the current
 // working directory) into the process environment before configuration is
@@ -184,6 +186,34 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("AuthPolicy", opt =>
+    {
+        opt.PermitLimit = 5;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("SearchPolicy", opt =>
+    {
+        opt.PermitLimit = 30;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        context.HttpContext.Response.ContentType = "application/json";
+        await context.HttpContext.Response.WriteAsJsonAsync(
+            new MoodboardAI.Api.Models.ErrorResponse
+            {
+                Message = "Too many requests. Please try again later."
+            }, cancellationToken);
+    };
+});
+
 var app = builder.Build();
 
 // Automatically apply any pending EF Core migrations against the configured
@@ -216,6 +246,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
