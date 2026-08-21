@@ -17,14 +17,14 @@ All list endpoints use the same query parameters and response shape.
 
 **Query parameters:**
 - `page` — 1-based page number (default: 1)
-- `pageSize` — items per page (default: 10, max: 100)
+- `pageSize` — items per page (default: 20, max: 100)
 
 **Response envelope:**
 ```json
 {
   "items": [],
   "page": 1,
-  "pageSize": 10,
+  "pageSize": 20,
   "totalCount": 143
 }
 ```

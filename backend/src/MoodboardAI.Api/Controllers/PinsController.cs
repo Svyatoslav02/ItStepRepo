@@ -142,10 +142,10 @@ public class PinsController : ControllerBase
         var pin = await _context.Pins.FindAsync(id);
         if (pin == null) return NotFound(new ErrorResponse { Message = "Pin not found." });
 
-        var exists = await _context.Likes.AnyAsync(l => l.PinId == id && l.UserId == userId);
+        var exists = await _context.Likes.AnyAsync(l => l.PinId == id && l.UserId == userId.Value);
         if (exists) return BadRequest(new ErrorResponse { Message = "Already liked." });
 
-        _context.Likes.Add(new Like { PinId = id, UserId = userId });
+        _context.Likes.Add(new Like { PinId = id, UserId = userId.Value });
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -159,7 +159,7 @@ public class PinsController : ControllerBase
         var userId = GetUserId();
         if (userId == null) return Unauthorized();
 
-        var like = await _context.Likes.FirstOrDefaultAsync(l => l.PinId == id && l.UserId == userId);
+        var like = await _context.Likes.FirstOrDefaultAsync(l => l.PinId == id && l.UserId == userId.Value);
         if (like == null) return NotFound(new ErrorResponse { Message = "Like not found." });
 
         _context.Likes.Remove(like);
@@ -178,11 +178,11 @@ public class PinsController : ControllerBase
         var pin = await _context.Pins.FindAsync(id);
         if (pin == null) return NotFound(new ErrorResponse { Message = "Pin not found." });
 
-        var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == userId);
+        var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == userId.Value);
         if (exists) return BadRequest(new ErrorResponse { Message = "Already saved." });
 
 
-        _context.Saves.Add(new Save { PinId = id, UserId = userId });
+        _context.Saves.Add(new Save { PinId = id, UserId = userId.Value });
         await _context.SaveChangesAsync();
         return Ok();
     }
@@ -194,7 +194,7 @@ public class PinsController : ControllerBase
         var userId = GetUserId();
         if (userId == null) return Unauthorized();
 
-        var save = await _context.Saves.FirstOrDefaultAsync(s => s.PinId == id && s.UserId == userId);
+        var save = await _context.Saves.FirstOrDefaultAsync(s => s.PinId == id && s.UserId == userId.Value);
         if (save == null) return NotFound(new ErrorResponse { Message = "Saved pin not found." });
 
         _context.Saves.Remove(save);
@@ -211,12 +211,14 @@ public class PinsController : ControllerBase
     /// Returns the comments posted on a pin, oldest first.
     /// </summary>
     [HttpGet("{id}/comments")]
-    public async Task<IActionResult> GetComments(Guid id)
+    public async Task<IActionResult> GetComments(
+        Guid id,
+        [FromQuery] PaginationQuery pagination)
     {
         var pinExists = await _context.Pins.AnyAsync(p => p.Id == id);
         if (!pinExists) return NotFound(new ErrorResponse { Message = "Pin not found." });
 
-        var comments = await _context.Comments
+        var commentsQuery = _context.Comments
             .Where(c => c.PinId == id)
             .OrderBy(c => c.CreatedAt)
             .Select(c => new CommentDto
@@ -226,10 +228,13 @@ public class PinsController : ControllerBase
                 AuthorId = c.AuthorId,
                 AuthorUsername = c.Author.Username,
                 CreatedAt = c.CreatedAt
-            })
-            .ToListAsync();
+            });
 
-        return Ok(comments);
+        var result = await commentsQuery.ToPagedResultAsync(
+            pagination.Page,
+            pagination.PageSize);
+
+        return Ok(result);
     }
 
     /// <summary>
