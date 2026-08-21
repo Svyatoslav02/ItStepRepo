@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
+using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Extensions;
 
 namespace MoodboardAI.Api.Controllers;
 [ApiController]
-[Route("api/feed")]
+[Route("api/v1/feed")]
 public class FeedController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -16,15 +18,10 @@ public class FeedController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetFeed(
-        int page = 1,
-        int pageSize = 10,
-        Guid? categoryId = null,
-        List<Guid>? tagIds = null)
-    {
-        if (page <= 0 || pageSize <= 0)
-            return BadRequest("Invalid pagination values.");
-        
-        pageSize = Math.Min(pageSize, 100);
+        [FromQuery] PaginationQuery pagination,
+        [FromQuery] Guid? categoryId = null,
+    	[FromQuery] List<Guid>? tagIds = null)
+        {
         var query = _context.Pins
             .Include(p => p.Category)
             .Include(p => p.Author)
@@ -40,11 +37,7 @@ public class FeedController : ControllerBase
         if (tagIds != null && tagIds.Any())
             query = query.Where(p => p.PinTags.Any(pt => tagIds.Contains(pt.TagId)));
 
-        var totalCount = await query.CountAsync();
-
-        var pins = await query
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
+        var pagedResult = await query
             .Select(p => new
             {
                 p.Id,
@@ -56,14 +49,8 @@ public class FeedController : ControllerBase
                 InteractionsCount = p.Likes.Count,
                 p.CreatedAt
             })
-            .ToListAsync();
+            .ToPagedResultAsync(pagination.Page, pagination.PageSize);
         
-        return Ok(new
-        {
-            TotalCount = totalCount,
-            Page = page,
-            PageSize = pageSize,
-            Items = pins
-        });
+        return Ok(pagedResult);
     }
 }

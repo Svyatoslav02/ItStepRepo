@@ -12,7 +12,7 @@ namespace MoodboardAI.Api.Controllers;
 /// Manages recent search queries for the current authenticated user.
 /// </summary>
 [ApiController]
-[Route("api/users/me/recent-searches")]
+[Route("api/v1/users/me/recent-searches")]
 [Authorize]
 public class RecentSearchesController : ControllerBase
 {

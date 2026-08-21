@@ -8,7 +8,7 @@ using MoodboardAI.Api.Models;
 namespace MoodboardAI.Api.Controllers;
 
 [ApiController]
-[Route("api/pins")]
+[Route("api/v1/pins")]
 public class PinsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -28,7 +28,7 @@ public class PinsController : ControllerBase
             .Include(p => p.Likes)
             .FirstOrDefaultAsync(p => p.Id == id);
 
-        if (pin == null) return NotFound();
+        if (pin == null) return NotFound(new ErrorResponse { Message = "Pin not found." });
 
         return Ok(new
         {
@@ -58,10 +58,10 @@ public class PinsController : ControllerBase
         var userId = Guid.Parse(userIdString);
 
         var pin = await _context.Pins.FindAsync(id);
-        if (pin == null) return NotFound();
+        if (pin == null) return NotFound(new ErrorResponse { Message = "Pin not found." });
 
         var exists = await _context.Likes.AnyAsync(l => l.PinId == id && l.UserId == userId);
-        if (exists) return BadRequest("Already liked.");
+        if (exists) return BadRequest(new ErrorResponse { Message = "Already liked." });
 
         _context.Likes.Add(new Like { PinId = id, UserId = userId });
         await _context.SaveChangesAsync();
@@ -82,7 +82,7 @@ public class PinsController : ControllerBase
         var userId = Guid.Parse(userIdString);
 
         var like = await _context.Likes.FirstOrDefaultAsync(l => l.PinId == id && l.UserId == userId);
-        if (like == null) return NotFound();
+        if (like == null) return NotFound(new ErrorResponse { Message = "Pin not found." });
 
         _context.Likes.Remove(like);
         await _context.SaveChangesAsync();
@@ -102,10 +102,10 @@ public class PinsController : ControllerBase
         }
         var userId = Guid.Parse(userIdString);
         var pin = await _context.Pins.FindAsync(id);
-        if(pin == null) return NotFound();
+        if (pin == null) return NotFound(new ErrorResponse { Message = "Pin not found." });
         
         var exists = await _context.Saves.AnyAsync(s => s.PinId == id && s.UserId == userId);
-        if(exists) return BadRequest("Already saved.");
+        if (exists) return BadRequest(new ErrorResponse { Message = "Already saved." });
 
 
         _context.Saves.Add(new Save { PinId = id, UserId = userId });
@@ -126,7 +126,7 @@ public class PinsController : ControllerBase
         var userId = Guid.Parse(userIdString);
 
         var save = await _context.Saves.FirstOrDefaultAsync(s => s.PinId == id && s.UserId == userId);
-        if (save == null) return NotFound();
+        if (save == null) return NotFound(new ErrorResponse { Message = "Saved pin not found." });
 
         _context.Saves.Remove(save);
         await _context.SaveChangesAsync();
