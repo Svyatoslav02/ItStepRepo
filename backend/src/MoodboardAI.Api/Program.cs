@@ -39,7 +39,7 @@ builder.Services.Configure<UnsplashSettings>(builder.Configuration.GetSection("U
 
 // .env values are loaded as flat keys (UNSPLASH_ACCESS_KEY), not the
 // double-underscore form ASP.NET's env-var provider expects for nested
-// config (Unsplash__AccessKey), so fall back to reading it directly here.
+// config (Unsplash__AccessKey), so fall back to reading it directly here...
 var unsplashAccessKey = builder.Configuration["Unsplash:AccessKey"];
 if (string.IsNullOrWhiteSpace(unsplashAccessKey))
 {
