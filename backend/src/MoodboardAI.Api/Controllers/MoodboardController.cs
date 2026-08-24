@@ -24,20 +24,27 @@ public class MoodboardController : ControllerBase
     }
 
     /// <summary>
-    /// Generates a mock moodboard based on the provided prompt.
+    /// Generates a moodboard (real Unsplash photos, or mock data if no
+    /// Unsplash key is configured) based on the provided prompt.
     /// </summary>
     /// <param name="request">Moodboard generation request.</param>
-    /// <returns>Generated mock moodboard response.</returns>
+    /// <returns>Generated moodboard response.</returns>
     [HttpPost]
-    public IActionResult Generate([FromBody] MoodboardRequest request)
+    public async Task<IActionResult> Generate([FromBody] MoodboardRequest request)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState.ToErrorResponse());
         }
 
-        var response = _moodboardService.Generate(request);
-
-        return Ok(response);
+        try
+        {
+            var response = await _moodboardService.GenerateAsync(request);
+            return Ok(response);
+        }
+        catch (MoodboardGenerationException ex)
+        {
+            return StatusCode(StatusCodes.Status502BadGateway, new ErrorResponse { Message = ex.Message });
+        }
     }
 }

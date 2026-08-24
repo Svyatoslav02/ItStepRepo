@@ -12,9 +12,9 @@ public class MockMoodboardService : IMoodboardService
     /// </summary>
     /// <param name="request">Moodboard generation request.</param>
     /// <returns>Generated mock moodboard response.</returns>
-    public MoodboardResponse Generate(MoodboardRequest request)
+    public Task<MoodboardResponse> GenerateAsync(MoodboardRequest request)
     {
-        return new MoodboardResponse
+        var response = new MoodboardResponse
         {
             Prompt = request.Prompt,
             Images = new List<MoodboardImage>
@@ -27,5 +27,7 @@ public class MockMoodboardService : IMoodboardService
                 }
             }
         };
+
+        return Task.FromResult(response);
     }
 }
