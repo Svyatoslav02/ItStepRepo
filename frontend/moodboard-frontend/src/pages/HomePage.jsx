@@ -44,12 +44,25 @@ const HomePage = () => {
             <aside className="sidebar">
                 <div className="sidebar-icons">
                     <img src="/assets/icons/logo.png" alt="Logo" className="icon" />
-                    <button className="icon"><img src="/assets/icons/home-03.png" alt="Home" /></button>
-                    <button className="icon"><img src="/assets/icons/search-01.png" alt="Search" /></button>
-                    <button className="icon"><img src="/assets/icons/user-03.png" alt="User" /></button>
-                    <button className="icon"><img src="/assets/icons/settings-01.png" alt="Settings" /></button>
                 </div>
                 <div className="sidebar-bottom">
+                    <a href="/home" className="icon">
+                        <img src="/assets/icons/home-03.png" alt="Go to Home" />
+                    </a>
+                    <a href="/homesearch" className="icon">
+                        <img src="/assets/icons/search-01.png" alt="Search" />
+                    </a>
+                    <a href="/aiwelcome" className="icon">
+                        <img src="/assets/icons/ai-beautify.png" alt="AI-Welcome" />
+                    </a>
+                    <a href="/user" className="icon">
+                        <img src="/assets/icons/user-03.png" alt="User profile" />
+                    </a>
+                    <a href="/settings" className="icon">
+                        <img src="/assets/icons/settings-01.png" alt="Settings" />
+                    </a>
+                </div>
+                <div className="sidebar-bottom-ex">
                     <button className="icon"><img src="/assets/icons/logout-02.png" alt="Logout" /></button>
                 </div>
             </aside>
@@ -93,28 +106,31 @@ const HomePage = () => {
                 </div>
 
                 {/* Gallery */}
-                <div className="gallery-grid">
-                    {filteredItems.map((item) => (
-                        <div key={item.id} className="gallery-card">
-                            {/* Using images[item.id - 1] */}
-                            <div className="image-wrapper">
-                                <img src={images[item.id - 1]} alt={item.title} />
-                                <button
-                                    className={`fav-btn ${favorites.includes(item.id) ? "active" : ""}`}
-                                    onClick={() => toggleFavorite(item.id)}
-                                >
-                                    <img src={favorites.includes(item.id) ? "/assets/icons/heart-1.png" : "/assets/icons/heart.png"} alt="Favorite" />
-                                </button>
-                            </div>
-                            <div className="card-info">
-                                <h4>{item.title}</h4>
-                                <div className="card-actions">
-                                    <button className="menu-btn">⋯</button>
+                <div className="gallery-scroll">
+                    <div className="gallery-grid">
+                        {filteredItems.map((item) => (
+                            <div key={item.id} className="gallery-card">
+                                {/* Using images[item.id - 1] */}
+                                <div className="image-wrapper">
+                                    <img src={images[item.id - 1]} alt={item.title} />
+                                    <button
+                                        className={`fav-btn ${favorites.includes(item.id) ? "active" : ""}`}
+                                        onClick={() => toggleFavorite(item.id)}
+                                    >
+                                        <img src={favorites.includes(item.id) ? "/assets/icons/heart-1.png" : "/assets/icons/heart.png"} alt="Favorite" />
+                                    </button>
+                                </div>
+                                <div className="card-info">
+                                    <h4>{item.title}</h4>
+                                    <div className="card-actions">
+                                        <button className="menu-btn">⋯</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div> 
                 </div>
+                
             </main>
         </div>
     );
