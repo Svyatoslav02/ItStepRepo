@@ -34,7 +34,7 @@ const LoginPage = () => {
 
         if (Object.keys(newErrors).length === 0) {
             setIsLoading(true);
-            try {
+            try {                
                 await authService.login(email, password);
                 navigate("/home");
             } catch (err) {
