@@ -65,6 +65,12 @@ public class ApplicationDbContext : DbContext
     /// Relation records linking pins to the tags attached to them.
     /// </summary>
     public DbSet<PinTag> PinTags => Set<PinTag>();
+    /// <summary>
+    /// Notifications sent to users in the application.
+    /// </summary>
+    public DbSet<Notification> Notifications => Set<Notification>();
+
+    /// <summary>
     /// Privacy settings for each user.
     /// </summary>
     public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
@@ -75,15 +81,30 @@ public class ApplicationDbContext : DbContext
     public DbSet<BlockedUser> BlockedUsers => Set<BlockedUser>();
 
     /// <summary>
+    /// Stores user likes on pins.
+    /// Each record represents that a specific user has liked a specific pin.
+    /// </summary>
+    public DbSet<Like> Likes => Set<Like>();
+    /// <summary>
+    /// Stores user saves of pins.
+    /// Each record represents that a specific user has saved a specific pin to their collection.
+    /// </summary>
+    public DbSet<Save> Saves => Set<Save>();
+    /// <summary>
     /// Recent search queries saved per user.
     /// </summary>
     public DbSet<RecentSearch> RecentSearches => Set<RecentSearch>();
+
+    /// <summary>
+    /// Comments left by users on pins.
+    /// </summary>
+    public DbSet<Comment> Comments => Set<Comment>();
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        TegsSeedData.Seed(modelBuilder);
         modelBuilder.Entity<Interest>().HasData(InterestSeedData.Default);
 
         modelBuilder.Entity<UserInterest>(entity =>
@@ -157,6 +178,37 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        // Like: зв’язок Pin ↔ User
+        modelBuilder.Entity<Like>(entity =>
+        {
+            entity.HasIndex(l => new { l.PinId, l.UserId }).IsUnique();
+
+            entity.HasOne(l => l.Pin)
+                .WithMany(p => p.Likes)
+                .HasForeignKey(l => l.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(l => l.User)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Save: зв’язок Pin ↔ User
+        modelBuilder.Entity<Save>(entity =>
+        {
+            entity.HasIndex(s => new { s.PinId, s.UserId }).IsUnique();
+
+            entity.HasOne(s => s.Pin)
+                .WithMany(p => p.Saves)
+                .HasForeignKey(s => s.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(s => s.User)
+                .WithMany(u => u.Saves)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
         // RecentSearch: composite unique index on (UserId, Query) — prevents duplicates
         modelBuilder.Entity<RecentSearch>(entity =>
         {
@@ -166,6 +218,27 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(r => r.User)
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Notification: indexes support unread-first list queries and type filtering.
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasIndex(n => new { n.UserId, n.IsRead, n.CreatedAt });
+            entity.HasIndex(n => new { n.UserId, n.Type, n.CreatedAt });
+        });
+
+        // Comment: Pin ↔ Author (UserEntity)
+        modelBuilder.Entity<Comment>(entity =>
+        {
+            entity.HasOne(c => c.Pin)
+                .WithMany()
+                .HasForeignKey(c => c.PinId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(c => c.Author)
+                .WithMany()
+                .HasForeignKey(c => c.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
