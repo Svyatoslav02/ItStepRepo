@@ -1,21 +1,31 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/InspirationLoading.css";
 
 const images = Array.from({ length: 4 }, (_, i) => `/assets/images/inspire${i + 1}.jpg`);
 
 const InspirationLoading = () => {
     const [active, setActive] = useState(false);
+    const navigate = useNavigate();
 
-    const handleClick = () => {
-        setActive(!active);
+    const handleNextClick = () => {
+        setActive(true);
+        navigate("/login");
+    };
+
+    const handleSkipClick = () => {
+        navigate("/login");
     };
 
     return (
         <div className="inspiration-screen">
-            <button className="skip-btn">Skip</button>
+            <button className="skip-btn" onClick={handleSkipClick}>
+                Skip
+            </button>
 
             <div className="content">
                 <div className="text-section">
+                    <span className="step-badge">Step 1 of 3</span>
                     <h1 className="title">Find your inspiration</h1>
                     <p className="subtitle">
                         Explore millions of ideas tailored to your unique taste and interests.
@@ -23,7 +33,7 @@ const InspirationLoading = () => {
                     <div className="divider"></div>
                     <button
                         className={`next-btn ${active ? "active" : ""}`}
-                        onClick={handleClick}
+                        onClick={handleNextClick}
                     >
                         Next
                     </button>
