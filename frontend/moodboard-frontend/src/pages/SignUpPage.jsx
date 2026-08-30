@@ -37,7 +37,7 @@ const SignUpPage = () => {
     try {
       const result = await authService.register(fullName, email, password);
       localStorage.setItem("authToken", result.token);
-      navigate("/loading");
+      navigate("/home");
     } catch (err) {
       setServerError(err.message);
     } finally {
