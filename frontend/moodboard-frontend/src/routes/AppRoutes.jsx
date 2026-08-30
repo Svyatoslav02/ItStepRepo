@@ -6,7 +6,6 @@ import SignUpPage from '../pages/SignUpPage'
 import HomePage from '../pages/HomePage'
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
-import WelcomePage from "../pages/WelcomePage.jsx";
 import AiWelcome from '../pages/AiWelcome.jsx'
 import WelcomePage from '../pages/WelcomePage.jsx'
 import NotFound from '../pages/NotFound.jsx'
