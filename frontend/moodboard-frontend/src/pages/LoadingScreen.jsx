@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/LoadingScreen.css";
 
 const images = Array.from({ length: 21 }, (_, i) => `/assets/images/img${i + 1}.jpg`);
 
 const LoadingScreen = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigate("/inspiration");
+        }, 2000);
+
+        return () => clearTimeout(timer); // cleanup the timer on component unmount
+    }, [navigate]);
+
     return (
         <div className="loading-screen">
             <div className="image-grid">
