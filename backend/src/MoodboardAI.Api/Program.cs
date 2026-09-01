@@ -65,7 +65,6 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
-builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateUserIdFilter>();
