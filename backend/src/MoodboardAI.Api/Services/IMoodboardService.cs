@@ -12,5 +12,5 @@ public interface IMoodboardService
     /// </summary>
     /// <param name="request">Moodboard generation request.</param>
     /// <returns>Generated moodboard response.</returns>
-    MoodboardResponse Generate(MoodboardRequest request);
+    Task<MoodboardResponse> GenerateAsync(MoodboardRequest request);
 }

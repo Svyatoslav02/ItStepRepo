@@ -25,21 +25,24 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
           prompt: |
-            Проаналізуй лише зміни в цьому pull request.
+            Review only the changes in this pull request.
 
-            Знайди:
-            - потенційні баги;
-            - проблеми з іменуванням;
-            - відсутню обробку помилок;
-            - edge cases, які не покриті тестами.
+            Find:
+            - potential bugs;
+            - naming problems;
+            - missing error handling;
+            - edge cases not covered by tests.
 
-            Для кожного зауваження вкажи рівень:
-            CRITICAL, HIGH, MEDIUM або LOW.
+            Assign one severity level to each finding:
+            CRITICAL, HIGH, MEDIUM, or LOW.
 
-            Посилайся на конкретні файли та рядки.
-            Не змінюй код.
-            Залиш результат як коментар у pull request.
+            Reference exact files and line numbers.
+            Do not modify the code.
+            Post the result as a pull request comment.
+          claude_args: |
+            --max-turns 10
 
       - name: Show Claude execution output
         if: always()
@@ -47,5 +50,8 @@ jobs:
         run: |
           echo "Searching for Claude execution output..."
 
-          find "${RUNNER_TEMP}" -name "claude-execution-output.json" \
-            -type f -print -exec cat {} \; || true
+          find "${RUNNER_TEMP}" \
+            -name "claude-execution-output.json" \
+            -type f \
+            -print \
+            -exec cat {} \; || true
