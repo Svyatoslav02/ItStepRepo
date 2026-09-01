@@ -69,8 +69,6 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateUserIdFilter>();
 });
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddHttpContextAccessor();
 
 // JWT settings from configuration
