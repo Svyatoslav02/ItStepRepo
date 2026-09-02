@@ -423,6 +423,12 @@ namespace MoodboardAI.Api.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SaveCount")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SourceUrl")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
