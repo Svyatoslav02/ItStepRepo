@@ -30,19 +30,46 @@ if (!builder.Environment.IsEnvironment("Testing"))
 }
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
+
+// Moodboard image generation: use the real (free) Unsplash Search API when
+// an access key is configured, otherwise fall back to mock data so the app
+// still runs out-of-the-box for local development. See docs/environment.md
+// for how to obtain a free UNSPLASH_ACCESS_KEY.
+builder.Services.Configure<UnsplashSettings>(builder.Configuration.GetSection("Unsplash"));
+
+// .env values are loaded as flat keys (UNSPLASH_ACCESS_KEY), not the
+// double-underscore form ASP.NET's env-var provider expects for nested
+// config (Unsplash__AccessKey), so fall back to reading it directly here.
+var unsplashAccessKey = builder.Configuration["Unsplash:AccessKey"];
+if (string.IsNullOrWhiteSpace(unsplashAccessKey))
+{
+    unsplashAccessKey = Environment.GetEnvironmentVariable("UNSPLASH_ACCESS_KEY");
+}
+
+if (!string.IsNullOrWhiteSpace(unsplashAccessKey))
+{
+    builder.Configuration["Unsplash:AccessKey"] = unsplashAccessKey;
+    builder.Services.PostConfigure<UnsplashSettings>(settings => settings.AccessKey = unsplashAccessKey);
+
+    builder.Services.AddHttpClient<IMoodboardService, UnsplashMoodboardService>(client =>
+    {
+        client.Timeout = TimeSpan.FromSeconds(10);
+    });
+}
+else
+{
+    builder.Services.AddScoped<IMoodboardService, MockMoodboardService>();
+}
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInterestsService, InterestsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IUserService, MockUserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidateUserIdFilter>();
 });
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserService, MockUserService>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IUserService, UserService>();
 
 // JWT settings from configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
@@ -169,7 +196,7 @@ if (app.Environment.IsDevelopment())
 {
     using var migrationScope = app.Services.CreateScope();
     var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //dbContext.Database.Migrate(); // TODO: PendingModelChangesWarning — migration history desync, see PR notes / ask curator
+    dbContext.Database.Migrate();
 }
 
 // Catches unhandled exceptions from everything below and turns them into a

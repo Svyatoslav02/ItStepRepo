@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoodboardAI.Api.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoodboardAI.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260808193843_AddComments")]
+    partial class AddComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,12 +383,6 @@ namespace MoodboardAI.Api.Migrations
                     b.Property<bool>("QuietMode")
                         .HasColumnType("boolean");
 
-                    b.Property<TimeSpan?>("QuietModeEnd")
-                        .HasColumnType("interval");
-
-                    b.Property<TimeSpan?>("QuietModeStart")
-                        .HasColumnType("interval");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -422,12 +419,6 @@ namespace MoodboardAI.Api.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
-
-                    b.Property<int>("LikeCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SaveCount")
-                        .HasColumnType("integer");
 
                     b.Property<string>("SourceUrl")
                         .HasMaxLength(1000)
@@ -565,7 +556,7 @@ namespace MoodboardAI.Api.Migrations
                     b.ToTable("Saves");
                 });
 
-            modelBuilder.Entity("MoodboardAI.Api.Models.Notification", b =>
+            modelBuilder.Entity("MoodboardAI.Api.Models.Tag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -574,29 +565,73 @@ namespace MoodboardAI.Api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Message")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaa1"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "minimal"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa2-aaaa-aaaa-aaaa-aaaaaaaaaaa2"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "modern"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa3-aaaa-aaaa-aaaa-aaaaaaaaaaa3"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "abstract"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa4-aaaa-aaaa-aaaa-aaaaaaaaaaa4"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "botanical"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa5-aaaa-aaaa-aaaa-aaaaaaaaaaa5"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "creative"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa6-aaaa-aaaa-aaaa-aaaaaaaaaaa6"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "galaxy"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa7-aaaa-aaaa-aaaa-aaaaaaaaaaa7"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "moon"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa8-aaaa-aaaa-aaaa-aaaaaaaaaaa8"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "night-drive"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaa9-aaaa-aaaa-aaaa-aaaaaaaaaaa9"),
+                            CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "above-clouds"
+                        });
                 });
 
             modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
@@ -913,16 +948,6 @@ namespace MoodboardAI.Api.Migrations
                     b.Navigation("Likes");
 
                     b.Navigation("Saves");
-                });
-
-            modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
-                {
-                    b.Navigation("NotificationPreference");
-                });
-
-            modelBuilder.Entity("MoodboardAI.Api.Models.UserEntity", b =>
-                {
-                    b.Navigation("NotificationPreference");
                 });
 #pragma warning restore 612, 618
         }

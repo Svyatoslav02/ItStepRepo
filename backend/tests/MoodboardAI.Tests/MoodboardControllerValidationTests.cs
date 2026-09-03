@@ -42,12 +42,12 @@ public class MoodboardControllerValidationTests
     /// Ensures an empty prompt causes model validation to fail and returns a BadRequest with an error message.
     /// </summary>
     [Fact]
-    public void Generate_EmptyPrompt_ReturnsBadRequest()
+    public async Task Generate_EmptyPrompt_ReturnsBadRequest()
     {
         var request = new MoodboardRequest { Prompt = string.Empty };
         var controller = CreateController(request);
 
-        var result = controller.Generate(request);
+        var result = await controller.Generate(request);
 
         var badRequest = Assert.IsType<BadRequestObjectResult>(result);
         var error = Assert.IsType<ErrorResponse>(badRequest.Value);
@@ -59,12 +59,12 @@ public class MoodboardControllerValidationTests
     /// Ensures a prompt that is too short triggers validation and returns a BadRequest with an error message.
     /// </summary>
     [Fact]
-    public void Generate_TooShortPrompt_ReturnsBadRequest()
+    public async Task Generate_TooShortPrompt_ReturnsBadRequest()
     {
         var request = new MoodboardRequest { Prompt = "ab" };
         var controller = CreateController(request);
 
-        var result = controller.Generate(request);
+        var result = await controller.Generate(request);
 
         var badRequest = Assert.IsType<BadRequestObjectResult>(result);
         var error = Assert.IsType<ErrorResponse>(badRequest.Value);
@@ -76,12 +76,12 @@ public class MoodboardControllerValidationTests
     /// Ensures a valid prompt returns an Ok response with a MoodboardResponse containing the same prompt.
     /// </summary>
     [Fact]
-    public void Generate_ValidPrompt_ReturnsOk()
+    public async Task Generate_ValidPrompt_ReturnsOk()
     {
         var request = new MoodboardRequest { Prompt = "Cozy autumn cottage in the woods" };
         var controller = CreateController(request);
 
-        var result = controller.Generate(request);
+        var result = await controller.Generate(request);
 
         var okResult = Assert.IsType<OkObjectResult>(result);
         var response = Assert.IsType<MoodboardResponse>(okResult.Value);
