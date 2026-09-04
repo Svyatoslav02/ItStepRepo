@@ -13,7 +13,7 @@ namespace MoodboardAI.Api.Controllers;
 /// API controller that exposes endpoints for managing user notification preferences.
 /// </summary>
 [ApiController]
-[Route("api/v1/users/me/notification-preferences")]
+[Route("api/users/me/notification-preferences")]
 [Authorize]
 public class NotificationPreferencesController : ControllerBase
 {

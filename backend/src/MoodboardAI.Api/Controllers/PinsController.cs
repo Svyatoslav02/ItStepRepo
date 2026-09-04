@@ -10,7 +10,7 @@ using MoodboardAI.Api.Models;
 namespace MoodboardAI.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/pins")]
+[Route("api/pins")]
 public class PinsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
