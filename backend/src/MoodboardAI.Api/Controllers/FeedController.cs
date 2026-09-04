@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
+using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Extensions;
 using MoodboardAI.Api.DTOs;
 
 namespace MoodboardAI.Api.Controllers;
