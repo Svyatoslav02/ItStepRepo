@@ -90,6 +90,16 @@ public class NotificationPreference
     /// </summary>
     public bool QuietMode { get; set; }
 
+    /// <summary>
+    /// Gets or sets the start time for quiet mode.
+    /// </summary>
+    public TimeSpan? QuietModeStart { get; set; }
+
+    /// <summary>
+    /// Gets or sets the end time for quiet mode.
+    /// </summary>
+    public TimeSpan? QuietModeEnd { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }
