@@ -20,10 +20,8 @@ export default function AppRoutes() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/welcome" element={<WelcomePage />} />
-            <Route path="/welcome" element={<Home />} />
-            <Route path="/ai-welcome" element={<AiWelcome />} />
-            <Route path="*" element={<Home />} />
+            <Route path="/welcome" element={<WelcomePage />} />            
+            <Route path="/ai-welcome" element={<AiWelcome />} />            
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
