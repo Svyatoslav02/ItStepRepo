@@ -4,6 +4,8 @@ import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
 import { authService } from "../services/authService";
+import "../styles/index.css";
+import "../index.css";
 
 const SignUpPage = () => {
   const [fullName, setFullName] = useState("");
