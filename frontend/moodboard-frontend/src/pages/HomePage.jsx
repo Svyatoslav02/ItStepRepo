@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/HomePage.css";
 
 const categories = ["All", "Nature", "Travel", "Wallpaper", "Art", "Design"];
@@ -24,6 +25,12 @@ const HomePage = () => {
     const [activeCategory, setActiveCategory] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
     const [favorites, setFavorites] = useState([]);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+    };
 
     const toggleFavorite = (id) => {
         setFavorites((prev) =>
@@ -137,5 +144,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-
