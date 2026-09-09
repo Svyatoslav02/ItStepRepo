@@ -60,7 +60,8 @@ internal static class TestDataSeeder
         ApplicationDbContext db,
         UserEntity? author = null,
         Category? category = null,
-        string title = "Test Pin")
+        string title = "Test Pin",
+        string? description = null)
     {
         author ??= await SeedUserAsync(db);
         category ??= await SeedCategoryAsync(db);
@@ -69,6 +70,7 @@ internal static class TestDataSeeder
         {
             Id = Guid.NewGuid(),
             Title = title,
+            Description = description,
             ImageUrl = "https://example.com/image.png",
             AuthorId = author.Id,
             CategoryId = category.Id
@@ -78,5 +80,40 @@ internal static class TestDataSeeder
         await db.SaveChangesAsync();
 
         return pin;
+    }
+
+    /// <summary>
+    /// Creates and persists a minimal valid <see cref="Tag"/>.
+    /// </summary>
+    public static async Task<Tag> SeedTagAsync(ApplicationDbContext db, string name = "tag")
+    {
+        var tag = new Tag
+        {
+            Id = Guid.NewGuid(),
+            Name = $"{name}-{Guid.NewGuid():N}"[..20]
+        };
+
+        db.Tags.Add(tag);
+        await db.SaveChangesAsync();
+
+        return tag;
+    }
+
+    /// <summary>
+    /// Attaches an existing tag to an existing pin via a new <see cref="PinTag"/> relation.
+    /// </summary>
+    public static async Task<PinTag> AttachTagAsync(ApplicationDbContext db, Pin pin, Tag tag)
+    {
+        var pinTag = new PinTag
+        {
+            Id = Guid.NewGuid(),
+            PinId = pin.Id,
+            TagId = tag.Id
+        };
+
+        db.PinTags.Add(pinTag);
+        await db.SaveChangesAsync();
+
+        return pinTag;
     }
 }

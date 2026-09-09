@@ -14,64 +14,79 @@ const LoginPage = () => {
     const [errors, setErrors] = useState({});
     const [serverError, setServerError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setServerError("");
+    const validateForm = () => {
         const newErrors = {};
-
         if (!email) newErrors.email = "Email is required";
         else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Invalid email";
 
         if (!password) newErrors.password = "Password is required";
+        return newErrors;
+    };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setServerError("");
+        const newErrors = validateForm();
         setErrors(newErrors);
 
-        if (Object.keys(newErrors).length > 0) return;
-        
-        setIsLoading(true);
-        try {
-            const result = await authService.login(email, password);
-            localStorage.setItem("authToken", result.token);
-            navigate("/loading");
-        } catch (err) {
-            setServerError("Невірний email або пароль");
-        } finally {
-            setIsLoading(false);
+        if (Object.keys(newErrors).length === 0) {
+            setIsLoading(true);
+            try {                
+                await authService.login(email, password);
+                navigate("/home");
+            } catch (err) {
+                setServerError(err.message || "Login failed");
+            } finally {
+                setIsLoading(false);
+            }
         }
-
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black text-white px-4">
-            <div className="w-full max-w-xs space-y-5">
-                <h2 className="text-sm text-white">Log in</h2>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="text-sm text-white">Email</label>
-                        <input
-                            type="email"
-                            placeholder="Email address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="custom-placeholder w-full mt-1 p-3 rounded-xl bg-gray-800/80 border border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
-                        {errors.email && (
-                            <p className="text-red-400 text-xs mt-1">{errors.email}</p>
-                        )}
+            <div className="w-full max-w-md bg-gray-900/70 backdrop-blur-md rounded-2xl p-8 shadow-xl space-y-6">
+                <div className="text-center space-y-2">
+                    <div className="flex justify-center items-center mb-6">
+                        <div className="relative">
+                            <div className="absolute inset-0 w-28 h-28 rounded-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 blur-3xl opacity-70 animate-pulse"></div>
+                            <img
+                                src="./assets/icons/GroupLogo.png"
+                                alt="Logo"
+                                className="relative w-16 h-16 rounded-full border border-gray-700 shadow-[0_0_25px_rgba(99,102,241,0.8),0_0_60px_rgba(147,51,234,0.6)]"
+                            />
+                        </div>
                     </div>
 
+                    <h2 className="text-2xl font-semibold">Welcome back</h2>
+                    <p className="text-gray-400 text-sm">Sign in to continue your creative journey</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* Email */}
                     <div>
-                        <label className="text-sm">Password</label>
+                        <label className="text-sm text-gray-300">Email</label>
+                        <input
+                            type="email"
+                            placeholder="example@gmail.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="custom-placeholder w-full mt-2 p-4 rounded-xl bg-gray-800 border border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                    </div>
+
+                    {/* Password */}
+                    <div>
+                        <label className="text-sm text-gray-300">Password</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
-                                placeholder="Password"
+                                placeholder="********"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="custom-placeholder w-full mt-1 p-3 rounded-xl bg-gray-800/80 border border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="custom-placeholder w-full mt-2 p-4 rounded-xl bg-gray-800 border border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                             <button
                                 type="button"
@@ -85,44 +100,57 @@ const LoginPage = () => {
                             <p className="text-red-400 text-xs mt-1">{errors.password}</p>
                         )}
                     </div>
+
+                    {/* Server error */}
                     {serverError && (
                         <p className="text-red-400 text-xs text-center">{serverError}</p>
                     )}
-                    <p className="text-sm text-center text-gray cursor-pointer hover:text-indigo-400">
-                        Forgot your password?
-                    </p>
+                    
+
+                    <div className="flex items-center justify-between text-sm text-gray-400">
+                        <span className="text-white font-bold cursor-pointer hover:text-indigo-400">Forgot your password?</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm text-gray-400 my-4">
+                        <input type="checkbox" className="accent-indigo-500" />
+                        <span >
+                            I agree to the <span className="text-white font-bold">Terms of Service</span> and{" "}
+                            <span className="text-white font-bold">Privacy Policy</span>
+                        </span>
+                    </div>
 
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 rounded-full font-medium bg-indigo-600 hover:bg-indigo-700"
+                        className="w-full py-3 rounded-xl font-medium bg-indigo-600 hover:bg-indigo-700 transition-colors"
                     >
-                        {isLoading ? "Вхід..." : "Log in"}
+                        {isLoading ? "Loading..." : "Log in"}
                     </button>
 
-                    <p className="text-center text-sm text-gray">
+                    <p className="text-center text-sm text-gray-400 my-5">
                         Not on our platform yet?{" "}
-                        <span className="text-white cursor-pointer">Sign up</span>
+                        <Link to="/signup" className="text-white font-bold cursor-pointer hover:underline">
+                            Sign up
+                        </Link>
                     </p>
 
                     <div className="space-y-3">
-                        <button className="w-full flex items-center justify-center gap-2 bg-gray-800/80 border border-gray-700 py-3 rounded-xl text-sm hover:bg-gray-700/80 transition-colors">
-                            <img src={googleIcon} alt="Google" width="16" height="16" />
-                            Continue with Google
-                        </button>
-                        <button className="w-full flex items-center justify-center gap-2 bg-gray-800/80 border border-gray-700 py-3 rounded-xl text-sm hover:bg-gray-700/80 transition-colors">
+                        <button
+                            type="button"
+                            className="w-full flex items-center justify-center gap-2 bg-gray-800 border border-gray-700 py-3 rounded-xl text-sm hover:bg-gray-700 transition-colors"
+                        >
                             <img src={appleIcon} alt="Apple" width="16" height="16" />
                             Continue with Apple
                         </button>
+                        <button
+                            type="button"
+                            className="w-full flex items-center justify-center gap-2 bg-gray-800 border border-gray-700 py-3 rounded-xl text-sm hover:bg-gray-700 transition-colors"
+                        >
+                            <img src={googleIcon} alt="Google" width="16" height="16" />
+                            Continue with Google
+                        </button>
                     </div>
                 </form>
-
-                <p className="text-xs text-center text-gray w-[266px] mx-auto leading-snug px-6 py-4">
-                    By continuing, you agree to our{" "}
-                    <span className="text-white font-semibold">Terms of Service{" "}</span>
-                    and acknowledge that you've read our{" "}
-                    <span className="text-white font-semibold">Privacy Policy</span>.
-                </p>
             </div>
         </div>
     );
