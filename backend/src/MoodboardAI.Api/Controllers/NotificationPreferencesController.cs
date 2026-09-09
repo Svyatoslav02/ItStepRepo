@@ -104,7 +104,9 @@ public class NotificationPreferencesController : ControllerBase
             EmailUpdates = prefs.EmailUpdates,
             EmailRecommendations = prefs.EmailRecommendations,
             EmailMentions = prefs.EmailMentions,
-            QuietMode = prefs.QuietMode
+            QuietMode = prefs.QuietMode,
+            QuietModeStart = prefs.QuietModeStart,
+            QuietModeEnd = prefs.QuietModeEnd
         };
 
     /// <summary>
@@ -132,6 +134,8 @@ public class NotificationPreferencesController : ControllerBase
         if (dto.EmailMentions.HasValue) prefs.EmailMentions = dto.EmailMentions.Value;
 
         if (dto.QuietMode.HasValue) prefs.QuietMode = dto.QuietMode.Value;
+        if (dto.QuietModeStart.HasValue) prefs.QuietModeStart = dto.QuietModeStart.Value;
+        if (dto.QuietModeEnd.HasValue) prefs.QuietModeEnd = dto.QuietModeEnd.Value;
 
         prefs.UpdatedAt = DateTime.UtcNow;
     }
@@ -161,6 +165,8 @@ public class NotificationPreferencesController : ControllerBase
             EmailRecommendations = true,
             EmailMentions = true,
             QuietMode = false,
+            QuietModeStart = null,
+            QuietModeEnd = null,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
