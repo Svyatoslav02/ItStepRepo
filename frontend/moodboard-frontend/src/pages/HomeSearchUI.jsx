@@ -92,7 +92,7 @@ const HomePage = () => {
                 {/* Шапка з пошуком */}
                 <header className="header">
                     <div className="header-content">
-                        <div className="search-wrapper">
+                        <div className="search-wrapper1">
                             <img
                                 src="/assets/images/search-01.png"
                                 alt="Search"
@@ -142,7 +142,7 @@ const HomePage = () => {
                                                 removeRecent(item);
                                             }}
                                         >
-                                            <img src="/assets/images/link-square-02.png" alt="Remove" />
+                                            <img src="/src/assets/images/Vector.png" alt="Remove" />
                                         </button>
                                     </button>
                                 ))}

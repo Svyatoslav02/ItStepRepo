@@ -3,7 +3,7 @@ html, body, #root {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
 }
 .home-search-container {
     display: flex;
@@ -85,7 +85,7 @@ html, body, #root {
     max-width: 100%;
 }
 
-.search-wrapper {
+.search-wrapper1 {
     flex: 1;
     position: relative;
     display: flex;
@@ -101,7 +101,7 @@ html, body, #root {
     pointer-events: none;
 }
 
-.search-wrapper input {
+.search-wrapper1 input {
     width: 100%;
     background: #151b28;
     border-radius: 30px;
@@ -114,11 +114,11 @@ html, body, #root {
     
 }
 
-.search-wrapper input::placeholder {
+.search-wrapper1 input::placeholder {
     color: rgba(255, 255, 255, 0.4);
 }
 
-.search-wrapper input:focus {
+.search-wrapper1 input:focus {
     border-color: #6c5ce7;
 }
 
@@ -306,7 +306,7 @@ html, body, #root {
 /* ============ СІТКА КАРТОК (Trending + Explore) ================= */
 .masonry-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 16px;
 }
 
@@ -385,4 +385,220 @@ html, body, #root {
 .searches-count {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.45);
+}
+/* =====================================================
+   TABLET ≤ 1024px  (оригінальна структура JSX зберігається)
+===================================================== */
+@media (max-width: 1024px) {
+
+    /* ----- Контейнер ----- */
+    .home-search-container {
+        flex-direction: column;
+    }
+
+    /* ----- SIDEBAR → Bottom Navigation ----- */
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 50px;
+        right: 0;
+        width: 85%;
+        height: 52px;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 8px;
+        background-color: #0C131C;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 25px;
+        z-index: 100;
+    }
+
+    /* Ховаємо логотип і logout */
+    .sidebar-icons,
+    .sidebar-bottom-ex {
+        display: none !important;
+    }
+
+    .sidebar-bottom {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        gap: 0;
+        position: static;
+    }
+
+    .sidebar-bottom .icon {
+        width: 70px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        transition: background 0.2s;
+    }
+
+    /* Активна іконка Search (друга посилання) */
+    .sidebar-bottom a:nth-child(2) {
+        background: #6c5ce7;
+    }
+
+    .sidebar-bottom a:nth-child(2) img {
+        filter: brightness(0) invert(1);
+    }
+
+    .sidebar-bottom .icon:hover {
+        transform: none;
+    }
+
+    /* Ховаємо Settings на планшеті (остання іконка в sidebar-bottom) */
+    .sidebar-bottom a:last-child {
+        display: none;
+    }
+
+    /* ----- MAIN ----- */
+    .main-content {
+        padding: 16px 16px 90px;
+        margin: 10px;
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .header {
+        position: fixed;
+        z-index: 99;
+        width: 90%;
+        height: auto;
+        padding: 4px 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .search-wrapper1 input {
+        padding: 13px 16px 13px 46px;
+        font-size: 15px;
+        border-radius: 24px;
+    }
+
+    /* ----- Контент: одна колонка + потрібний порядок ----- */
+    .search-page-content {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        padding-top: 70px;
+        overflow: visible;
+    }
+
+    /* Робимо колонки "прозорими", щоб секції стали прямими дітьми */
+    .left-column,
+    .right-column {
+        display: contents;
+    }
+
+    /* Порядок секцій: Recent → Trending → Popular → Explore */
+    .left-column .section:first-child  { order: 1; } /* Recent */
+    .right-column .section:first-child { order: 2; } /* Trending */
+    .left-column .section:last-child   { order: 3; } /* Popular */
+    .right-column .section:last-child  { order: 4; } /* Explore */
+
+    /* ----- Recent → горизонтальні чіпи ----- */
+    .recent-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .recent-list > *:nth-child(n + 4) {
+        display: none;
+    }
+    .recent-item {
+        width: auto;
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 22px;
+        font-size: 13px;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .recent-item .remove-recent {
+        opacity: 0.55;
+        margin-left: 4px;
+    }
+
+    /* ----- Popular categories → 2 колонки ----- */
+    .categories-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .categories-list > *:nth-child(n + 5) {
+        display: none;
+    }
+
+    .category-item {
+        padding: 12px;
+        border-radius: 14px;
+    }
+
+    .category-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .category-name {
+        font-size: 13px;
+    }
+
+    .category-count {
+        font-size: 12px;
+    }
+
+    /* ----- Сітки карток → 4 колонки ----- */
+    .masonry-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    .image-wrapper {
+        aspect-ratio: 1 / 1.2;
+    }
+
+    .card-info {
+        padding: 10px 10px 12px;
+    }
+
+    .card-info h4 {
+        font-size: 13px;
+    }
+
+    .searches-count {
+        font-size: 11px;
+    }
+
+    .fav-btn {
+        width: 30px;
+        height: 30px;
+        top: 8px;
+        right: 8px;
+    }
+
+    /* ----- Загальні дрібниці ----- */
+    .section-header {
+        margin-bottom: 12px;
+    }
+
+    .section-title {
+        font-size: 15px;
+    }
+
+    .view-all-btn {
+        font-size: 13px;
+    }
 }
