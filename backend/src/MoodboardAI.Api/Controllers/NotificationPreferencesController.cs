@@ -33,7 +33,7 @@ public class NotificationPreferencesController : ControllerBase
     }
 
     /// <summary>
-    /// Gets the notification preferences for the currently authenticated user. 
+    /// Gets the notification preferences for the currently authenticated user.
     /// If no preferences exist, default preferences are created and returned.
     /// </summary>
     /// <returns>The notification preferences for the current user.</returns>
@@ -46,7 +46,7 @@ public class NotificationPreferencesController : ControllerBase
 
         if (prefs == null)
         {
-            prefs = new NotificationPreference { UserId = userId };
+            prefs = CreateDefaults(userId);
             _context.NotificationPreferences.Add(prefs);
             await _context.SaveChangesAsync();
         }
@@ -70,11 +70,13 @@ public class NotificationPreferencesController : ControllerBase
 
         if (prefs == null)
         {
-            prefs = new NotificationPreference { UserId = userId };
+            prefs = CreateDefaults(userId);
             _context.NotificationPreferences.Add(prefs);
         }
 
         MapFromDto(prefs, dto);
+        prefs.UpdatedAt = DateTime.UtcNow;
+
         await _context.SaveChangesAsync();
 
         return Ok(MapToDto(prefs));
@@ -102,7 +104,9 @@ public class NotificationPreferencesController : ControllerBase
             EmailUpdates = prefs.EmailUpdates,
             EmailRecommendations = prefs.EmailRecommendations,
             EmailMentions = prefs.EmailMentions,
-            QuietMode = prefs.QuietMode
+            QuietMode = prefs.QuietMode,
+            QuietModeStart = prefs.QuietModeStart,
+            QuietModeEnd = prefs.QuietModeEnd
         };
 
     /// <summary>
@@ -130,7 +134,41 @@ public class NotificationPreferencesController : ControllerBase
         if (dto.EmailMentions.HasValue) prefs.EmailMentions = dto.EmailMentions.Value;
 
         if (dto.QuietMode.HasValue) prefs.QuietMode = dto.QuietMode.Value;
+        if (dto.QuietModeStart.HasValue) prefs.QuietModeStart = dto.QuietModeStart.Value;
+        if (dto.QuietModeEnd.HasValue) prefs.QuietModeEnd = dto.QuietModeEnd.Value;
 
         prefs.UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Creates default notification preferences for a user.
+    /// </summary>
+    /// <param name="userId">The ID of the user.</param>
+    /// <returns>The default notification preferences.</returns>
+    private NotificationPreference CreateDefaults(Guid userId)
+    {
+        return new NotificationPreference
+        {
+            UserId = userId,
+            PushLikes = true,
+            PushComments = true,
+            PushTags = true,
+            PushFriendRequests = true,
+            PushUpdates = true,
+            PushRecommendations = true,
+            PushMentions = true,
+            EmailLikes = true,
+            EmailComments = true,
+            EmailTags = true,
+            EmailFriendRequests = true,
+            EmailUpdates = true,
+            EmailRecommendations = true,
+            EmailMentions = true,
+            QuietMode = false,
+            QuietModeStart = null,
+            QuietModeEnd = null,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
     }
 }

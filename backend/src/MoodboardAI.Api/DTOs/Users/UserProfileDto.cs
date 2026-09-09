@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MoodboardAI.Api.DTOs.Interests;
+using MoodboardAI.Api.DTOs.Privacy;
 
 namespace MoodboardAI.Api.DTOs.Users;
 
@@ -18,4 +19,5 @@ public class UserProfileDto
     public string? AvatarUrl { get; set; }
     public List<InterestDto> SelectedInterests { get; set; } = new();
     public bool IsOnboardingCompleted { get; set; }
+    public PrivacySettingsDto Privacy { get; set; } = new();
 }
