@@ -25,7 +25,6 @@ export default function AppRoutes() {
             <Route path="/discover" element={<DiscoverPage />} />
             <Route path="/ai-welcome" element={<AiWelcome />} />            
             <Route path="/notifications-email" element={<NotificationsEmail />} />
-            <Route path="/discover-home/*" element={<Home />} />
             <Route path="/content-preferences" element={<ContentPreferences />} />
             <Route path="/notifications-push" element={<PushNotifications />} />
             <Route path="/welcome" element={<WelcomePage />} />
