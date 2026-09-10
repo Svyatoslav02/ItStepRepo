@@ -15,24 +15,27 @@ const AiWelcome = () => {
         <div className="ai-welcome">
             {/* Sidebar */}
             <aside className="sidebar">
-                <img src="/assets/icons/star.png" alt="Logo" className="icon" />
+                <img src="/assets/icons/star.png" alt="Logo" className="icon star" />
                 <button className="icon" onClick={() => navigate("/home")}>
-                    <img src="/assets/icons/home-03.png" alt="Home" />
+                    <img src="/assets/icons/home-03.png" className="img" alt="Home" />
                 </button>
                 <button className="icon" onClick={() => navigate("/search")}>
-                    <img src="/assets/icons/search-01.png" alt="Search" />
+                    <img src="/assets/icons/search-01.png" className="img" alt="Search" />
+                </button>
+                <button className="icon plus">
+                    <img src="/assets/icons/plus.png" className="img" alt="Plus" />
                 </button>
                 <button className="icon active">
-                    <img src="/assets/icons/ai-beautify.png" alt="AI" />
+                    <img src="/assets/icons/ai-beautify.png" className="img" alt="AI" />
                 </button>
                 <button className="icon" onClick={() => navigate("/user")}>
-                    <img src="/assets/icons/user-03.png" alt="User" />
+                    <img src="/assets/icons/user-03.png" className="img" alt="User" />
                 </button>
-                <button className="icon" onClick={() => navigate("/settings")}>
-                    <img src="/assets/icons/settings-01.png" alt="Settings" />
+                <button className="icon settings" onClick={() => navigate("/settings")}>
+                    <img src="/assets/icons/settings-01.png" className="img" alt="Settings" />
                 </button>
                 <button className="icon bottom" onClick={() => navigate("/logout")}>
-                    <img src="/assets/icons/logout-02.png" alt="Back" />
+                    <img src="/assets/icons/logout-02.png" className="img" alt="Back" />
                 </button>
             </aside>
 
@@ -50,10 +53,10 @@ const AiWelcome = () => {
 
                 <section className="center">
                     <div className="welcome-content">
-                    <div className="avatar-glow">
-                        <img src="/assets/icons/bluesky.png" alt="Butterfly" className="butterfly" />
-                    </div>
-                        <h1>Hi, I'm Ink</h1>
+                        <div className="avatar-glow">
+                            <img src="/assets/icons/Group.png" alt="Avatar" className="butterfly" />
+                        </div>
+                        <h1 className="welcome-title">Hi, I'm Ink</h1>
                         <p>I'm your AI assistant here to sketch ideas, organize notes, and capture thoughts.</p>
                     </div>
                     <div className="actions">

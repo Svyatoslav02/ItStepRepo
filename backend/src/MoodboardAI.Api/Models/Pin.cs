@@ -71,6 +71,16 @@ public class Pin
     public Category Category { get; set; } = null!;
 
     /// <summary>
+    /// Number of likes the pin has received.
+    /// </summary>
+    public int LikeCount { get; set; } = 0;
+
+    /// <summary>
+    /// Number of times the pin has been saved by users.
+    /// </summary>
+    public int SaveCount { get; set; } = 0;
+
+    /// <summary>
     /// Relation records linking this pin to its tags.
     /// </summary>
     public ICollection<PinTag> PinTags { get; set; } = new List<PinTag>();
