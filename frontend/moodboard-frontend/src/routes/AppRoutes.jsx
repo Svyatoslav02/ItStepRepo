@@ -8,6 +8,7 @@ import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
 import AiWelcome from '../pages/AiWelcome.jsx'
 import NotificationsEmail from '../pages/NotificationsEmail.jsx'
+import ContentPreferences from '../pages/ContentPreferences.jsx'
 import WelcomePage from '../pages/WelcomePage.jsx'
 import NotFound from '../pages/NotFound.jsx'
 
@@ -26,6 +27,10 @@ export default function AppRoutes() {
             <Route path="/welcome" element={<WelcomePage />} />
             <Route path="/notifications-email" element={<NotificationsEmail />} />
             <Route path="/welcome" element={<Home />} />
+            <Route path="*" element={<Home />} />
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/welcome" element={<Home />} />
+            <Route path="/content-preferences" element={<ContentPreferences />} />
             <Route path="*" element={<Home />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
