@@ -7,6 +7,8 @@ import HomePage from '../pages/HomePage'
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
 import AiWelcome from '../pages/AiWelcome.jsx'
+import NotificationsEmail from '../pages/NotificationsEmail.jsx'
+import ContentPreferences from '../pages/ContentPreferences.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx' 
 import PushNotifications from '../pages/PushNotifications'
 import WelcomePage from '../pages/WelcomePage.jsx'
@@ -24,6 +26,14 @@ export default function AppRoutes() {
             <Route path="/discover" element={<DiscoverPage />} />
             <Route path="/welcome" element={<WelcomePage />} />            
             <Route path="/ai-welcome" element={<AiWelcome />} />            
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/notifications-email" element={<NotificationsEmail />} />
+            <Route path="/welcome" element={<Home />} />
+            <Route path="*" element={<Home />} />
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/welcome" element={<Home />} />
+            <Route path="/content-preferences" element={<ContentPreferences />} />
+            <Route path="*" element={<Home />} />
             <Route path="/welcome" element={<WelcomePage />} />
             <Route path="/welcome" element={<Home />} />
             <Route path="/notifications-push" element={<PushNotifications />} />
