@@ -8,38 +8,6 @@
     overflow-x: auto;
 }
 
-/* ===== Sidebar (desktop) ===== */
-.sidebar {
-    width: 136px;
-    height: 100vh;
-    background-color: #0e1117;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem 0;
-    gap: 1.5rem;
-}
-
-    .sidebar .icon {
-        font-size: 1.2rem;
-        color: #888;
-        cursor: pointer;
-        margin-top: 1rem;
-    }
-
-        .sidebar .icon.active {
-            color: #a78bfa;
-            background-color: #4F45E3;
-            border-radius: 8px;
-        }
-        
-        .sidebar .icon.plus {
-            display: none;
-        }
-        .sidebar .icon.bottom {
-            margin-top: auto;
-        }
-
 /* ===== Main content ===== */
 .main {
     flex: 1;

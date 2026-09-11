@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/AiWelcome.css";
+import SidebarComponent from "../components/SidebarComponent";
 
 const AiWelcome = () => {
     const navigate = useNavigate();
@@ -13,31 +14,7 @@ const AiWelcome = () => {
 
     return (
         <div className="ai-welcome">
-            {/* Sidebar */}
-            <aside className="sidebar">
-                <img src="/assets/icons/star.png" alt="Logo" className="icon star" />
-                <button className="icon" onClick={() => navigate("/home")}>
-                    <img src="/assets/icons/home-03.png" className="img" alt="Home" />
-                </button>
-                <button className="icon" onClick={() => navigate("/search")}>
-                    <img src="/assets/icons/search-01.png" className="img" alt="Search" />
-                </button>
-                <button className="icon plus">
-                    <img src="/assets/icons/plus.png" className="img" alt="Plus" />
-                </button>
-                <button className="icon active">
-                    <img src="/assets/icons/ai-beautify.png" className="img" alt="AI" />
-                </button>
-                <button className="icon" onClick={() => navigate("/user")}>
-                    <img src="/assets/icons/user-03.png" className="img" alt="User" />
-                </button>
-                <button className="icon settings" onClick={() => navigate("/settings")}>
-                    <img src="/assets/icons/settings-01.png" className="img" alt="Settings" />
-                </button>
-                <button className="icon bottom" onClick={() => navigate("/logout")}>
-                    <img src="/assets/icons/logout-02.png" className="img" alt="Back" />
-                </button>
-            </aside>
+            <SidebarComponent activeItem="wand" />
 
             {/* Main content */}
             <main className="main">
