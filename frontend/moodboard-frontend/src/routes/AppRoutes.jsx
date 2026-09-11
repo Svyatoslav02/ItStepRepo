@@ -20,15 +20,14 @@ export default function AppRoutes() {
             <Route path="/inspiration" element={<InspirationLoading />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} /> +
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/ai-welcome" element={<AiWelcome />} />            
-            <Route path="/notifications-email" element={<NotificationsEmail />} />
-            <Route path="/discover-home/*" element={<Home />} />
+            <Route path="/ai-welcome" element={<AiWelcome />} />     +        
+            <Route path="/notifications-email" element={<NotificationsEmail />} /> +
             <Route path="/content-preferences" element={<ContentPreferences />} />
             <Route path="/notifications-push" element={<PushNotifications />} />
-            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/welcome" element={<WelcomePage />} /> 
             <Route path="*" element={<NotFound />} />
         </Routes>
     )

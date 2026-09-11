@@ -21,7 +21,7 @@ body,
    SETTINGS PAGE
 ========================================================= */
 
-.settings-page {
+.settings-page-2 {
     position: relative;
     display: flex;
     width: 100%;
@@ -34,86 +34,11 @@ body,
     overflow: hidden;
 }
 
-
-    /* =========================================================
-   SIDEBAR
-========================================================= */
-
-    .settings-page .sidebar {
-        position: relative;
-        width: 90px;
-        min-width: 90px;
-        height: 100vh;
-        margin: 0;
-        padding: 16px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 19px;
-        background: #0e0f12;
-        border-right: 1px solid #1f2024;
-        flex-shrink: 0;
-        z-index: 10;
-    }
-
-
-        /* Sidebar buttons */
-
-        .settings-page .sidebar .icon {
-            width: 42px;
-            height: 42px;
-            margin: 0;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-
-            /* Sidebar icons */
-
-            .settings-page .sidebar .icon img {
-                width: 26px;
-                height: 26px;
-                margin: 0;
-                padding: 0;
-                object-fit: contain;
-                opacity: 0.8;
-                transition: opacity 0.2s ease;
-            }
-
-            .settings-page .sidebar .icon:hover img {
-                opacity: 1;
-            }
-
-
-            /* Active sidebar item */
-
-            .settings-page .sidebar .icon.active {
-                background: #5b46ff;
-            }
-
-                .settings-page .sidebar .icon.active img {
-                    opacity: 1;
-                }
-
-
-        /* Logout */
-
-        .settings-page .sidebar .bottom {
-            margin-top: auto;
-        }
-
-
     /* =========================================================
    MAIN CONTENT
 ========================================================= */
 
-    .settings-page .content {
+    .settings-page-2 .content {
         position: relative;
         width: calc(100% - 90px);
         height: 100vh;
@@ -136,12 +61,12 @@ body,
    HEADER
 ========================================================= */
 
-    .settings-page .header {
+    .settings-page-2 .header-2 {
         position: static;
         width: 100%;
         height: 48px;
         flex: 0 0 100%;
-        margin: 0 0 24px 0;
+        margin: 0 0 -15px 0;
         padding: 0;
         display: flex;
         align-items: center;
@@ -154,7 +79,7 @@ body,
    HEADER CONTENT
 ========================================================= */
 
-    .settings-page .header-content {
+    .settings-page-2 .header-content {
         position: static;
         width: 100%;
         height: 48px;
@@ -170,7 +95,7 @@ body,
    BACK BUTTON
 ========================================================= */
 
-        .settings-page .header-content > button:first-child {
+        .settings-page-2 .header-content > button:first-child {
             position: static;
             width: 32px;
             min-width: 32px;
@@ -190,7 +115,7 @@ body,
             transition: background 0.2s ease, border-color 0.2s ease;
         }
 
-            .settings-page .header-content > button:first-child:hover {
+            .settings-page-2 .header-content > button:first-child:hover {
                 background: #1c2530;
                 border-color: #35404d;
             }
@@ -198,7 +123,7 @@ body,
 
     /* Arrow */
 
-    .settings-page .back-icon {
+    .settings-page-2 .back-icon {
         position: static;
         width: 14px;
         height: 14px;
@@ -213,7 +138,7 @@ body,
    SETTINGS TITLE
 ========================================================= */
 
-    .settings-page .header-content h3 {
+    .settings-page-2 .header-content h3 {
         position: static;
         width: auto;
         height: 32px;
@@ -229,95 +154,11 @@ body,
         flex-shrink: 0;
     }
 
-
-    /* =========================================================
-   SEARCH
-========================================================= */
-
-    .settings-page .search-wrapper {
-        position: static;
-        width: auto;
-        height: 48px;
-        min-width: 0;
-        flex: 1 1 auto;
-        margin: 0;
-        padding: 0 14px;
-        display: flex;
-        align-items: center;
-        background: #1a1b1f;
-        border: 1px solid #252b35;
-        border-radius: 10px;
-        box-shadow: none;
-        overflow: hidden;
-    }
-
-
-        /* Search icon */
-
-        .settings-page .search-wrapper img,
-        .settings-page .search-wrapper .search-icon {
-            position: static;
-            width: 17px;
-            height: 17px;
-            min-width: 17px;
-            margin: 0;
-            padding: 0;
-            object-fit: contain;
-            opacity: 0.7;
-            flex-shrink: 0;
-        }
-
-
-        /* Search input */
-
-        .settings-page .search-wrapper input {
-            position: static;
-            width: 100%;
-            height: 100%;
-            min-width: 0;
-            margin: 0 0 0 9px;
-            padding: 0;
-            display: block;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
-            line-height: 1;
-        }
-
-            .settings-page .search-wrapper input::placeholder {
-                color: #858993;
-                opacity: 1;
-            }
-
-
-        /* =========================================================
-   SEARCH CLEAR BUTTON
-========================================================= */
-
-        .settings-page .search-wrapper button {
-            position: static;
-            width: 18px;
-            height: 18px;
-            min-width: 18px;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
-
     /* =========================================================
    NOTIFICATION CONTAINER
 ========================================================= */
 
-    .settings-page .header-content > div:last-child {
+    .settings-page-2 .header-content > div:last-child {
         position: static;
         width: 32px;
         min-width: 32px;
@@ -336,7 +177,7 @@ body,
    NOTIFICATION BUTTON
 ========================================================= */
 
-    .settings-page .notification-btn {
+    .settings-page-2 .notification-btn {
         position: static;
         width: 32px;
         min-width: 32px;
@@ -356,7 +197,7 @@ body,
         transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-        .settings-page .notification-btn:hover {
+        .settings-page-2 .notification-btn:hover {
             background: #1c2530;
             border-color: #35404d;
         }
@@ -364,7 +205,7 @@ body,
 
         /* Bell */
 
-        .settings-page .notification-btn img {
+        .settings-page-2 .notification-btn img {
             position: static;
             width: 15px;
             height: 15px;
@@ -374,109 +215,12 @@ body,
             object-fit: contain;
             opacity: 0.9;
         }
-
-
-    /* =========================================================
-   ACCOUNT PRIVACY
-========================================================= */
-
-    .settings-page .account-privacy {
-        position: static;
-        width: 280px;
-        min-width: 280px;
-        flex: 0 0 280px;
-        align-self: flex-start;
-        margin: 0;
-        padding: 24px;
-        background: #111217;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-        text-align: left;
-        overflow: hidden;
-    }
-
-
-        /* Account Privacy title */
-
-        .settings-page .account-privacy h3 {
-            position: static;
-            width: 100%;
-            margin: 0 0 16px 0;
-            padding: 0;
-            color: #aaaaaa;
-            font-size: 16px;
-            line-height: 1.2;
-            font-weight: 500;
-            text-align: left;
-        }
-
-
-        /* Account Privacy list */
-
-        .settings-page .account-privacy ul {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            text-align: left;
-        }
-
-
-        /* Account Privacy item */
-
-        .settings-page .account-privacy li {
-            position: static;
-            width: 100%;
-            min-height: 42px;
-            margin: 0 0 4px 0;
-            padding: 9px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 12px;
-            background: transparent;
-            border-radius: 8px;
-            color: #cccccc;
-            font-size: 14px;
-            line-height: 1.2;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-
-            .settings-page .account-privacy li:last-child {
-                margin-bottom: 0;
-            }
-
-            .settings-page .account-privacy li:hover {
-                background: #1a1b1f;
-            }
-
-            .settings-page .account-privacy li.active {
-                background: #5b46ff;
-                color: #ffffff;
-            }
-
-
-            /* Account Privacy icons */
-
-            .settings-page .account-privacy li .icon {
-                position: static;
-                width: 24px;
-                height: 24px;
-                min-width: 24px;
-                margin: 0;
-                padding: 0;
-                object-fit: contain;
-                flex-shrink: 0;
-            }
-
-
+        
     /* =========================================================
    RIGHT SETTINGS PANEL
 ========================================================= */
 
-    .settings-page .email-settings {
+    .settings-page-2 .email-settings {
         position: static;
         width: auto;
         min-width: 0;
@@ -496,7 +240,7 @@ body,
    MAIN TITLE
 ========================================================= */
 
-        .settings-page .email-settings h2 {
+        .settings-page-2 .email-settings h2 {
             position: static;
             display: block;
             width: 100%;
@@ -514,7 +258,7 @@ body,
    MAIN DESCRIPTION
 ========================================================= */
 
-        .settings-page .email-settings > p {
+        .settings-page-2 .email-settings > p {
             position: static;
             display: block;
             width: 100%;
@@ -531,7 +275,7 @@ body,
    SECTION TITLE
 ========================================================= */
 
-        .settings-page .email-settings > .section-title {
+        .settings-page-2 .email-settings > .section-title {
             position: static;
             display: block;
             width: 100%;
@@ -549,7 +293,7 @@ body,
    SETTING ROW
 ========================================================= */
 
-    .settings-page .setting-row {
+    .settings-page-2 .setting-row {
         position: static;
         width: 100%;
         min-height: 80px;
@@ -566,11 +310,11 @@ body,
         transition: background 0.2s ease;
     }
 
-        .settings-page .setting-row:last-child {
+        .settings-page-2 .setting-row:last-child {
             margin-bottom: 0;
         }
 
-        .settings-page .setting-row:hover {
+        .settings-page-2 .setting-row:hover {
             background: #22232a;
         }
 
@@ -579,7 +323,7 @@ body,
    INFO
 ========================================================= */
 
-    .settings-page .info {
+    .settings-page-2 .info {
         position: static;
         width: auto;
         min-width: 0;
@@ -599,7 +343,7 @@ body,
    INFO ICON
 ========================================================= */
 
-        .settings-page .info img.icon {
+        .settings-page-2 .info img.icon {
             position: static;
             width: 24px;
             height: 24px;
@@ -616,7 +360,7 @@ body,
    TEXT BLOCK
 ========================================================= */
 
-    .settings-page .text {
+    .settings-page-2 .text {
         position: static;
         width: auto;
         min-width: 0;
@@ -635,7 +379,7 @@ body,
    ROW TITLE
 ========================================================= */
 
-        .settings-page .text h4 {
+        .settings-page-2 .text h4 {
             position: static;
             display: block;
             width: auto;
@@ -653,7 +397,7 @@ body,
    ROW DESCRIPTION
 ========================================================= */
 
-        .settings-page .text p {
+        .settings-page-2 .text p {
             position: static;
             display: block;
             width: auto;
@@ -670,7 +414,7 @@ body,
    SWITCH
 ========================================================= */
 
-    .settings-page .switch {
+    .settings-page-2 .switch {
         position: relative;
         display: inline-block;
         width: 46px;
@@ -684,7 +428,7 @@ body,
 
         /* Hidden checkbox */
 
-        .settings-page .switch input {
+        .settings-page-2 .switch input {
             position: absolute;
             width: 0;
             height: 0;
@@ -695,7 +439,7 @@ body,
 
     /* Slider */
 
-    .settings-page .slider {
+    .settings-page-2 .slider {
         position: absolute;
         top: 0;
         left: 0;
@@ -712,7 +456,7 @@ body,
 
         /* Slider circle */
 
-        .settings-page .slider::before {
+        .settings-page-2 .slider::before {
             position: absolute;
             content: '';
             width: 18px;
@@ -727,11 +471,11 @@ body,
 
     /* Checked */
 
-    .settings-page .switch input:checked + .slider {
+    .settings-page-2 .switch input:checked + .slider {
         background-color: #5b46ff;
     }
 
-        .settings-page .switch input:checked + .slider::before {
+        .settings-page-2 .switch input:checked + .slider::before {
             transform: translateX(22px);
         }
 
@@ -740,14 +484,14 @@ body,
    CONTENT PREFERENCES EXTRA ELEMENTS
 ========================================================= */
 
-    .settings-page .text-div-info {
+    .settings-page-2 .text-div-info {
         display: flex;
         align-items: center;
         gap: 16px;
     }
 
 
-    .settings-page .text-info {
+    .settings-page-2 .text-info {
         margin-top: 24px;
         color: #aaaaaa;
         font-size: 14px;
@@ -756,7 +500,7 @@ body,
 
     /* Arrow on Content Preferences */
 
-    .settings-page .setting-row .arrow {
+    .settings-page-2 .setting-row .arrow {
         width: 20px;
         height: 20px;
         margin-left: auto;
@@ -771,7 +515,7 @@ body,
    PRIVACY NOTE
 ========================================================= */
 
-    .settings-page .privacy-note {
+    .settings-page-2 .privacy-note {
         width: 100%;
         margin: 16px 0 0 0;
         padding: 12px 16px;
@@ -791,7 +535,7 @@ body,
    BOTTOM NAV
 ========================================================= */
 
-    .settings-page .bottom-nav {
+    .settings-page-2 .bottom-nav {
         display: none;
     }
 
@@ -802,31 +546,16 @@ body,
 
 @media (max-width: 744px) {
 
-    .settings-page {
+    .settings-page-2 {
         flex-direction: column;
         width: 100%;
         height: 100vh;
     }
-
-
-        /* Sidebar */
-
-        .settings-page .sidebar {
-            width: 100%;
-            min-width: 100%;
-            height: auto;
-            padding: 10px 0;
-            flex-direction: row;
-            justify-content: space-around;
-            gap: 0;
-            border-right: none;
-            border-bottom: 1px solid #1f2024;
-        }
-
+    
 
         /* Main */
 
-        .settings-page .content {
+        .settings-page-2-2 .content {
             width: 100%;
             height: calc(100vh - 60px);
             padding: 16px;
@@ -840,7 +569,7 @@ body,
 
         /* Header */
 
-        .settings-page .header {
+        .settings-page-2 .header {
             width: 100%;
             height: 48px;
             flex: 0 0 48px;
@@ -848,7 +577,7 @@ body,
         }
 
 
-        .settings-page .header-content {
+        .settings-page-2 .header-content {
             width: 100%;
             height: 48px;
             gap: 8px;
@@ -857,7 +586,7 @@ body,
 
             /* Back */
 
-            .settings-page .header-content > button:first-child {
+            .settings-page-2 .header-content > button:first-child {
                 width: 32px;
                 min-width: 32px;
                 height: 32px;
@@ -867,14 +596,14 @@ body,
 
             /* Hide Settings title */
 
-            .settings-page .header-content h3 {
+            .settings-page-2 .header-content h3 {
                 display: none;
             }
 
 
         /* Search */
 
-        .settings-page .search-wrapper {
+        .settings-page-2 .search-wrapper {
             width: auto;
             height: 48px;
             flex: 1 1 auto;
@@ -884,14 +613,14 @@ body,
 
         /* Bell */
 
-        .settings-page .header-content > div:last-child {
+        .settings-page-2 .header-content > div:last-child {
             width: 32px;
             min-width: 32px;
             height: 32px;
             min-height: 32px;
         }
 
-        .settings-page .notification-btn {
+        .settings-page-2 .notification-btn {
             width: 32px;
             min-width: 32px;
             height: 32px;
@@ -901,7 +630,7 @@ body,
 
         /* Account Privacy */
 
-        .settings-page .account-privacy {
+        .settings-page-2 .account-privacy {
             width: 100%;
             min-width: 100%;
             flex: none;
@@ -911,7 +640,7 @@ body,
 
         /* Main panel */
 
-        .settings-page .email-settings {
+        .settings-page-2 .email-settings {
             width: 100%;
             flex: none;
             margin: 0;
@@ -920,7 +649,7 @@ body,
 
         /* Rows */
 
-        .settings-page .setting-row {
+        .settings-page-2 .setting-row {
             min-height: 76px;
             padding: 14px;
         }
@@ -933,20 +662,20 @@ body,
 
 @media (max-width: 480px) {
 
-    .settings-page .content {
+    .settings-page-2 .content {
         padding: 12px;
     }
 
 
     /* Header */
 
-    .settings-page .header {
+    .settings-page-2 .header {
         height: 48px;
         margin-bottom: 24px;
     }
 
 
-    .settings-page .header-content {
+    .settings-page-2 .header-content {
         height: 48px;
         gap: 6px;
     }
@@ -954,7 +683,7 @@ body,
 
         /* Arrow */
 
-        .settings-page .header-content > button:first-child {
+        .settings-page-2 .header-content > button:first-child {
             width: 32px;
             min-width: 32px;
             height: 32px;
@@ -964,20 +693,20 @@ body,
 
     /* Search */
 
-    .settings-page .search-wrapper {
+    .settings-page-2 .search-wrapper {
         height: 42px;
         padding: 0 10px;
     }
 
 
-        .settings-page .search-wrapper input {
+        .settings-page-2 .search-wrapper input {
             font-size: 11px;
         }
 
 
     /* Bell */
 
-    .settings-page .header-content > div:last-child {
+    .settings-page-2 .header-content > div:last-child {
         width: 32px;
         min-width: 32px;
         height: 32px;
@@ -985,7 +714,7 @@ body,
     }
 
 
-    .settings-page .notification-btn {
+    .settings-page-2 .notification-btn {
         width: 32px;
         min-width: 32px;
         height: 32px;
@@ -995,7 +724,7 @@ body,
 
     /* Account */
 
-    .settings-page .account-privacy {
+    .settings-page-2 .account-privacy {
         width: 100%;
         min-width: 100%;
         margin-bottom: 24px;
@@ -1005,7 +734,7 @@ body,
 
     /* Main panel */
 
-    .settings-page .email-settings {
+    .settings-page-2 .email-settings {
         width: 100%;
         padding: 18px;
     }
@@ -1013,14 +742,14 @@ body,
 
         /* Main title */
 
-        .settings-page .email-settings h2 {
+        .settings-page-2 .email-settings h2 {
             font-size: 20px;
         }
 
 
     /* Rows */
 
-    .settings-page .setting-row {
+    .settings-page-2 .setting-row {
         min-height: 72px;
         padding: 12px;
     }
@@ -1028,14 +757,14 @@ body,
 
     /* Info */
 
-    .settings-page .info {
+    .settings-page-2 .info {
         gap: 10px;
     }
 
 
         /* Icons */
 
-        .settings-page .info img.icon {
+        .settings-page-2 .info img.icon {
             width: 22px;
             height: 22px;
             min-width: 22px;
@@ -1045,14 +774,14 @@ body,
 
     /* Titles */
 
-    .settings-page .text h4 {
+    .settings-page-2 .text h4 {
         font-size: 14px;
     }
 
 
     /* Descriptions */
 
-    .settings-page .text p {
+    .settings-page-2 .text p {
         font-size: 11px;
     }
 }
