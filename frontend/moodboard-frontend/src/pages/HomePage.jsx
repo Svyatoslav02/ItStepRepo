@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/HomePage.css";
+import SidebarComponent from "../components/SidebarComponent";
+import SearchComponent from "../components/SearchComponent.jsx";
 
 const categories = ["All", "Nature", "Travel", "Wallpaper", "Art", "Design"];
 
@@ -47,58 +49,20 @@ const HomePage = () => {
 
     return (
         <div className="gallery-layout">
-            {/* Sidebar */}
-            <aside className="sidebar">
-                <div className="sidebar-icons">
-                    <img src="/assets/icons/logo.png" alt="Logo" className="icon" />
-                </div>
-                <div className="sidebar-bottom">
-                    <a href="/home" className="icon">
-                        <img src="/assets/icons/home-03.png" alt="Go to Home" />
-                    </a>
-                    <a href="/homesearch" className="icon">
-                        <img src="/assets/icons/search-01.png" alt="Search" />
-                    </a>
-                    <a href="/aiwelcome" className="icon">
-                        <img src="/assets/icons/ai-beautify.png" alt="AI-Welcome" />
-                    </a>
-                    <a href="/user" className="icon">
-                        <img src="/assets/icons/user-03.png" alt="User profile" />
-                    </a>
-                    <a href="/settings" className="icon">
-                        <img src="/assets/icons/settings-01.png" alt="Settings" />
-                    </a>
-                </div>
-                <div className="sidebar-bottom-ex">
-                    <button className="icon"><img src="/assets/icons/logout-02.png" alt="Logout" /></button>
-                </div>
-            </aside>
+            <SidebarComponent activeItem="home" />
 
             {/* Main Content */}
             <main className="main-content">
-                <header className="header">
-                    <div className="header-content">
-                        <div className="search-wrapper">
-                            <img src="/assets/icons/search-01.png" alt="Search" className="search-icon" />
-                            <input
-                                type="text"
-                                placeholder="Search for ideas"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-
-                        </div>
-                        <div>
-                            <button
-                                className="notification-btn"
-                            >
+                <header className="header-1">
+                    <div className="header-content-1">
+                        <SearchComponent />
+                        <div className="notification-btn">
                                 <img src="/assets/icons/bell.png" alt="Favorite" />
-                            </button>
                         </div>
                     </div>
                 </header>
-
-
+                
+                <div className="with-scroll">
                 {/* Category Tabs */}
                 <div className="categories">
                     {categories.map((cat) => (
@@ -113,29 +77,28 @@ const HomePage = () => {
                 </div>
 
                 {/* Gallery */}
-                <div className="gallery-scroll">
-                    <div className="gallery-grid">
-                        {filteredItems.map((item) => (
-                            <div key={item.id} className="gallery-card">
-                                {/* Using images[item.id - 1] */}
-                                <div className="image-wrapper">
-                                    <img src={images[item.id - 1]} alt={item.title} />
-                                    <button
-                                        className={`fav-btn ${favorites.includes(item.id) ? "active" : ""}`}
-                                        onClick={() => toggleFavorite(item.id)}
-                                    >
-                                        <img src={favorites.includes(item.id) ? "/assets/icons/heart-1.png" : "/assets/icons/heart.png"} alt="Favorite" />
-                                    </button>
-                                </div>
-                                <div className="card-info">
-                                    <h4>{item.title}</h4>
-                                    <div className="card-actions">
-                                        <button className="menu-btn">⋯</button>
-                                    </div>
+                <div className="gallery-grid">
+                    {filteredItems.map((item) => (
+                        <div key={item.id} className="gallery-card">
+                            {/* Using images[item.id - 1] */}
+                            <div className="image-wrapper">
+                                <img src={images[item.id - 1]} alt={item.title} />
+                                <button
+                                    className={`fav-btn ${favorites.includes(item.id) ? "active" : ""}`}
+                                    onClick={() => toggleFavorite(item.id)}
+                                >
+                                    <img src={favorites.includes(item.id) ? "/assets/icons/heart-1.png" : "/assets/icons/heart.png"} alt="Favorite" />
+                                </button>
+                            </div>
+                            <div className="card-info">
+                                <h4>{item.title}</h4>
+                                <div className="card-actions">
+                                    <button className="menu-btn">⋯</button>
                                 </div>
                             </div>
-                        ))}
-                    </div> 
+                        </div>
+                    ))}
+                </div>
                 </div>
                 
             </main>

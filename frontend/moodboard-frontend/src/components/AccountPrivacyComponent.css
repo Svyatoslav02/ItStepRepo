@@ -1,0 +1,95 @@
+﻿/* =========================================================
+ACCOUNT PRIVACY
+========================================================= */
+
+.account-privacy {
+    position: static;
+    width: 280px;
+    min-width: 280px;
+    flex: 0 0 280px;
+    align-self: flex-start;
+    margin: 0;
+    padding: 24px;
+    background: #0C131C;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    text-align: left;
+    overflow: hidden;
+}
+
+
+/* Account Privacy title */
+
+.account-privacy h3 {
+    position: static;
+    width: 100%;
+    margin: 0 0 16px 0;
+    padding: 0;
+    color: #F4F1F0A1;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 600;
+    text-align: left;
+}
+
+
+/* Account Privacy list */
+.account-privacy ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+
+/* Account Privacy item */
+
+.account-privacy li {
+    position: static;
+    width: 100%;
+    min-height: 42px;
+    margin: 0 0 15px 0;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    background: transparent;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.account-privacy li:last-child {
+    margin-bottom: 0;
+}
+
+.account-privacy li:hover {
+    background: #14202e;
+}
+
+.account-privacy li.active {
+    background: #4F45E3;
+    color: #ffffff;
+}
+
+
+/* Account Privacy icons */
+
+.account-privacy li .icon {
+    position: static;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    margin: 0;
+    padding: 0;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+

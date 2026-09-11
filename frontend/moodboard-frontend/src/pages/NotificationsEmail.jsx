@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/NotificationsEmail.css";
+import SidebarComponent from "../components/SidebarComponent";
+import AccountPrivacyComponent from "../components/AccountPrivacyComponent.jsx";
+import SearchComponent from "../components/SearchComponent.jsx";
 
 const NotificationsEmail = () => {
-    const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const accountPrivacy = [
-        { icon: "/assets/icons/security-lock.png", path: "/content-preferences", title: "Privacy" },
-        { icon: "/assets/icons/bell.png", path: "/notifications-push", title: "Notifications Push" },
-        { icon: "/assets/icons/mail-01.png", path: "/notifications-email", title: "Notifications Email" },
-        { icon: "/assets/icons/view.png", path: "/appearance", title: "Appearance" },
-        { icon: "/assets/icons/languages.png", path: "/language", title: "Language" },
-        { icon: "/assets/icons/user-block-01.png", path: "/blocked-users", title: "Blocked Users" },
-        { icon: "/assets/icons/download-01.png", path: "/downloads", title: "Downloads" },
-    ];
 
     const emailSettings = [
         { icon: "/assets/icons/heart.png", title: "Likes", desc: "Receive emails when someone likes my post.", enabled: true },
@@ -26,46 +17,19 @@ const NotificationsEmail = () => {
     ];
 
     return (
-        <div className="settings-page">
-            <aside className="sidebar">
-                <img src="/assets/icons/bluesky.png" alt="Logo" className="icon" />
-                <button className={`icon ${location.pathname === "/home" ? "active" : ""}`} onClick={() => navigate("/home")}>
-                    <img src="/assets/icons/home-03.png" alt="Home" />
-                </button>
-                <button className={`icon ${location.pathname === "/search" ? "active" : ""}`} onClick={() => navigate("/search")}>
-                    <img src="/assets/icons/search-01.png" alt="Search" />
-                </button>
-                <button className={`icon ${location.pathname === "/ai" ? "active" : ""}`} onClick={() => navigate("/ai")}>
-                    <img src="/assets/icons/ai-beautify.png" alt="AI" />
-                </button>
-                <button className={`icon ${location.pathname === "/user" ? "active" : ""}`} onClick={() => navigate("/user")}>
-                    <img src="/assets/icons/user-03.png" alt="User" />
-                </button>
-                <button className={`icon ${location.pathname === "/settings" ? "active" : ""}`} onClick={() => navigate("/settings")}>
-                    <img src="/assets/icons/settings-01.png" alt="Settings" />
-                </button>
-                <button className="icon bottom" onClick={() => navigate("/login")}>
-                    <img src="/assets/icons/logout-02.png" alt="Back" />
-                </button>
-            </aside>
-
+        <div className="settings-page-2">
+            
+            <SidebarComponent activeItem={"settings"} />
+            
             <main className="content">
-                <header className="header">
+                <header className="header-2">
                     <div className="header-content">
                         <button onClick={() => navigate("/home")}>
                             <img src="/assets/icons/arrow-left-01.png" alt="Back" className="back-icon" />
                         </button>
                         <h3>Settings</h3>
 
-                        <div className="search-wrapper">
-                            <img src="/assets/icons/search-01.png" alt="Search" className="search-icon" />
-                            <input
-                                type="text"
-                                placeholder="Search for ideas"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
+                        <SearchComponent/>
 
                         <div>
                             <button className="notification-btn">
@@ -75,22 +39,7 @@ const NotificationsEmail = () => {
                     </div>
                 </header>
 
-                {/* Account Privacy menu */}
-                <section className="account-privacy">
-                    <h3>Account Privacy</h3>
-                    <ul>
-                        {accountPrivacy.map((item) => (
-                            <li
-                                key={item.title}
-                                className={location.pathname === item.path ? "active" : ""}
-                                onClick={() => navigate(item.path)}
-                            >
-                                <img src={item.icon} alt={item.title} className="icon" />
-                                {item.title}
-                            </li>
-                        ))}
-                    </ul>
-                </section>
+                <AccountPrivacyComponent activeItem={"notifications-email"}/>
 
                 <section className="email-settings">
                     <h2>Notifications</h2>

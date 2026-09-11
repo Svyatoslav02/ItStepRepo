@@ -10,46 +10,11 @@ html, body, #root {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #0b0f1a;
+    background: radial-gradient(50% 50% at 50% 50%, #0F1C2B 0%, #00080E 100%);
     color: #fff;
     font-family: "Inter", sans-serif;
 }
 
-/* ===== Sidebar ===== */
-.sidebar,
-.sidebar-bottom {
-    width: 80px;
-    background-color: #0C131C;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-}
-.sidebar-icons .icon,
-.sidebar-bottom .icon,
-.sidebar-bottom-ex .icon {
-    background: none;
-    border: none;
-    color: #9ca3af;
-    font-size: 1.4rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.sidebar-bottom {
-    margin-top: 50px;
-    gap: 46px;
-}
-.sidebar-bottom-ex {
-    position: absolute;
-    bottom: 30px;
-}
-
-.sidebar-icons .icon:hover,
-.sidebar-bottom .icon:hover {
-    color: #a78bfa;
-}
 /* ===== HOVER ===== */
 .sidebar-icons .icon:hover,
 .sidebar-bottom .icon:hover,
@@ -63,23 +28,28 @@ html, body, #root {
     flex: 1;
     max-width: 1920px;
     margin: 0 auto;
-    padding: 2rem 3rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
+.with-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2rem 3rem;
+}
+
 /* ===== Header ===== */
-.header {
+.header-1 {
+    padding: 32px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
     flex-wrap: wrap;
-    padding-left: 28px;
+    background-color: #0C131C;
 }
 
-.header-content {
+.header-content-1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -103,37 +73,6 @@ html, body, #root {
     color: #9ca3af;
 }
 
-.search-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background-color: #1f2937;
-    border-radius: 8px;
-}
-
-.search-icon {
-    position: absolute;
-    left: 12px;
-    width: 22px;
-    height: 22px;
-    opacity: 0.7;
-}
-
-.search-wrapper input {
-    width: 100%;
-    padding: 0.6rem 1rem 0.6rem 40px;
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-size: 0.95rem;
-    outline: none;
-}
-
-    .search-wrapper input::placeholder {
-        color: #6b7280;
-    }
-
 .notification-btn:hover {
     background-color: #374151;
     color: #fff;
@@ -144,11 +83,10 @@ html, body, #root {
     gap: 1rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
-    margin-top: 55px;
 }
 
 .category-tab {
-    width: 150px;
+    width: 200px;
     background-color: #1f2937;
     border: none;
     color: #9ca3af;

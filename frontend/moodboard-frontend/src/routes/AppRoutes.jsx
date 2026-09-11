@@ -6,9 +6,10 @@ import SignUpPage from '../pages/SignUpPage'
 import HomePage from '../pages/HomePage'
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
-import HomeSearchUI from "../pages/HomeSearchUI.jsx";
 import AiWelcome from '../pages/AiWelcome.jsx'
 import NotificationsEmail from '../pages/NotificationsEmail.jsx'
+import ContentPreferences from '../pages/ContentPreferences.jsx'
+import PushNotifications from '../pages/PushNotifications'
 import WelcomePage from '../pages/WelcomePage.jsx'
 import NotFound from '../pages/NotFound.jsx'
 
@@ -19,16 +20,14 @@ export default function AppRoutes() {
             <Route path="/inspiration" element={<InspirationLoading />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} /> +
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/welcome" element={<WelcomePage />} />            
-            <Route path="/ai-welcome" element={<AiWelcome />} />
-            <Route path="/homesearch" element={<HomeSearchUI/>} />            
-            <Route path="/welcome" element={<WelcomePage />} />
-            <Route path="/notifications-email" element={<NotificationsEmail />} />
-            <Route path="/welcome" element={<HomePage />} />
-            <Route path="*" element={<HomePage />} />
+            <Route path="/ai-welcome" element={<AiWelcome />} />     +        
+            <Route path="/notifications-email" element={<NotificationsEmail />} /> +
+            <Route path="/content-preferences" element={<ContentPreferences />} />
+            <Route path="/notifications-push" element={<PushNotifications />} />
+            <Route path="/welcome" element={<WelcomePage />} /> 
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
