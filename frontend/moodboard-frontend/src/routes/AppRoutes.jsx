@@ -4,6 +4,7 @@ import InspirationLoading from '../pages/InspirationLoading'
 import LoginPage from '../pages/LoginPage.jsx'
 import SignUpPage from '../pages/SignUpPage'
 import HomePage from '../pages/HomePage'
+import Home from '../pages/Home.jsx';
 import InterestsPage from '../pages/InterestsPage.jsx'
 import DiscoverPage from '../pages/DiscoverPage.jsx'
 import AiWelcome from '../pages/AiWelcome.jsx'
