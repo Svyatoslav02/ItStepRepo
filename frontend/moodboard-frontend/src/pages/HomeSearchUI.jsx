@@ -1,14 +1,16 @@
 ﻿import React, { useState } from "react";
 import "../styles/HomeSearchUI.css";
+import SidebarComponent from "../components/SidebarComponent";
+import SearchComponent from "../components/SearchComponent.jsx";
 
-const recentSearches = [
+const recentSearches1 = [
     "Neon Tokyo street",
     "Minimalist interior",
     "Flash photography",
     "Drone beach shot",
 ];
 
-const popularCategories = [
+const popularCategories1 = [
     { name: "Architecture", count: "12.4k", icon: "/src/assets/images/building-03.png" },
     { name: "Macro Shots", count: "6.3k", icon: "/src/assets/images/eco-power.png" },
     { name: "Studio Portrait", count: "15.8k", icon: "/src/assets/images/3-d-view.png" },
@@ -16,8 +18,7 @@ const popularCategories = [
     { name: "Street Style", count: "9.3k", icon: "/src/assets/images/footprints.png" },
 ];
 
-
-const trendingItems = [
+const trendingItems1 = [
     { id: 1, title: "Fashion Editorial", searches: "15.7k", img: "/assets/images/image1.jpg" },
     { id: 2, title: "Seascapes", searches: "27.9k", img: "/assets/images/image2.jpg" },
     { id: 3, title: "Retro Film Aesthetic", searches: "1.8k", img: "/assets/images/image3.jpg" },
@@ -30,7 +31,7 @@ const trendingItems = [
     { id: 10, title: "Neon Cyberpunk", searches: "12.4k", img: "/assets/images/image10.jpg" },
 ];
 
-const exploreItems = [
+const exploreItems1 = [
     { id: 11, title: "Vibrant Gradients", searches: "14.0k", img: "/assets/images/image1.jpg" },
     { id: 12, title: "Minimalist Posters", searches: "10.6k", img: "/assets/images/image2.jpg" },
     { id: 13, title: "Brutalist Textures", searches: "11.3k", img: "/assets/images/image3.jpg" },
@@ -39,107 +40,71 @@ const exploreItems = [
     { id: 16, title: "Product Layouts", searches: "5.2k", img: "/assets/images/image6.jpg" },
 ];
 
-const HomePage = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [favorites, setFavorites] = useState([]);
-    const [recent, setRecent] = useState(recentSearches);
+const HomePage1 = () => {
+    const [searchQuery1, setSearchQuery1] = useState("");
+    const [favorites1, setFavorites1] = useState([]);
+    const [recent1, setRecent1] = useState(recentSearches1);
 
-    const toggleFavorite = (id) => {
-        setFavorites((prev) =>
+    const toggleFavorite1 = (id) => {
+        setFavorites1((prev) =>
             prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
         );
     };
 
-    const clearRecent = () => {
-        setRecent([]);
+    const clearRecent1 = () => {
+        setRecent1([]);
     };
 
-    const removeRecent = (item) => {
-        setRecent((prev) => prev.filter((r) => r !== item));
+    const removeRecent1 = (item) => {
+        setRecent1((prev) => prev.filter((r) => r !== item));
     };
 
     return (
-        <div className="home-search-container">
+        <div className="home-search-container1">
             {/* ===== SIDEBAR ===== */}
-            <aside className="sidebar">
-                <div className="sidebar-icons">
-                    <img src="/assets/icons/logo.png" alt="Logo" className="icon" />
-                </div>
-                <div className="sidebar-bottom">
-                    <a href="/home" className="icon">
-                        <img src="/assets/icons/home-03.png" alt="Go to Home" />
-                    </a>
-                    <a href="/homesearch" className="icon">
-                        <img src="/assets/icons/search-01.png" alt="Search" />
-                    </a>
-                    <a href="/aiwelcome" className="icon">
-                        <img src="/assets/icons/ai-beautify.png" alt="AI-Welcome" />
-                    </a>
-                    <a href="/user" className="icon">
-                        <img src="/assets/icons/user-03.png" alt="User profile" />
-                    </a>
-                    <a href="/settings" className="icon">
-                        <img src="/assets/icons/settings-01.png" alt="Settings" />
-                    </a>
-                </div>
-                <div className="sidebar-bottom-ex">
-                    <button className="icon"><img src="/assets/icons/logout-02.png" alt="Logout" /></button>
-                </div>
-            </aside>
+            <SidebarComponent activeItem="home-search" />
 
             {/* ===== MAIN ===== */}
-            <main className="main-content">
+            <main className="main-content1">
                 {/* Шапка з пошуком */}
-                <header className="header">
-                    <div className="header-content">
-                        <div className="search-wrapper1">
-                            <img
-                                src="/assets/images/search-01.png"
-                                alt="Search"
-                                className="search-icon"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Search for ideas"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
+                <header className="header1">
+                    <div className="header-content-1">
+                        <SearchComponent />
+                        <div className="notification-btn">
+                            <img src="/assets/icons/bell.png" alt="Favorite" />
                         </div>
-                        <button className="notification-btn">
-                            <img src="/assets/icons/bell.png" alt="Notifications" />
-                        </button>
                     </div>
                 </header>
 
                 {/* ===== КОНТЕНТ (дві колонки) ===== */}
-                <div className="search-page-content">
+                <div className="search-page-content1">
                     {/* ----- ЛІВА КОЛОНКА ----- */}
-                    <div className="left-column">
+                    <div className="left-column1">
                         {/* Recent searches */}
-                        <section className="section">
-                            <div className="section-header">
-                                <h2 className="section-title">Recent searches</h2>
-                                {recent.length > 0 && (
-                                    <button className="view-all-btn" onClick={clearRecent}>
+                        <section className="section1">
+                            <div className="section-header1">
+                                <h2 className="section-title1">Recent searches</h2>
+                                {recent1.length > 0 && (
+                                    <button className="view-all-btn1" onClick={clearRecent1}>
                                         Clear all
                                     </button>
                                 )}
                             </div>
 
-                            <div className="recent-list">
-                                {recent.map((item) => (
-                                    <button key={item} className="recent-item">
+                            <div className="recent-list1">
+                                {recent1.map((item) => (
+                                    <button key={item} className="recent-item1">
                                         <img
                                             src="/assets/icons/search-01.png"
                                             alt=""
-                                            className="recent-icon"
+                                            className="recent-icon1"
                                         />
                                         <span>{item}</span>
                                         <button
-                                            className="remove-recent"
+                                            className="remove-recent1"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                removeRecent(item);
+                                                removeRecent1(item);
                                             }}
                                         >
                                             <img src="/src/assets/images/Vector.png" alt="Remove" />
@@ -150,24 +115,24 @@ const HomePage = () => {
                         </section>
 
                         {/* Popular categories */}
-                        <section className="section">
-                            <div className="section-header">
-                                <h2 className="section-title">Popular categories</h2>
-                                <button className="view-all-btn">View all</button>
+                        <section className="section1">
+                            <div className="section-header1">
+                                <h2 className="section-title1">Popular categories</h2>
+                                <button className="view-all-btn1">View all</button>
                             </div>
 
-                            <div className="categories-list">
-                                {popularCategories.map((cat) => (
-                                    <button key={cat.name} className="category-item">
-                                        <div className="category-icon">
+                            <div className="categories-list1">
+                                {popularCategories1.map((cat) => (
+                                    <button key={cat.name} className="category-item1">
+                                        <div className="category-icon1">
                                             <img src={cat.icon} alt={cat.name} />
                                         </div>
-                                        <span className="category-name">{cat.name}</span>
-                                        <span className="category-count">{cat.count}</span>
+                                        <span className="category-name1">{cat.name}</span>
+                                        <span className="category-count1">{cat.count}</span>
                                         <img
                                             src="/assets/icons/chevron-right.png"
                                             alt=""
-                                            className="chevron"
+                                            className="chevron1"
                                         />
                                     </button>
                                 ))}
@@ -176,28 +141,28 @@ const HomePage = () => {
                     </div>
 
                     {/* ----- ПРАВА КОЛОНКА ----- */}
-                    <div className="right-column">
+                    <div className="right-column1">
                         {/* Trending */}
-                        <section className="section">
-                            <div className="section-header">
-                                <h2 className="section-title">Trending searches on Ink</h2>
-                                <button className="view-all-btn">View all</button>
+                        <section className="section1">
+                            <div className="section-header1">
+                                <h2 className="section-title1">Trending searches on Ink</h2>
+                                <button className="view-all-btn1">View all</button>
                             </div>
 
-                            <div className="masonry-grid">
-                                {trendingItems.map((item) => (
-                                    <div key={item.id} className="gallery-card search-card">
-                                        <div className="image-wrapper">
+                            <div className="masonry-grid1">
+                                {trendingItems1.map((item) => (
+                                    <div key={item.id} className="gallery-card1 search-card1">
+                                        <div className="image-wrapper1">
                                             <img src={item.img} alt={item.title} />
                                             <button
-                                                className={`fav-btn ${
-                                                    favorites.includes(item.id) ? "active" : ""
+                                                className={`fav-btn1 ${
+                                                    favorites1.includes(item.id) ? "active" : ""
                                                 }`}
-                                                onClick={() => toggleFavorite(item.id)}
+                                                onClick={() => toggleFavorite1(item.id)}
                                             >
                                                 <img
                                                     src={
-                                                        favorites.includes(item.id)
+                                                        favorites1.includes(item.id)
                                                             ? "/assets/icons/heart-1.png"
                                                             : "/assets/icons/heart.png"
                                                     }
@@ -205,11 +170,11 @@ const HomePage = () => {
                                                 />
                                             </button>
                                         </div>
-                                        <div className="card-info">
+                                        <div className="card-info1">
                                             <h4>{item.title}</h4>
-                                            <span className="searches-count">
-                      {item.searches} searches
-                    </span>
+                                            <span className="searches-count1">
+                                              {item.searches} searches
+                                            </span>
                                         </div>
                                     </div>
                                 ))}
@@ -217,26 +182,26 @@ const HomePage = () => {
                         </section>
 
                         {/* Explore */}
-                        <section className="section">
-                            <div className="section-header">
-                                <h2 className="section-title">Explore collections</h2>
-                                <button className="view-all-btn">View all</button>
+                        <section className="section1">
+                            <div className="section-header1">
+                                <h2 className="section-title1">Explore collections</h2>
+                                <button className="view-all-btn1">View all</button>
                             </div>
 
-                            <div className="masonry-grid">
-                                {exploreItems.map((item) => (
-                                    <div key={item.id} className="gallery-card search-card">
-                                        <div className="image-wrapper">
+                            <div className="masonry-grid1">
+                                {exploreItems1.map((item) => (
+                                    <div key={item.id} className="gallery-card1 search-card1">
+                                        <div className="image-wrapper1">
                                             <img src={item.img} alt={item.title} />
                                             <button
-                                                className={`fav-btn ${
-                                                    favorites.includes(item.id) ? "active" : ""
+                                                className={`fav-btn1 ${
+                                                    favorites1.includes(item.id) ? "active" : ""
                                                 }`}
-                                                onClick={() => toggleFavorite(item.id)}
+                                                onClick={() => toggleFavorite1(item.id)}
                                             >
                                                 <img
                                                     src={
-                                                        favorites.includes(item.id)
+                                                        favorites1.includes(item.id)
                                                             ? "/assets/icons/heart-1.png"
                                                             : "/assets/icons/heart.png"
                                                     }
@@ -244,11 +209,11 @@ const HomePage = () => {
                                                 />
                                             </button>
                                         </div>
-                                        <div className="card-info">
+                                        <div className="card-info1">
                                             <h4>{item.title}</h4>
-                                            <span className="searches-count">
-                      {item.searches} searches
-                    </span>
+                                            <span className="searches-count1">
+                                              {item.searches} searches
+                                            </span>
                                         </div>
                                     </div>
                                 ))}
@@ -261,4 +226,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default HomePage1;

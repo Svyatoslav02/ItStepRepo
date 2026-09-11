@@ -12,23 +12,25 @@ import ContentPreferences from '../pages/ContentPreferences.jsx'
 import PushNotifications from '../pages/PushNotifications'
 import WelcomePage from '../pages/WelcomePage.jsx'
 import NotFound from '../pages/NotFound.jsx'
+import HomeSearchUI from "../pages/HomeSearchUI.jsx";
 
 export default function AppRoutes() {
-    return (
-        <Routes>
-            <Route path="/" element={<LoadingScreen />} />
-            <Route path="/inspiration" element={<InspirationLoading />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/home" element={<HomePage />} /> +
-            <Route path="/interests" element={<InterestsPage />} />
-            <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/ai-welcome" element={<AiWelcome />} />     +        
-            <Route path="/notifications-email" element={<NotificationsEmail />} /> +
-            <Route path="/content-preferences" element={<ContentPreferences />} />
-            <Route path="/notifications-push" element={<PushNotifications />} />
-            <Route path="/welcome" element={<WelcomePage />} /> 
-            <Route path="*" element={<NotFound />} />
-        </Routes>
-    )
+        return (
+            <Routes>
+                    <Route path="/" element={<LoadingScreen />} />
+                    <Route path="/inspiration" element={<InspirationLoading />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/home" element={<HomePage />} /> +
+                    <Route path="/interests" element={<InterestsPage />} />
+                    <Route path="/discover" element={<DiscoverPage />} />
+                    <Route path="/ai-welcome" element={<AiWelcome />} />     +
+                    <Route path="/notifications-email" element={<NotificationsEmail />} /> +
+                    <Route path="/content-preferences" element={<ContentPreferences />} />
+                    <Route path="/notifications-push" element={<PushNotifications />} />
+                    <Route path="/welcome" element={<WelcomePage />} />
+                    <Route path="*" element={<NotFound />} />
+                    <Route path="/home-search" element={<HomeSearchUI />} />
+            </Routes>
+        )
 }
