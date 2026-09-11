@@ -27,8 +27,8 @@ export default function AppRoutes() {
             <Route path="/homesearch" element={<HomeSearchUI/>} />            
             <Route path="/welcome" element={<WelcomePage />} />
             <Route path="/notifications-email" element={<NotificationsEmail />} />
-            <Route path="/welcome" element={<Home />} />
-            <Route path="*" element={<Home />} />
+            <Route path="/welcome" element={<HomePage />} />
+            <Route path="*" element={<HomePage />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
