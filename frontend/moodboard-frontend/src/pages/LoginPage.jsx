@@ -47,7 +47,7 @@ const LoginPage = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black text-white px-4">
-            <div className="w-full max-w-md bg-gray-900/70 backdrop-blur-md rounded-2xl p-8 shadow-xl space-y-6">
+            <div className="w-full max-w-md backdrop-blur-md rounded-2xl p-8 shadow-xl space-y-6">
                 <div className="text-center space-y-2">
                     <div className="flex justify-center items-center mb-6">
                         <div className="relative">
@@ -91,7 +91,7 @@ const LoginPage = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                                className="absolute right-3 top-1/3 -translate-y-1/2 text-gray-400 hover:text-gray-200"
                             >
                                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                             </button>
