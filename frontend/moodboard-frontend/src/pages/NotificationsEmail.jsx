@@ -1,20 +1,66 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/NotificationsEmail.css";
 import SidebarComponent from "../components/SidebarComponent";
 import AccountPrivacyComponent from "../components/AccountPrivacyComponent.jsx";
 import SearchComponent from "../components/SearchComponent.jsx";
+import { notificationsService } from "../services/notificationsService";
+
+// Maps each row's title to the backend NotificationPreferenceDto field name.
+const FIELD_BY_TITLE = {
+    Likes: "emailLikes",
+    Comments: "emailComments",
+    Tags: "emailTags",
+    "Friends requests": "emailFriendRequests",
+    Updates: "emailUpdates",
+};
+
+const defaultEmailSettings = [
+    { icon: "/assets/icons/heart.png", title: "Likes", desc: "Receive emails when someone likes my post.", enabled: true },
+    { icon: "/assets/icons/message-01.png", title: "Comments", desc: "Receive emails about new comments.", enabled: false },
+    { icon: "/assets/icons/tags.png", title: "Tags", desc: "Receive emails when someone tags me.", enabled: true },
+    { icon: "/assets/icons/user-plus.png", title: "Friends requests", desc: "Receive emails for new friend requests.", enabled: false },
+    { icon: "/assets/icons/telegram.png", title: "Updates", desc: "Receive emails about product updates and news.", enabled: true },
+];
 
 const NotificationsEmail = () => {
     const navigate = useNavigate();
+    const [emailSettings, setEmailSettings] = useState(defaultEmailSettings);
 
-    const emailSettings = [
-        { icon: "/assets/icons/heart.png", title: "Likes", desc: "Receive emails when someone likes my post.", enabled: true },
-        { icon: "/assets/icons/message-01.png", title: "Comments", desc: "Receive emails about new comments.", enabled: false },
-        { icon: "/assets/icons/tags.png", title: "Tags", desc: "Receive emails when someone tags me.", enabled: true },
-        { icon: "/assets/icons/user-plus.png", title: "Friends requests", desc: "Receive emails for new friend requests.", enabled: false },
-        { icon: "/assets/icons/telegram.png", title: "Updates", desc: "Receive emails about product updates and news.", enabled: true },
-    ];
+    useEffect(() => {
+        let cancelled = false;
+        notificationsService
+            .getPreferences()
+            .then((prefs) => {
+                if (cancelled || !prefs) return;
+                setEmailSettings((prev) =>
+                    prev.map((item) => {
+                        const field = FIELD_BY_TITLE[item.title];
+                        return field && prefs[field] !== undefined && prefs[field] !== null
+                            ? { ...item, enabled: prefs[field] }
+                            : item;
+                    })
+                );
+            })
+            .catch(() => {
+                // keep static defaults
+            });
+        return () => { cancelled = true; };
+    }, []);
+
+    const handleToggle = (title) => {
+        setEmailSettings((prev) =>
+            prev.map((item) => {
+                if (item.title !== title) return item;
+                const nextEnabled = !item.enabled;
+                const field = FIELD_BY_TITLE[title];
+                if (field) {
+                    notificationsService.updatePreferences({ [field]: nextEnabled }).catch(() => {});
+                }
+                return { ...item, enabled: nextEnabled };
+            })
+        );
+    };
 
     return (
         <div className="settings-page-2">
@@ -54,7 +100,7 @@ const NotificationsEmail = () => {
                                 </div>
                             </div>
                             <label className="switch">
-                                <input type="checkbox" defaultChecked={item.enabled} />
+                                <input type="checkbox" checked={item.enabled} onChange={() => handleToggle(item.title)} />
                                 <span className="slider"></span>
                             </label>
                         </div>
@@ -66,4 +112,3 @@ const NotificationsEmail = () => {
 };
 
 export default NotificationsEmail;
-

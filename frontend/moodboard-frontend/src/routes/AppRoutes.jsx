@@ -14,6 +14,7 @@ import WelcomePage from '../pages/WelcomePage.jsx'
 import NotFound from '../pages/NotFound.jsx'
 import CreatePostPage from '../pages/CreatePostPage.jsx'
 import HomeSearchUI from "../pages/HomeSearchUI.jsx";
+import ProtectedRoute from './ProtectedRoute.jsx'
 
 export default function AppRoutes() {
     return (
@@ -22,17 +23,17 @@ export default function AppRoutes() {
             <Route path="/inspiration" element={<InspirationLoading />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/home" element={<HomePage />} /> +
+            <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
             <Route path="/interests" element={<InterestsPage />} />
             <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/ai-welcome" element={<AiWelcome />} />     +        
-            <Route path="/notifications-email" element={<NotificationsEmail />} /> +
-            <Route path="/content-preferences" element={<ContentPreferences />} />
-            <Route path="/notifications-push" element={<PushNotifications />} />
+            <Route path="/ai-welcome" element={<AiWelcome />} />
+            <Route path="/notifications-email" element={<ProtectedRoute><NotificationsEmail /></ProtectedRoute>} />
+            <Route path="/content-preferences" element={<ProtectedRoute><ContentPreferences /></ProtectedRoute>} />
+            <Route path="/notifications-push" element={<ProtectedRoute><PushNotifications /></ProtectedRoute>} />
             <Route path="/welcome" element={<WelcomePage />} /> 
             <Route path="*" element={<NotFound />} />
-            <Route path="/home-search" element={<HomeSearchUI />} />
-            <Route path="/create-post-page" element={<CreatePostPage />} />
+            <Route path="/home-search" element={<ProtectedRoute><HomeSearchUI /></ProtectedRoute>} />
+            <Route path="/create-post-page" element={<ProtectedRoute><CreatePostPage /></ProtectedRoute>} />
         </Routes>
     )
 }

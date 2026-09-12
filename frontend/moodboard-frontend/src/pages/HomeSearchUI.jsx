@@ -1,7 +1,10 @@
-﻿import React, { useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import "../styles/HomeSearchUI.css";
 import SidebarComponent from "../components/SidebarComponent";
 import SearchComponent from "../components/SearchComponent.jsx";
+import { recentSearchesService } from "../services/recentSearchesService";
+import { searchService } from "../services/searchService";
+import { isAuthenticated } from "../utils/auth";
 
 const recentSearches1 = [
     "Neon Tokyo street",
@@ -40,10 +43,81 @@ const exploreItems1 = [
     { id: 16, title: "Product Layouts", searches: "5.2k", img: "/assets/images/image6.jpg" },
 ];
 
+// Formats a raw like-count number the way the original mock data did (e.g. "15.7k").
+function formatCount(n) {
+    if (typeof n !== "number") return n;
+    if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+    return String(n);
+}
+
 const HomePage1 = () => {
     const [searchQuery1, setSearchQuery1] = useState("");
     const [favorites1, setFavorites1] = useState([]);
     const [recent1, setRecent1] = useState(recentSearches1);
+    const [popularCategories, setPopularCategories] = useState(popularCategories1);
+    const [trendingItems, setTrendingItems] = useState(trendingItems1);
+    const [exploreItems] = useState(exploreItems1);
+
+    // Recent searches — only available for authenticated users.
+    useEffect(() => {
+        if (!isAuthenticated()) return;
+        let cancelled = false;
+        recentSearchesService
+            .getAll()
+            .then((apiRecent) => {
+                if (cancelled || !Array.isArray(apiRecent)) return;
+                if (apiRecent.length > 0) {
+                    setRecent1(apiRecent.map((r) => r.query));
+                }
+            })
+            .catch(() => {
+                // keep static fallback
+            });
+        return () => { cancelled = true; };
+    }, []);
+
+    // Categories.
+    useEffect(() => {
+        let cancelled = false;
+        searchService
+            .getCategories()
+            .then((apiCategories) => {
+                if (cancelled || !Array.isArray(apiCategories) || apiCategories.length === 0) return;
+                setPopularCategories(
+                    apiCategories.map((c) => ({
+                        name: c.name,
+                        count: "",
+                        icon: `/assets/icons/${c.icon}.png`,
+                    }))
+                );
+            })
+            .catch(() => {
+                // keep static fallback
+            });
+        return () => { cancelled = true; };
+    }, []);
+
+    // Trending pins.
+    useEffect(() => {
+        let cancelled = false;
+        searchService
+            .getTrending(10)
+            .then((apiTrending) => {
+                if (cancelled || !Array.isArray(apiTrending) || apiTrending.length === 0) return;
+                setTrendingItems(
+                    apiTrending.map((p) => ({
+                        id: p.id,
+                        title: p.title,
+                        searches: formatCount(p.likeCount),
+                        img: p.imageUrl,
+                    }))
+                );
+            })
+            .catch(() => {
+                // keep static fallback
+            });
+        return () => { cancelled = true; };
+    }, []);
 
     const toggleFavorite1 = (id) => {
         setFavorites1((prev) =>
@@ -53,10 +127,23 @@ const HomePage1 = () => {
 
     const clearRecent1 = () => {
         setRecent1([]);
+        if (isAuthenticated()) {
+            recentSearchesService.clearAll().catch(() => {});
+        }
     };
 
     const removeRecent1 = (item) => {
         setRecent1((prev) => prev.filter((r) => r !== item));
+    };
+
+    const handleSearchSubmit = (query) => {
+        setSearchQuery1(query);
+        if (!query) return;
+        setRecent1((prev) => [query, ...prev.filter((r) => r !== query)]);
+        if (isAuthenticated()) {
+            recentSearchesService.add(query).catch(() => {});
+        }
+        searchService.search({ q: query }).catch(() => {});
     };
 
     return (
@@ -69,7 +156,7 @@ const HomePage1 = () => {
                 {/* Шапка з пошуком */}
                 <header className="header1">
                     <div className="header-content-1">
-                        <SearchComponent />
+                        <SearchComponent onSearchSubmit={handleSearchSubmit} onQueryChange={setSearchQuery1} />
                         <div className="notification-btn">
                             <img src="/assets/icons/bell.png" alt="Favorite" />
                         </div>
@@ -122,7 +209,7 @@ const HomePage1 = () => {
                             </div>
 
                             <div className="categories-list1">
-                                {popularCategories1.map((cat) => (
+                                {popularCategories.map((cat) => (
                                     <button key={cat.name} className="category-item1">
                                         <div className="category-icon1">
                                             <img src={cat.icon} alt={cat.name} />
@@ -150,7 +237,7 @@ const HomePage1 = () => {
                             </div>
 
                             <div className="masonry-grid1">
-                                {trendingItems1.map((item) => (
+                                {trendingItems.map((item) => (
                                     <div key={item.id} className="gallery-card1 search-card1">
                                         <div className="image-wrapper1">
                                             <img src={item.img} alt={item.title} />
@@ -189,7 +276,7 @@ const HomePage1 = () => {
                             </div>
 
                             <div className="masonry-grid1">
-                                {exploreItems1.map((item) => (
+                                {exploreItems.map((item) => (
                                     <div key={item.id} className="gallery-card1 search-card1">
                                         <div className="image-wrapper1">
                                             <img src={item.img} alt={item.title} />

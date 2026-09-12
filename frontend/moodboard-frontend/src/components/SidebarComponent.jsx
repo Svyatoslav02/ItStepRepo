@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import "./SidebarComponent.css";
+import { clearSession } from "../utils/auth";
 
 const SidebarComponent = ({ activeItem }) => {
     const sidebarNavItems = [
@@ -33,6 +34,7 @@ const SidebarComponent = ({ activeItem }) => {
                 className="sidebar_logout"
                 aria-label="Logout"
                 href="/login"
+                onClick={() => clearSession()}
             >
                 <img src="/assets/images/logout-02.png" alt=""/>
             </a>

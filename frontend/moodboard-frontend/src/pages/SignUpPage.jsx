@@ -4,6 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import googleIcon from "../assets/google.png";
 import appleIcon from "../assets/apple.png";
 import { authService } from "../services/authService";
+import { saveSession } from "../utils/auth";
 
 const SignUpPage = () => {
     const [fullName, setFullName] = useState("");
@@ -37,7 +38,7 @@ const SignUpPage = () => {
         setIsLoading(true);
         try {
             const result = await authService.register(fullName, email, password);
-            localStorage.setItem("authToken", result.token);
+            saveSession(result);
             navigate("/home");
         } catch (err) {
             setServerError(err.message);

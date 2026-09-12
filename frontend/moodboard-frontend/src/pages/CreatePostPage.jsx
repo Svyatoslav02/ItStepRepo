@@ -1,7 +1,10 @@
-﻿import React, { useState } from "react";
+﻿import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/CreatePostPage.css";
 import SidebarComponent from "../components/SidebarComponent";
 import SearchComponent from "../components/SearchComponent.jsx";
+import { searchService } from "../services/searchService";
+import { pinsService } from "../services/pinsService";
 
 const Toggle = ({ checked, onChange, label }) => (
     <label className="toggle-row">
@@ -29,6 +32,69 @@ const CreatePostPage = () => {
     const [isPrivate, setIsPrivate] = useState(true);
     const [allowComments, setAllowComments] = useState(true);
     const [allowDownload, setAllowDownload] = useState(true);
+
+    // The backend does not accept direct file uploads yet, so pins are
+    // created from an image URL + a category, both required by
+    // POST /api/pins.
+    const [imageUrl, setImageUrl] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        let cancelled = false;
+        searchService
+            .getCategories()
+            .then((apiCategories) => {
+                if (cancelled || !Array.isArray(apiCategories)) return;
+                setCategories(apiCategories);
+                if (apiCategories.length > 0) setCategoryId(apiCategories[0].id);
+            })
+            .catch(() => {
+                // No categories available; the select stays empty and the
+                // user will see a validation error if they try to submit.
+            });
+        return () => { cancelled = true; };
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitError("");
+
+        if (!title.trim()) {
+            setSubmitError("Title is required.");
+            return;
+        }
+        if (!imageUrl.trim()) {
+            setSubmitError("Image URL is required.");
+            return;
+        }
+        if (!categoryId) {
+            setSubmitError("Please choose a category.");
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            await pinsService.create({
+                title: title.trim(),
+                description: description.trim() || undefined,
+                imageUrl: imageUrl.trim(),
+                categoryId,
+                tags: tags
+                    .split(/[,\n]/)
+                    .map((t) => t.trim())
+                    .filter(Boolean),
+            });
+            navigate("/home");
+        } catch (err) {
+            setSubmitError(err.message || "Unable to create post.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const handleDrop = (e) => {
         e.preventDefault();
@@ -123,6 +189,31 @@ const CreatePostPage = () => {
                             </div>
 
                             <div className="create-post-field">
+                                <label htmlFor="post-image-url">Image URL</label>
+                                <input
+                                    id="post-image-url"
+                                    type="text"
+                                    placeholder="https://example.com/image.jpg"
+                                    value={imageUrl}
+                                    onChange={(e) => setImageUrl(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="create-post-field">
+                                <label htmlFor="post-category">Category</label>
+                                <select
+                                    id="post-category"
+                                    value={categoryId}
+                                    onChange={(e) => setCategoryId(e.target.value)}
+                                >
+                                    {categories.length === 0 && <option value="">No categories available</option>}
+                                    {categories.map((c) => (
+                                        <option key={c.id} value={c.id}>{c.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="create-post-field">
                                 <label htmlFor="post-description">Description</label>
                                 <textarea
                                     id="post-description"
@@ -172,6 +263,19 @@ const CreatePostPage = () => {
                                     label="Allow people to download in their device"
                                 />
                             </div>
+
+                            {submitError && (
+                                <p className="create-post-dropzone-hint" style={{ color: "#ff6b6b" }}>{submitError}</p>
+                            )}
+
+                            <button
+                                type="button"
+                                className="create-post-url-btn"
+                                disabled={isSubmitting}
+                                onClick={handleSubmit}
+                            >
+                                {isSubmitting ? "Publishing..." : "Publish post"}
+                            </button>
                         </div>
                     </div>
                 </div>

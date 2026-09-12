@@ -6,6 +6,7 @@ import appleIcon from "../assets/apple.png";
 import "../styles/index.css";
 import "../index.css";
 import { authService } from "../services/authService";
+import { saveSession } from "../utils/auth";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -35,7 +36,8 @@ const LoginPage = () => {
         if (Object.keys(newErrors).length === 0) {
             setIsLoading(true);
             try {                
-                await authService.login(email, password);
+                const result = await authService.login(email, password);
+                saveSession(result);
                 navigate("/home");
             } catch (err) {
                 setServerError(err.message || "Login failed");
