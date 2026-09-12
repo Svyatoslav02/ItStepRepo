@@ -1,0 +1,543 @@
+﻿/* ======================= ГОЛОВНИЙ КОНТЕЙНЕР СТОРІНКИ ================== */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+.home-search-container1 {
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(50% 50% at 50% 50%, #0F1C2B 0%, #00080E 100%);
+    color: #fff;
+    font-family: "Inter", sans-serif;
+}
+
+/* ========= САЙДБАР ========= */
+.sidebar-icons1 .icon1:hover,
+.sidebar-bottom1 .icon1:hover,
+.sidebar-bottom-ex1 .icon1:hover {
+    color: #ffffff;
+    transform: scale(1.3);
+}
+/* ===== HOVER ===== */
+.sidebar-icons1 .icon1:hover,
+.sidebar-bottom1 .icon1:hover,
+.sidebar-bottom-ex1 .icon1:hover {
+    color: #ffffff;
+    transform: scale(1.3);
+}
+
+/*  ===== MAIN ======= */
+.main-content1 {
+    flex: 1;
+    max-width: 1920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* =========== ШАПКА З ПОШУКОМ ======= */
+.header1 {
+    padding: 32px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #0C131C;
+}
+
+.header-content1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.notification-btn1 {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.notification-btn1 img {
+    width: 22px;
+    opacity: 0.7;
+}
+
+/* ============= КОНТЕНТ — ДВІ КОЛОНКИ ==================== */
+.search-page-content1 {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    padding: 2px 4px 8px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* ----- Ліва колонка ----- */
+.left-column1 {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* ----- Права колонка ----- */
+.right-column1 {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* ============ СЕКЦІЇ (спільні стилі) ============ */
+.section-header1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.section-title1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.view-all-btn1 {
+    background: none;
+    border: none;
+    color: #4F45E3;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.view-all-btn1:hover {
+    color: #c4b5fd;
+}
+
+/* ========= RECENT SEARCHES ========= */
+.recent-list1 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.recent-item1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 60px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: #151b28;
+    border: 1px solid #161D26;
+    border-radius: 16px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s;
+}
+
+.recent-item1:hover {
+    border-color: #161D26;
+}
+
+.recent-icon1 {
+    width: 16px;
+    opacity: 0.5;
+}
+
+.remove-recent1 {
+    background: none;
+    border: none;
+    margin: 0;
+    opacity: 35%;
+    
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.recent-item1:hover .remove-recent1 {
+    opacity: 0.6;
+}
+
+.remove-recent1 img {
+    width: 14px;
+}
+
+/* ============== POPULAR CATEGORIES ================ */
+.categories-list1 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.category-item1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    background: #151b28;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s;
+}
+
+.category-item1:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.category-icon1 {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.category-icon1 img {
+    width: 18px;
+    opacity: 0.7;
+}
+
+.category-name1 {
+    flex: 1;
+    font-size: 14px;
+}
+
+.category-count1 {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.chevron1 {
+    width: 16px;
+    opacity: 0.4;
+}
+
+/* ============ СІТКА КАРТОК (Trending + Explore) ================= */
+.masonry-grid1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+/* Картка */
+.gallery-card1 {
+    background: #151b28;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.gallery-card1:hover {
+    transform: translateY(-4px);
+}
+
+.image-wrapper1 {
+    position: relative;
+    aspect-ratio: 1 / 1.15;
+    overflow: hidden;
+}
+
+.image-wrapper1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-card1:hover .image-wrapper1 img {
+    transform: scale(1.05);
+}
+
+/* Кнопка сердечка */
+.fav-btn1 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.gallery-card1:hover .fav-btn1 {
+    opacity: 1;
+}
+
+.fav-btn1 img {
+    width: 16px;
+}
+
+.fav-btn1.active {
+    opacity: 1;
+}
+
+/* Підпис під карткою */
+.card-info1 {
+    padding: 12px 14px 14px;
+}
+
+.card-info1 h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.searches-count1 {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* =====================================================
+   TABLET ≤ 1024px  (оригінальна структура JSX зберігається)
+===================================================== */
+@media (max-width: 1024px) {
+
+    /* ----- Контейнер ----- */
+    .home-search-container1 {
+        flex-direction: column;
+    }
+
+    /* ----- SIDEBAR → Bottom Navigation ----- */
+    .sidebar1 {
+        position: fixed;
+        bottom: 0;
+        left: 50px;
+        right: 0;
+        width: 85%;
+        height: 52px;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 8px;
+        background-color: #0C131C;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 25px;
+        z-index: 100;
+    }
+
+    /* Ховаємо логотип і logout */
+    .sidebar-icons1,
+    .sidebar-bottom-ex1 {
+        display: none !important;
+    }
+
+    .sidebar-bottom1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        gap: 0;
+        position: static;
+    }
+
+    .sidebar-bottom1 .icon1 {
+        width: 70px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        transition: background 0.2s;
+    }
+
+    /* Активна іконка Search (друга посилання) */
+    .sidebar-bottom1 a:nth-child(2) {
+        background: #6c5ce7;
+    }
+
+    .sidebar-bottom1 a:nth-child(2) img {
+        filter: brightness(0) invert(1);
+    }
+
+    .sidebar-bottom1 .icon1:hover {
+        transform: none;
+    }
+
+    /* Ховаємо Settings на планшеті (остання іконка в sidebar-bottom) */
+    .sidebar-bottom1 a:last-child {
+        display: none;
+    }
+
+    /* ----- MAIN ----- */
+    .main-content1 {
+        padding: 16px 16px 90px;
+        margin: 10px;
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .header1 {
+        position: fixed;
+        z-index: 99;
+        width: 90%;
+        height: auto;
+        padding: 4px 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .search-wrapper11 input {
+        padding: 13px 16px 13px 46px;
+        font-size: 15px;
+        border-radius: 24px;
+    }
+
+    /* ----- Контент: одна колонка + потрібний порядок ----- */
+    .search-page-content1 {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        padding-top: 70px;
+        overflow: visible;
+    }
+
+    /* Робимо колонки "прозорими", щоб секції стали прямими дітьми */
+    .left-column1,
+    .right-column1 {
+        display: contents;
+    }
+
+    /* Порядок секцій: Recent → Trending → Popular → Explore */
+    .left-column1 .section1:first-child  { order: 1; } /* Recent */
+    .right-column1 .section1:first-child { order: 2; } /* Trending */
+    .left-column1 .section1:last-child   { order: 3; } /* Popular */
+    .right-column1 .section1:last-child  { order: 4; } /* Explore */
+
+    /* ----- Recent → горизонтальні чіпи ----- */
+    .recent-list1 {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .recent-list1 > *:nth-child(n + 4) {
+        display: none;
+    }
+    .recent-item1 {
+        width: auto;
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 22px;
+        font-size: 13px;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .recent-item1 .remove-recent1 {
+        opacity: 0.55;
+        margin-left: 4px;
+    }
+
+    /* ----- Popular categories → 2 колонки ----- */
+    .categories-list1 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .categories-list1 > *:nth-child(n + 5) {
+        display: none;
+    }
+
+    .category-item1 {
+        padding: 12px;
+        border-radius: 14px;
+    }
+
+    .category-icon1 {
+        width: 32px;
+        height: 32px;
+    }
+
+    .category-name1 {
+        font-size: 13px;
+    }
+
+    .category-count1 {
+        font-size: 12px;
+    }
+
+    /* ----- Сітки карток → 4 колонки ----- */
+    .masonry-grid1 {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    .image-wrapper1 {
+        aspect-ratio: 1 / 1.2;
+    }
+
+    .card-info1 {
+        padding: 10px 10px 12px;
+    }
+
+    .card-info1 h4 {
+        font-size: 13px;
+    }
+
+    .searches-count1 {
+        font-size: 11px;
+    }
+
+    .fav-btn1 {
+        width: 30px;
+        height: 30px;
+        top: 8px;
+        right: 8px;
+    }
+
+    /* ----- Загальні дрібниці ----- */
+    .section-header1 {
+        margin-bottom: 12px;
+    }
+
+    .section-title1 {
+        font-size: 15px;
+    }
+
+    .view-all-btn1 {
+        font-size: 13px;
+    }
+}
