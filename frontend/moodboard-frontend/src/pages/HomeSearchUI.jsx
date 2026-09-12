@@ -62,7 +62,7 @@ const HomePage1 = () => {
     return (
         <div className="home-search-container1">
             {/* ===== SIDEBAR ===== */}
-            <SidebarComponent activeItem="home" />
+            <SidebarComponent activeItem="search" />
 
             {/* ===== MAIN ===== */}
             <main className="main-content1">
