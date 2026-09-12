@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MoodboardAI.Api.Data;
 using MoodboardAI.Api.DTOs.Notification;
 using MoodboardAI.Api.Models;
+using MoodboardAI.Api.Extensions;
 
 namespace MoodboardAI.Api.Services;
 
@@ -22,56 +23,53 @@ public class NotificationService : INotificationService
 
     /// <inheritdoc />
     public async Task<NotificationListResponseDto> GetNotificationsAsync(
-        Guid userId,
-        int page = 1,
-        int pageSize = 10,
-        NotificationTypeEnum? type = null)
+ 		Guid userId,
+		int page = 1,
+    	int pageSize = 10,
+    	NotificationTypeEnum? type = null)
     {
-        if (page < 1)
-        {
-            page = 1;
-        }
+       if (page < 1)
+    {
+        page = 1;
+    }
 
-        if (pageSize < 1)
-        {
-            pageSize = 10;
-        }
+    if (pageSize < 1)
+    {
+        pageSize = 10;
+    }
 
-        if (pageSize > 100)
-        {
-            pageSize = 100;
-        }
+    if (pageSize > 100)
+    {
+        pageSize = 100;
+    }
 
-        var query = _dbContext.Notifications
-            .AsNoTracking()
-            .Where(n => n.UserId == userId);
+    var query = _dbContext.Notifications
+        .AsNoTracking()
+        .Where(n => n.UserId == userId);
 
-        if (type.HasValue)
-        {
-            query = query.Where(n => n.Type == type.Value);
-        }
+    if (type.HasValue)
+    {
+        query = query.Where(n => n.Type == type.Value);
+    }
 
-        var totalCount = await query.CountAsync();
+    var unreadCount = await _dbContext.Notifications
+        .AsNoTracking()
+        .CountAsync(n => n.UserId == userId && !n.IsRead);
 
-        var unreadCount = await _dbContext.Notifications
-            .AsNoTracking()
-            .CountAsync(n => n.UserId == userId && !n.IsRead);
+    var pagedResult = await query
+        .OrderBy(n => n.IsRead)
+        .ThenByDescending(n => n.CreatedAt)
+        .Select(n => ToDto(n))
+        .ToPagedResultAsync(page, pageSize);
 
-        var entities = await query
-            .OrderBy(n => n.IsRead)
-            .ThenByDescending(n => n.CreatedAt)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return new NotificationListResponseDto
-        {
-            Items = entities.Select(ToDto).ToList(),
-            TotalCount = totalCount,
-            UnreadCount = unreadCount,
-            Page = page,
-            PageSize = pageSize
-        };
+    return new NotificationListResponseDto
+    {
+        Items = pagedResult.Items,
+        Page = pagedResult.Page,
+        PageSize = pagedResult.PageSize,
+        TotalCount = pagedResult.TotalCount,
+        UnreadCount = unreadCount
+    };
     }
 
     /// <inheritdoc />

@@ -36,8 +36,7 @@ public class NotificationController : ControllerBase
     /// <param name="type">Optional notification type filter.</param>
     [HttpGet]
     public async Task<ActionResult<NotificationListResponseDto>> GetNotifications(
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10,
+        [FromQuery] PaginationQuery pagination,
         [FromQuery] NotificationTypeEnum? type = null)
     {
         var userId = GetCurrentUserId();
@@ -46,7 +45,7 @@ public class NotificationController : ControllerBase
             return Unauthorized(new ErrorResponse { Message = "Invalid or missing authentication token." });
         }
 
-        var result = await _notificationService.GetNotificationsAsync(userId.Value, page, pageSize, type);
+        var result = await _notificationService.GetNotificationsAsync(userId.Value, pagination.Page, pagination.PageSize, type);
         return Ok(result);
     }
 
