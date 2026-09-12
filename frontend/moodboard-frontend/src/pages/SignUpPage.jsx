@@ -48,7 +48,7 @@ const SignUpPage = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black text-white px-4">
-            <div className="w-full max-w-md bg-gray-900/70 backdrop-blur-md rounded-2xl p-8 shadow-xl space-y-6">
+            <div className="w-full max-w-md  backdrop-blur-md rounded-2xl p-8 shadow-xl space-y-6">
                 <div className="flex justify-center items-center mb-6">
                     <div className="relative">
                         <div className="absolute inset-0 w-28 h-28 rounded-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 blur-3xl opacity-70 animate-pulse"></div>
@@ -107,7 +107,7 @@ const SignUpPage = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                                className="absolute right-3 top-1/3 -translate-y-1/2 text-gray-400 hover:text-gray-200"
                             >
                                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                             </button>
