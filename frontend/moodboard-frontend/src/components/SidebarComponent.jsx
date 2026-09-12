@@ -6,7 +6,7 @@ const SidebarComponent = ({ activeItem }) => {
         { key: "home", icon: "/assets/icons/home-03.png", label: "Home", path: "/home" },
         { key: "search", icon: "/assets/icons/search-01.png", label: "Search", path: "/home-search" },
         { key: "wand", icon: "/assets/icons/ai-beautify.png", label: "Ink", path: "/ai-welcome" },
-        { key: "user", icon: "/assets/icons/user-03.png", label: "Profile", path: "/user" },
+        { key: "user", icon: "/assets/icons/user-03.png", label: "Profile", path: "/create-post-page" },
         { key: "settings", icon: "/assets/icons/settings-01.png", label: "Settings", path: "/notifications-email" },
     ];
 
