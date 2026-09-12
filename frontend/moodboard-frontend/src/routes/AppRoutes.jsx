@@ -12,6 +12,7 @@ import ContentPreferences from '../pages/ContentPreferences.jsx'
 import PushNotifications from '../pages/PushNotifications'
 import WelcomePage from '../pages/WelcomePage.jsx'
 import NotFound from '../pages/NotFound.jsx'
+import CreatePostPage from '../pages/CreatePostPage.jsx'
 
 export default function AppRoutes() {
     return (
@@ -27,7 +28,8 @@ export default function AppRoutes() {
             <Route path="/notifications-email" element={<NotificationsEmail />} /> +
             <Route path="/content-preferences" element={<ContentPreferences />} />
             <Route path="/notifications-push" element={<PushNotifications />} />
-            <Route path="/welcome" element={<WelcomePage />} /> 
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/create-post-page" element={<CreatePostPage />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
